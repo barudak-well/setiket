@@ -29,3 +29,25 @@ model Ticket {
   updatedAt DateTime @updatedAt
   event     Event    @relation(fields: [eventId], references: [id])
 }
+
+enum Role {
+  ADMIN
+  USER
+  EO
+}
+
+enum Status {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  id        Int      @id @unique @default(autoincrement())
+  email     String
+  username  String
+  password  String
+  status    Status
+  role      Role
+  createdAt DateTime @default(now())
+}
