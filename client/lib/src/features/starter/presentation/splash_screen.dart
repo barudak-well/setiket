@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../../common_config/palette.dart';
+import 'package:setiket/src/common_widget/status_bar.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({
@@ -22,13 +21,8 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      left: false,
-      right: false,
+    return StatusBar(
       child: Scaffold(
-        backgroundColor: Palette.color,
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,

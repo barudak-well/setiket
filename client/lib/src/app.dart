@@ -14,12 +14,11 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 760),
       builder: (context, child) {
         return MaterialApp.router(
-          title: 'SeaCinema',
+          title: 'SeTiket',
           theme: ThemeData(
-            canvasColor: Palette.color,
             progressIndicatorTheme: const ProgressIndicatorThemeData(
-              circularTrackColor: AppTheme.thirdColor,
-              color: Colors.orange,
+              circularTrackColor: AppTheme.whiteColor,
+              color: AppTheme.orangeColor,
             ),
             primarySwatch: Palette.color,
             dividerColor: Colors.transparent,
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
             iconTheme: const IconThemeData(
               color: Colors.white,
             ),
-            scaffoldBackgroundColor: Palette.color,
+            scaffoldBackgroundColor: Palette.colorWhite,
             textTheme: TextTheme(
               titleLarge: TextStyle(
                   fontSize: ScreenUtil().setSp(18),
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
               bodyMedium: TextStyle(
                   fontSize: ScreenUtil().setSp(14),
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textColor),
+                  color: AppTheme.grayColor),
               labelLarge: TextStyle(
                   fontSize: ScreenUtil().setSp(14),
                   fontWeight: FontWeight.w600,
@@ -59,8 +58,8 @@ class MyApp extends StatelessWidget {
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               elevation: 1,
               backgroundColor: Palette.color,
-              selectedItemColor: AppTheme.textBlueColor,
-              unselectedItemColor: AppTheme.thirdColor,
+              selectedItemColor: AppTheme.primaryColor,
+              unselectedItemColor: AppTheme.grayColor,
               showUnselectedLabels: true,
               showSelectedLabels: true,
             ),

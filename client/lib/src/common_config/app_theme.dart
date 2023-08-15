@@ -4,10 +4,11 @@ import 'palette.dart';
 
 class AppTheme {
   static const Color primaryColor = Palette.color;
-  static const Color secondaryColor = Color(0xFF3A3F47);
-  static const Color thirdColor = Color(0xFF67686D);
-  static const Color fourthColor = Color(0xFF919298);
-  static const Color textColor = Colors.white;
-  static const Color textColorProfile = Colors.white;
-  static const Color textBlueColor = Palette.colorAccent;
+  static const Color whiteColor = Palette.colorWhite;
+  static const Color grayColor = Palette.colorGray;
+  static const Color redColor = Palette.colorRed;
+  static const Color greenColor = Color(0xFF29D697);
+  static const Color orangeColor = Color(0xFFF59762);
+  static const Color blueColor = Color(0xFF46CDFB);
+  static const Color blackColor = Color(0xFF120D26);
 }

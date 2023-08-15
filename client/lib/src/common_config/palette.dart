@@ -4,25 +4,42 @@ class Palette {
   // ignore: Dark
   static const MaterialColor color =
       MaterialColor(_colorPrimaryValue, <int, Color>{
-    50: Color(0xFFE5E5E6),
-    100: Color(0xFFBDBFC2),
-    200: Color(0xFF929599),
-    300: Color(0xFF666A70),
-    400: Color(0xFF454A51),
+    50: Color(0xFFEEF0FF),
+    100: Color(0xFFEEF0FF),
+    200: Color(0xFFEEF0FF),
+    300: Color(0xFFA29EF0),
+    400: Color(0xFF3D56F0),
     500: Color(_colorPrimaryValue),
-    600: Color(0xFF20252D),
-    700: Color(0xFF1B1F26),
-    800: Color(0xFF16191F),
-    900: Color(0xFF0D0F13),
+    600: Color(0xFF4A43EC),
+    700: Color(0xFF4A43EC),
+    800: Color(0xFF4A43EC),
+    900: Color(0xFF4A43EC),
   });
-  static const int _colorPrimaryValue = 0xFF242A32;
+  static const int _colorPrimaryValue = 0xFF5669FF;
 
-  static const MaterialColor colorAccent =
-      MaterialColor(_colorAccentValue, <int, Color>{
-    100: Color(0xFF5882FF),
-    200: Color(_colorAccentValue),
-    400: Color(0xFF003CF1),
-    700: Color(0xFF0036D8),
+  static const MaterialColor colorWhite =
+      MaterialColor(_colorWhiteValue, <int, Color>{
+    100: Color(0xFFEAEAEA),
+    200: Color(0xFFEDEDED),
+    300: Color(0xFFF2F2F2),
+    400: Color(0xFFFAFAFA),
+    500: Color(_colorWhiteValue),
   });
-  static const int _colorAccentValue = 0xFF0296E5;
+  static const int _colorWhiteValue = 0xFFFFFFFF;
+
+  static const MaterialColor colorGray =
+      MaterialColor(_colorGrayValue, <int, Color>{
+    200: Color(0xFFE4DFDF),
+    300: Color(0xFF989AA6),
+    400: Color(_colorGrayValue),
+    500: Color(0xFF807A7A),
+  });
+  static const int _colorGrayValue = 0xFF747688;
+
+  static const MaterialColor colorRed =
+      MaterialColor(_colorRedValue, <int, Color>{
+    200: Color(0xFFFEEEEC),
+    500: Color(_colorRedValue),
+  });
+  static const int _colorRedValue = 0xFFF2583E;
 }
