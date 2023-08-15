@@ -1,11 +1,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
-const morgan = require("morgan")
-const cors = require("cors")
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const morgan = require("morgan");
+const cors = require("cors");
 
 const { api } = require("./config/prefix.config");
-const cors_option = require("./config/cors.config")
+const cors_options = require("./config/cors.config");
+const swagger_options = require("./config/swagger.config");
 
 const eventController = require("./api/event/event.controller");
 const ticketController = require("./api/ticket/ticket.controller");
@@ -17,16 +20,27 @@ const profileController = require("./api/profile/profile.controller");
 const app = express();
 const PORT = process.env.PORT ? process.env.PORT : 3000;
 
+const specs = swaggerJsdoc(swagger_options);
 
 app.use(express.json());
-app.use(morgan("tiny"))
-app.use(helmet())
-app.use(cors(cors_option))
+app.use(morgan("tiny"));
+app.use(helmet());
+app.use(cors(cors_options));
+app.disable("x-powered-by");
 
 dotenv.config();
 
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+  })
+);
+
 app.get("/", (req, res) => {
-  res.send("Selamat Datang Cuy");
+  res.send("Selamat Datang Cuy, Cek /api-docs");
 });
 
 app.use(`${api}/events`, eventController);
