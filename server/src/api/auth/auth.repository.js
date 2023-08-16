@@ -2,4 +2,13 @@
 
 const prisma = require("../../db");
 
-module.exports = {}
+const findUserByUsername = async (username) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        username : username
+      },
+    });
+    return user;
+  };
+
+  module.exports = { findUserByUsername }
