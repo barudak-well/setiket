@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:setiket/src/constants/constants.dart';
+import 'package:setiket/src/constants/themes/palette.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 enum InputFormType {
@@ -14,6 +15,7 @@ class InputFormWidget extends StatelessWidget {
   final String hintText;
   final Function(String value)? onChanged;
   final bool isObscure;
+  final IconData? prefixIcon;
   final Function()? onObscureTap;
   final InputFormType inputFormType;
   final bool readOnly;
@@ -25,6 +27,7 @@ class InputFormWidget extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    required this.prefixIcon,
     this.onChanged,
     this.errorText,
     this.validator,
@@ -42,6 +45,7 @@ class InputFormWidget extends StatelessWidget {
     this.errorText,
     this.validator,
   })  : inputFormType = InputFormType.button,
+        prefixIcon = null,
         isObscure = false,
         readOnly = true,
         onChanged = null,
@@ -51,6 +55,7 @@ class InputFormWidget extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    required this.prefixIcon,
     this.onChanged,
     this.isObscure = true,
     this.onObscureTap,
@@ -75,17 +80,20 @@ class InputFormWidget extends StatelessWidget {
         hintText: hintText,
         hintStyle: TypographyApp.text1.grey,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
-            color: Colors.grey.shade200,
+            color: Palette.colorGray.shade200,
             width: 1.w,
           ),
         ),
+        prefixIcon: prefixIcon.isNotNull() ? Icon(prefixIcon) : null,
         suffixIcon: isPassword
             ? GestureDetector(
                 onTap: onObscureTap,
                 child: Icon(
-                  !isObscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  !isObscure
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
                   size: 26,
                   color: Colors.grey.shade400,
                 ),

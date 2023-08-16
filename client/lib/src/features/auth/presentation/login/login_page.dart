@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:setiket/gen/assets.gen.dart';
-import 'package:setiket/src/common_widgets/bar/status_bar.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/presentation.dart';
@@ -25,16 +24,17 @@ class LoginPage extends ConsumerWidget {
             }
           },
           error: (error, stackTrace) {
-            final message = NetworkExceptions.getErrorMessage(error as NetworkExceptions);
+            final message =
+                NetworkExceptions.getErrorMessage(error as NetworkExceptions);
             toast(message);
           },
         );
       }
     });
 
-    return StatusBar(
+    return StatusBarWidget(
       child: Scaffold(
-        body: SafeArea(
+        body: CircleBackgroundWidget(
           child: PaddingWidget(
             child: Column(
               children: [
@@ -65,7 +65,7 @@ class LoginPage extends ConsumerWidget {
                       child: Text(
                         'Sign Up',
                         style: TypographyApp.headline3.copyWith(
-                          color: Colors.blue,
+                          color: ColorApp.primary,
                         ),
                       ),
                     ),

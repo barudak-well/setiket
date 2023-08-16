@@ -34,12 +34,34 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/circle_bottom_left.png
+  AssetGenImage get circleBottomLeft =>
+      const AssetGenImage('assets/icons/circle_bottom_left.png');
+
+  /// File path: assets/icons/circle_bottom_right.png
+  AssetGenImage get circleBottomRight =>
+      const AssetGenImage('assets/icons/circle_bottom_right.png');
+
+  /// File path: assets/icons/circle_top_left.png
+  AssetGenImage get circleTopLeft =>
+      const AssetGenImage('assets/icons/circle_top_left.png');
+
+  /// File path: assets/icons/circle_top_right.png
+  AssetGenImage get circleTopRight =>
+      const AssetGenImage('assets/icons/circle_top_right.png');
+
   /// File path: assets/icons/setiket_logo.svg
   SvgGenImage get setiketLogo =>
       const SvgGenImage('assets/icons/setiket_logo.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [setiketLogo];
+  List<dynamic> get values => [
+        circleBottomLeft,
+        circleBottomRight,
+        circleTopLeft,
+        circleTopRight,
+        setiketLogo
+      ];
 }
 
 class $AssetsImagesGen {

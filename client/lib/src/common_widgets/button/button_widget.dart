@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
+import 'package:setiket/src/constants/themes/palette.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 enum ButtonType {
@@ -54,62 +55,67 @@ class ButtonWidget extends StatelessWidget {
           : ColorApp.black
       : ColorApp.gray;
 
-  Color getFocusColor() => buttonType == ButtonType.primary ? ColorApp.red : ColorApp.gray;
+  Color getFocusColor() =>
+      buttonType == ButtonType.primary ? Palette.color.shade300 : ColorApp.gray;
 
   bool get isPrimary => buttonType == ButtonType.primary;
   bool get isOutlined => buttonType == ButtonType.outlined;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: getColor(),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r),
-        side: isOutlined
-            ? const BorderSide(
-                color: ColorApp.white,
-                width: 0.4,
-              )
-            : BorderSide.none,
-      ),
-      child: InkWell(
-        onTap: _isEnabled && !isLoading ? onTap : null,
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          side: isOutlined
-              ? const BorderSide(
+    return Container(
+      decoration: BoxDecoration(
+          color: getColor(),
+          border: isOutlined
+              ? Border.all(
                   color: ColorApp.white,
                   width: 0.4,
                 )
-              : BorderSide.none,
-        ),
-        overlayColor: MaterialStateProperty.all(getFocusColor()),
-        focusColor: getFocusColor(),
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: SizeApp.w28,
-            vertical: SizeApp.h16,
-          ),
-          child: Center(
-            child: isLoading
-                ? SizedBox(
-                    height: SizeApp.customHeight(22),
-                    width: SizeApp.customHeight(22),
-                    child: const LoadingWidget(),
-                  )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (prefix != null) ...[
-                        prefix!,
-                        Gap.w8,
+              : null,
+          borderRadius: BorderRadius.circular(15.r),
+          boxShadow: [
+            BoxShadow(
+              color: Palette.color.shade200,
+              blurRadius: 35,
+              offset: const Offset(0, 10),
+            ),
+          ]),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(15.r),
+        child: InkWell(
+          onTap: _isEnabled && !isLoading ? onTap : null,
+          borderRadius: BorderRadius.circular(15.r),
+          overlayColor: MaterialStateProperty.all(getFocusColor()),
+          focusColor: getFocusColor(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeApp.w28,
+              vertical: SizeApp.h24,
+            ),
+            child: Center(
+              child: isLoading
+                  ? SizedBox(
+                      height: SizeApp.customHeight(58),
+                      width: SizeApp.customHeight(58),
+                      child: const LoadingWidget(),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (prefix != null) ...[
+                          prefix!,
+                          Gap.w8,
+                        ],
+                        Text(
+                          text,
+                          style: _isEnabled
+                              ? TypographyApp.headline3.white
+                              : TypographyApp.headline3.grey,
+                        )
                       ],
-                      Text(
-                        text,
-                        style: _isEnabled ? TypographyApp.headline3.white : TypographyApp.headline3.grey,
-                      )
-                    ],
-                  ),
+                    ),
+            ),
           ),
         ),
       ),

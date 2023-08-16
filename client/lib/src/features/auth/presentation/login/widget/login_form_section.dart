@@ -27,6 +27,7 @@ class LoginFormSection extends ConsumerWidget {
           controller: controller.emailController,
           onChanged: (value) {},
           hintText: 'abc@gmail.com',
+          prefixIcon: Icons.email_outlined,
         ),
         Gap.h16,
         InputFormWidget.password(
@@ -35,6 +36,7 @@ class LoginFormSection extends ConsumerWidget {
           hintText: 'Your Password',
           isObscure: state.isObscure,
           onObscureTap: controller.onObscureTap,
+          prefixIcon: Icons.lock_outline,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

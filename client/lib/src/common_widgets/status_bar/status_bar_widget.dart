@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class StatusBar extends StatelessWidget {
+class StatusBarWidget extends StatelessWidget {
   final Brightness brightness;
   final Widget child;
 
-  const StatusBar({
+  const StatusBarWidget({
     Key? key,
     this.brightness = Brightness.dark,
     required this.child,

@@ -12,10 +12,10 @@ class RegisterController extends StateNotifier<RegisterState> {
     this._authService,
   ) : super(const RegisterState());
 
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final usernameController = TextEditingController();
-  final birthdateController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
 
   Future<void> register() async {
     // loading
@@ -24,11 +24,9 @@ class RegisterController extends StateNotifier<RegisterState> {
     );
 
     final requestRegister = RequestRegister(
+      name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
-      username: usernameController.text,
-      birthdate: birthdateController.text,
-      gender: state.gender ?? -1,
     );
 
     final result = await _authService.register(requestRegister);
@@ -63,28 +61,18 @@ class RegisterController extends StateNotifier<RegisterState> {
     );
   }
 
-  void onBirthDatePicked(DateTime? pickedDate) {
-    if (pickedDate != null) {
-      resetErrors('birthdate');
-      birthdateController.text = pickedDate.toYyyyMMDd;
-      state = state.copyWith(
-        birthDate: pickedDate,
-      );
-    }
-  }
-
-  void onGenderChanged(int? gender) {
+  void onObscureConfirmTap() {
     state = state.copyWith(
-      gender: gender,
+      isObscureConfirm: !state.isObscureConfirm,
     );
   }
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-    usernameController.dispose();
-    birthdateController.dispose();
+    passwordConfirmController.dispose();
     super.dispose();
   }
 
@@ -96,16 +84,23 @@ class RegisterController extends StateNotifier<RegisterState> {
 
   void validateForm() {
     state = state.copyWith(
-      isRegisterValid: validateEmail(emailController.text).isNull() &&
+      isRegisterValid: validateName(nameController.text).isNull() &&
+          validateEmail(emailController.text).isNull() &&
           validatePassword(passwordController.text).isNull() &&
-          validateUsername(usernameController.text).isNull() &&
-          validateBirthdate(birthdateController.text).isNull(),
+          validatePasswordConfirm(passwordConfirmController.text).isNull(),
     );
+  }
+
+  String? validateName(String? value) {
+    if (value.isNullOrEmpty()) {
+      return "Cannot be empty";
+    }
+    return null;
   }
 
   String? validateEmail(String? value) {
     if (value.isNullOrEmpty()) {
-      return "Cannot be null";
+      return "Cannot be empty";
     } else if (!value!.isEmailValid) {
       return "email not valid";
     }
@@ -121,22 +116,20 @@ class RegisterController extends StateNotifier<RegisterState> {
     return null;
   }
 
-  String? validateUsername(String? value) {
+  String? validatePasswordConfirm(String? value) {
     if (value.isNullOrEmpty()) {
       return "Cannot be empty";
-    }
-    return null;
-  }
-
-  String? validateBirthdate(String? value) {
-    if (value.isNullOrEmpty()) {
-      return "Cannot be empty";
+    } else if (!value!.isPasswordValid) {
+      return "Password not valid";
+    } else if (value != passwordConfirmController.text) {
+      return "Password confirm doesn't match";
     }
     return null;
   }
 }
 
-final registerControllerProvider = StateNotifierProvider<RegisterController, RegisterState>((ref) {
+final registerControllerProvider =
+    StateNotifierProvider<RegisterController, RegisterState>((ref) {
   final authService = ref.read(authServiceProvider);
   return RegisterController(authService);
 });

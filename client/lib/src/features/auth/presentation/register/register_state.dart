@@ -3,15 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class RegisterState {
   final AsyncValue<String?> registerValue;
   final bool isObscure;
-  final DateTime? birthDate;
-  final int? gender;
+  final bool isObscureConfirm;
   final Map<String, dynamic>? errors;
   final bool isRegisterValid;
   const RegisterState({
     this.registerValue = const AsyncData(null),
     this.isObscure = true,
-    this.birthDate,
-    this.gender,
+    this.isObscureConfirm = true,
     this.errors,
     this.isRegisterValid = false,
   });
@@ -21,16 +19,14 @@ class RegisterState {
   RegisterState copyWith({
     AsyncValue<String?>? registerValue,
     bool? isObscure,
-    DateTime? birthDate,
-    int? gender,
+    bool? isObscureConfirm,
     Map<String, dynamic>? errors,
     bool? isRegisterValid,
   }) {
     return RegisterState(
       registerValue: registerValue ?? this.registerValue,
       isObscure: isObscure ?? this.isObscure,
-      birthDate: birthDate ?? this.birthDate,
-      gender: gender ?? this.gender,
+      isObscureConfirm: isObscureConfirm ?? this.isObscureConfirm,
       errors: errors ?? this.errors,
       isRegisterValid: isRegisterValid ?? this.isRegisterValid,
     );

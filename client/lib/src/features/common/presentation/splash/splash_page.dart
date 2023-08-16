@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:setiket/gen/assets.gen.dart';
-import 'package:setiket/src/common_widgets/bar/status_bar.dart';
+import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/routes/routes.dart';
 import 'package:setiket/src/services/services.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
@@ -31,20 +31,14 @@ class SplashPageState extends ConsumerState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StatusBar(
+    return StatusBarWidget(
       child: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Assets.icons.setiketLogo.svg(
-                width: context.screenWidthPercentage(0.60),
-                fit: BoxFit.fitWidth,
-              ),
-              // Gap.h12,
-              // Text('SeTiket', style: TypographyApp.headline1),
-            ],
+        body: CircleBackgroundWidget(
+          child: Center(
+            child: Assets.icons.setiketLogo.svg(
+              width: context.screenWidthPercentage(0.60),
+              fit: BoxFit.fitWidth,
+            ),
           ),
         ),
       ),

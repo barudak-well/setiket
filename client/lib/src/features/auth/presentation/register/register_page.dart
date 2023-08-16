@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:setiket/gen/assets.gen.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
+import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/routes/routes.dart';
 import 'package:setiket/src/services/services.dart';
-import 'package:setiket/src/shared/extensions/extensions.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 class RegisterPage extends ConsumerWidget {
@@ -23,31 +22,51 @@ class RegisterPage extends ConsumerWidget {
             }
           },
           error: (error, stackTrace) {
-            final message = NetworkExceptions.getErrorMessage(error as NetworkExceptions);
+            final message =
+                NetworkExceptions.getErrorMessage(error as NetworkExceptions);
             toast(message);
           },
         );
       }
     });
 
-    return Scaffold(
-      body: SafeArea(
-        child: PaddingWidget(
-          child: Column(
-            children: [
-              const Spacer(),
-              Center(
-                child: Assets.icons.setiketLogo.svg(
-                  width: context.screenWidthPercentage(0.60),
-                  fit: BoxFit.fitWidth,
+    return StatusBarWidget(
+      child: Scaffold(
+        body: CircleBackgroundWidget(
+          child: PaddingWidget(
+            child: Column(
+              children: [
+                const Spacer(),
+                const TopBarWidget(),
+                Gap.h32,
+                const RegisterFormSection(),
+                Gap.h32,
+                const RegisterButtonSection(),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account?',
+                      style: TypographyApp.headline3,
+                    ),
+                    Gap.w8,
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: Text(
+                        'Sign In',
+                        style: TypographyApp.headline3.copyWith(
+                          color: ColorApp.primary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const Spacer(),
-              // const RegisterFormSection(),
-              // Gap.h32,
-              // const RegisterButtonSection(),
-              // const Spacer(),
-            ],
+                Gap.h36
+              ],
+            ),
           ),
         ),
       ),
