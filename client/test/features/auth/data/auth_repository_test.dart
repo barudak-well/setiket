@@ -13,6 +13,7 @@ void main() {
   late ApiResponse apiResponse;
   late UserResponse userResponse;
   late RequestRegister requestRegister;
+  late RequestLogin requestLogin;
   late MockDioClient mockDioClient;
   late AuthRepository authRepository;
 
@@ -34,11 +35,52 @@ void main() {
       password: 'user12345678',
       role: 'USER',
     );
+    requestLogin = RequestLogin(
+      email: 'user@gmail.com',
+      password: 'user12345678',
+    );
 
     mockDioClient = MockDioClient();
     authRepository = AuthRepository(mockDioClient);
   });
 
+  group('login', () {
+    test('returns ApiResponse when response success', () async {
+      // Expected result
+      final expectedResult = Result.success(apiResponse);
+
+      // Stubbing the mockDioClient.post method
+      when(
+        () => mockDioClient.post(Endpoint.login, data: requestLogin.toJson()),
+      ).thenAnswer((_) => Future.value(apiResponse.toJson()));
+
+      // Actual result
+      final actualResult = await authRepository.login(requestLogin);
+      debugPrint(actualResult.toString());
+
+      // Test
+      expect(actualResult, expectedResult);
+    });
+
+    test('returns failure when response failed', () async {
+      // Expected result
+      Result<ApiResponse> expectedResult = const Result.failure(
+        NetworkExceptions.badRequest(),
+        StackTrace.empty,
+      );
+
+      // Stubbing the mockDioClient.post method
+      when(
+        () => mockDioClient.post(Endpoint.login, data: requestLogin.toJson()),
+      ).thenAnswer((_) => Future.value(expectedResult));
+
+      // Actual result
+      final actualResult = await authRepository.login(requestLogin);
+
+      // Test
+      expect(actualResult, isA<Result<ApiResponse>>());
+    });
+  });
   group('register', () {
     test('returns ApiResponse when response success', () async {
       // Expected result
@@ -46,8 +88,7 @@ void main() {
 
       // Stubbing the mockDioClient.post method
       when(
-        () => mockDioClient.post(Endpoint.register,
-            data: requestRegister.toJson()),
+        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
       ).thenAnswer((_) => Future.value(apiResponse.toJson()));
 
       // Actual result
@@ -67,8 +108,7 @@ void main() {
 
       // Stubbing the mockDioClient.post method
       when(
-        () => mockDioClient.post(Endpoint.register,
-            data: requestRegister.toJson()),
+        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
       ).thenAnswer((_) => Future.value(expectedResult));
 
       // Actual result

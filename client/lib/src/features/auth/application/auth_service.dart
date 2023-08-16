@@ -18,7 +18,7 @@ class AuthService {
     final result = await _authRepository.login(requestLogin);
     return result.when(
       success: (data) {
-        final user = AuthMapper.mapToUser(data);
+        final user = AuthMapper.mapToUser(data.body);
         _hiveService.saveUser(user);
 
         return const Result.success('Login Success!');
