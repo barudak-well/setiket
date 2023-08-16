@@ -11,6 +11,13 @@ const createUser = async (userData) => {
   return user;
 };
 
-module.exports = {
-  createUser,
-};
+const findUserByUsername = async (username) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        username : username
+      },
+    });
+    return user;
+  };
+
+  module.exports = { findUserByUsername, createUser }
