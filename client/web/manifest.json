@@ -1,6 +1,6 @@
 {
-    "name": "client",
-    "short_name": "client",
+    "name": "setiket",
+    "short_name": "setiket",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
