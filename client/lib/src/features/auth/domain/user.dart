@@ -1,31 +1,33 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:setiket/src/features/auth/data/responses/responses.dart';
+
 class User {
   final String token;
   final int id;
-  final String username;
   final String email;
-  final String birthdate;
-  final int gender;
+  final String fullname;
+  final StatusUser status;
+  final RoleUser role;
 
   User({
     required this.token,
     required this.id,
-    required this.username,
     required this.email,
-    required this.birthdate,
-    required this.gender,
+    required this.fullname,
+    this.status = StatusUser.pending,
+    this.role = RoleUser.user,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'token': token,
       'id': id,
-      'username': username,
       'email': email,
-      'birthdate': birthdate,
-      'gender': gender,
+      'fullname': fullname,
+      'status': status,
+      'role': role,
     };
   }
 
@@ -33,14 +35,15 @@ class User {
     return User(
       token: map['token'] as String,
       id: map['id'] as int,
-      username: map['username'] as String,
       email: map['email'] as String,
-      birthdate: map['birthdate'] as String,
-      gender: map['gender'] as int,
+      fullname: map['fullname'] as String,
+      status: map['status'] as StatusUser,
+      role: map['role'] as RoleUser,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -8,7 +8,7 @@ import '../../../services/local/hive_service_mock.dart';
 import '../../data_mocks.dart';
 
 void main() {
-  late RequestLogin requestLogin;
+  late RequestRegister requestRegister;
 
   late MockAuthRepository mockAuthRepository;
   late MockHiveService mockHiveService;
@@ -16,9 +16,11 @@ void main() {
   late AuthService authService;
 
   setUp(() {
-    requestLogin = RequestLogin(
-      email: 'admin@gmail.com',
-      password: 'admin123',
+    requestRegister = RequestRegister(
+      email: 'user@gmail.com',
+      fullname: 'user',
+      password: 'user12345678',
+      role: 'USER',
     );
 
     mockAuthRepository = MockAuthRepository();
@@ -27,15 +29,15 @@ void main() {
     authService = AuthService(mockAuthRepository, mockHiveService);
   });
 
-  group('login()', () {
+  group('register()', () {
     test('returns String when success', () async {
-      const expectedResult = Result.success('Login Success!');
+      const expectedResult = Result.success('Register Success!');
       when(
         () async {
-          final result = await mockAuthRepository.login(requestLogin);
+          final result = await mockAuthRepository.register(requestRegister);
           return result.when(
             success: (data) {
-              return const Result.success('Login Success!');
+              return const Result.success('Register Success!');
             },
             failure: (error, stackTrace) {
               return Result.failure(error, stackTrace);
@@ -44,11 +46,11 @@ void main() {
         },
       ).thenAnswer(
         (invocation) => Future.value(
-          const Result.success('Login Success!'),
+          const Result.success('Register Success!'),
         ),
       );
 
-      final actualResult = await authService.login(requestLogin);
+      final actualResult = await authService.register(requestRegister);
 
       expect(actualResult, expectedResult);
     });

@@ -4,9 +4,8 @@ const { register } = require("./auth.service");
 const { apiResponse } = require("../../utils/apiResponse");
 const { registerValidator } = require("../../validators/authValidator");
 const validatorCatcher = require("../../middlewares/validatorErrorCatcher");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const { getUserByUsername } = require("./auth.service");
-
 
 const router = express.Router();
 
