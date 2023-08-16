@@ -44,8 +44,9 @@ enum Status {
 
 model User {
   id        Int      @id @unique @default(autoincrement())
-  email     String
-  username  String
+  email     String   @unique
+  fullname  String
+  age       Int?       
   password  String
   status    Status
   role      Role

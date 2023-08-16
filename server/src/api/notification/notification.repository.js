@@ -2,4 +2,8 @@
 
 const prisma = require("../../db");
 
+const createNotification = async () => {
+    
+}
+
 module.exports = {}

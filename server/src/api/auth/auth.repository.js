@@ -2,4 +2,15 @@
 
 const prisma = require("../../db");
 
-module.exports = {}
+const createUser = async (userData) => {
+    const user = await prisma.user.create({
+      data: userData,
+    });
+  // Jangan Lupa Tambah Notifikasi
+  // const notification = await
+  return user;
+};
+
+module.exports = {
+  createUser,
+};
