@@ -1,12 +1,10 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 const express = require("express");
-const { register } = require("./auth.service");
-const { apiResponse } = require("../../utils/apiResponse");
-const { registerValidator } = require("../../validators/authValidator");
-const validatorCatcher = require("../../middlewares/validatorErrorCatcher");
-const jwt = require('jsonwebtoken');
-const { getUserByUsername } = require("./auth.service");
-
+const authService = require("./auth.service");
+const jwt = require("jsonwebtoken");
+const authValidator = require("../../validators/authValidator");
+const validatorCatcher = require("../../middlewares/validatorCatcher");
+const utils = require("../../utils");
 
 const router = express.Router();
 
@@ -56,7 +54,7 @@ router.get("/", async (req, res) => {
 
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]
@@ -109,7 +107,7 @@ router.get("/", async (req, res) => {
 
 router.post(
   "/register",
-  registerValidator,
+  authValidator.register,
   validatorCatcher,
   async (req, res) => {
     try {
@@ -120,20 +118,20 @@ router.post(
         role: req.body.role,
         age: req.body.age ? req.body.age : null,
       };
-      const newUser = await register(sanitizeUser);
-      return apiResponse(201, req, res, {
+      const newUser = await authService.register(sanitizeUser);
+      return utils.apiResponse(201, req, res, {
         status: true,
         message: "success adding new user",
         body: newUser,
       });
     } catch (err) {
       if (err.isCustomError) {
-        return apiResponse(err.statusCode, req, res, {
+        return utils.apiResponse(err.statusCode, req, res, {
           status: false,
           message: err.message,
         });
       } else {
-        return apiResponse("500", req, res, {
+        return utils.apiResponse("500", req, res, {
           status: false,
           message: err.message ? err.message : "Sorry Something Error",
         });
@@ -143,45 +141,44 @@ router.post(
 );
 
 router.get("/login/:username", async (req, res) => {
-    try {
-        const targetUsername = req.params.username;
-        const targetUser = await getUserByUsername(targetUsername);
-        res.send(targetUser);
-      } catch (err) {
-        res.status(400).send(err.message);
-      }
-})
+  try {
+    const targetUsername = req.params.username;
+    const targetUser = await authService.getUserByUsername(targetUsername);
+    res.send(targetUser);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await getUserByUsername(req.body.username);
+    const user = await authService.getUserByUsername(req.body.username);
     if (req.body.password !== user.password) {
       throw Error("Password salah");
     } else {
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       res.json({ accessToken: accessToken });
     }
-   } catch (err) {
+  } catch (err) {
     res.status(401).send(err.message);
-  }  
-})
+  }
+});
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
     return res.sendStatus(401);
-  } 
+  }
 
-// bikin access token di environment variable
+  // bikin access token di environment variable
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }
     req.user = user;
     next();
-  })
+  });
 }
-
 
 module.exports = router;

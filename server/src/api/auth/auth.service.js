@@ -1,12 +1,9 @@
 // Layer buat handling bisnis logic
 
 const bcrypt = require("bcryptjs");
-
-const { roleTypes } = require("../../config/roles.config");
-const { statusTypes } = require("../../config/status.config");
-const { createUser } = require("./auth.repository");
-const { findUserByUsername } = require("./auth.repository");
-const { customError } = require("../../utils/customError");
+const types = require("../../config/types.config");
+const authRepository = require("./auth.repository");
+const utils = require("../../utils");
 
 const register = async (userData) => {
   try {
@@ -16,31 +13,28 @@ const register = async (userData) => {
     const userWithStatus = {
       ...userData,
       status:
-        role === roleTypes.user ? statusTypes.verified : statusTypes.pending,
+        role === types.role.user ? types.status.verified : types.status.pending,
       password: hashedPassword,
     };
 
-    const newUser = createUser(userWithStatus);
-    if (!newUser) throw customError("400", "Failed to register new account");
+    const newUser = authRepository.createUser(userWithStatus);
+    if (!newUser) throw utils.customError("400", "Failed to register new account");
 
-    if (role === roleTypes.user) return newUser;
+    if (role === types.role.user) return newUser;
 
     // Buat kirim notifikasi dibawah
-    return newUser
-
+    return newUser;
   } catch (err) {
     throw new Error(err);
   }
 };
 
 const getUserByUsername = async (username) => {
-    const user = await findUserByUsername(username);
-    if (!user) {
-      throw Error("User tidak ditemukan");
-    }
-    return user;
-  };
-
+  const user = await authRepository.findUserByUsername(username);
+  if (!user) {
+    throw Error("User tidak ditemukan");
+  }
+  return user;
+};
 
 module.exports = { register, getUserByUsername };
-

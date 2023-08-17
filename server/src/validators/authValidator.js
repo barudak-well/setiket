@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
-const { roleTypes } = require("../config/roles.config");
+const types = require("../config/types.config");
 
-const registerValidator = [
+const register = [
   check("email")
     .trim()
     .notEmpty()
@@ -23,8 +23,8 @@ const registerValidator = [
   check("role")
     .notEmpty()
     .withMessage("Role is required.")
-    .isIn([roleTypes.eo, roleTypes.user])
+    .isIn([types.role.eo, types.role.user])
     .withMessage("Role must USER or EO"),
 ];
 
-module.exports = {registerValidator}
+module.exports = {register}
