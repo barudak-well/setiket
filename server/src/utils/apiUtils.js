@@ -8,4 +8,10 @@ const apiResponse = (status, req, res, body) => {
   });
 };
 
-module.exports = { apiResponse };
+const customError = (statusCode, message) => ({
+  statusCode,
+  message,
+  isCustomError: true,
+});
+
+module.exports = { apiResponse, customError };

@@ -10,24 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event {
-  id          Int      @id @unique @default(autoincrement())
-  title       String
-  description String?
-  date        DateTime
-  ticketPrice Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  tickets     Ticket[]
-}
-
-model Ticket {
-  id        Int      @id @unique @default(autoincrement())
-  eventId   Int
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  event     Event    @relation(fields: [eventId], references: [id])
+enum Category {
+  MUSIC
+  ART
+  SPORTS
+  CULINARY
+  TECH
+  LIFESTYLE
+  BUSINESS
+  EDUCATION
+  ENTERTAINMENT
+  CHARITY
+  OTHER
 }
 
 enum Role {
@@ -42,13 +36,66 @@ enum Status {
   REJECTED
 }
 
-model User {
+enum NotificationType {
+  TICKET_SOLD
+  NEW_EO
+  NEW_EVENT
+}
+
+enum NotificationReceiver {
+  EO
+  ADMIN
+}
+
+model Event {
+  id             Int      @id @unique @default(autoincrement())
+  userId         Int
+  title          String
+  description    String?
+  datetime       DateTime
+  city           String
+  locationDetail String?
+  ticketPrice    Int
+  capacity       Int
+  category       Category
+  status         Status
+  createdAt      DateTime @default(now())
+  tickets        Ticket[]
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Ticket {
   id        Int      @id @unique @default(autoincrement())
-  email     String   @unique
-  fullname  String
-  age       Int?       
-  password  String
-  status    Status
-  role      Role
+  eventId   Int
+  userId    Int
+  quantity  Int
+  price     Int
   createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id           Int            @id @unique @default(autoincrement())
+  email        String         @unique
+  fullname     String
+  age          Int?
+  password     String
+  status       Status
+  role         Role
+  createdAt    DateTime       @default(now())
+  event        Event[]
+  ticket       Ticket[]
+  notification Notification[]
+}
+
+model Notification {
+  id        Int                  @id @unique @default(autoincrement())
+  message   String
+  type      NotificationType
+  fromId    Int
+  toId      Int
+  receiver  NotificationReceiver
+  createdAt DateTime             @default(now())
+  user      User                 @relation(fields: [toId], references: [id])
 }
