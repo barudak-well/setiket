@@ -29,8 +29,6 @@ class AuthRepository {
         data: requestRegister.toJson(),
       );
 
-      print(response);
-
       return Result.success(ApiResponse.fromJson(response['body']));
     } catch (e, stackTrace) {
       return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
