@@ -13,6 +13,7 @@ void main() {
   late ApiResponse apiResponse;
   late UserResponse userResponse;
   late RequestRegister requestRegister;
+  late RequestLogin requestLogin;
   late MockAuthRepository mockAuthRepository;
   late MockHiveService mockHiveService;
   late AuthService authService;
@@ -23,6 +24,10 @@ void main() {
       fullname: 'user',
       password: 'user12345678',
       role: 'USER',
+    );
+    requestLogin = RequestLogin(
+      email: 'user@gmail.com',
+      password: 'user12345678',
     );
     userResponse = const UserResponse(
       id: 1,
@@ -42,6 +47,19 @@ void main() {
     authService = AuthService(mockAuthRepository, mockHiveService);
   });
 
+  group('login()', () {
+    test('returns String when success', () async {
+      Result<String?> expectedResult = const Result.success('Login Success!');
+
+      when(
+        () => mockAuthRepository.login(requestLogin),
+      ).thenAnswer((_) => Future.value(Result.success(apiResponse)));
+
+      final actualResult = await authService.login(requestLogin);
+
+      expect(actualResult, expectedResult);
+    });
+  });
   group('register()', () {
     test('returns String when success', () async {
       Result<String?> expectedResult = const Result.success('Register Success!');
