@@ -147,3 +147,80 @@ describe("POST /api/auth/register", () => {
     expect(body.body.body[0].msg).toBe("Role must USER or EO.");
   }, 15000);
 });
+
+
+describe("POST /api/auth/login", () => {
+  let server; 
+
+  beforeAll(() => {
+    server = app.listen(8000); 
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
+
+  const userLoginMock = {
+    email: "mneocicerok@gmail.com",
+    password: "satusampedelapan",
+  };
+
+  test("login: registered user successfully logging in", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send(userLoginMock);
+    expect(statusCode).toBe(200);
+    expect(body.body.status).toBe(true);
+  }, 15000);
+
+  test("login: email doesnt exist", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send({...userLoginMock, email:"mneociceropalsu@gmail.com"});
+    expect(statusCode).toBe(404);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("User not found");
+  }, 15000);
+
+  test("login: user left email field empty", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send({...userLoginMock, email: ""});
+    expect(statusCode).toBe(422);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Body request error");
+    expect(body.body.body[0].path).toBe("email");
+    expect(body.body.body[0].msg).toBe("Email is required.");
+  }, 15000);
+
+  test("login: user didnt provide valid email", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send({...userLoginMock, email: "mneociceropalsu@.om"});
+    expect(statusCode).toBe(422);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Body request error");
+    expect(body.body.body[0].path).toBe("email");
+    expect(body.body.body[0].msg).toBe("Please Enter valid email");
+  }, 15000);
+
+  test("login: user left password field empty", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send({...userLoginMock, password: ""});
+      expect(statusCode).toBe(422);
+      expect(body.body.status).toBe(false);
+      expect(body.body.message).toBe("Body request error");
+      expect(body.body.body[0].path).toBe("password");
+      expect(body.body.body[0].msg).toBe("Password is required.");
+  }, 15000);
+
+  test("login: user inputs wrong password", async () => {
+    const { statusCode, body } = await request(app)
+      .post("/api/auth/login")
+      .send({...userLoginMock, password: "satusampetujuh"});
+    expect(statusCode).toBe(401);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Wrong password");
+  }, 15000);
+});
