@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const { roleTypes } = require("../../config/roles.config");
 const { statusTypes } = require("../../config/status.config");
 const { createUser } = require("./auth.repository");
-const { findUserByUsername } = require("./auth.repository");
+const { findUserByEmail } = require("./auth.repository");
 const { customError } = require("../../utils/customError");
 
 const register = async (userData) => {
@@ -33,8 +33,8 @@ const register = async (userData) => {
   }
 };
 
-const getUserByUsername = async (username) => {
-    const user = await findUserByUsername(username);
+const getUserByEmail = async (email) => {
+    const user = await findUserByEmail(email);
     if (!user) {
       throw Error("User tidak ditemukan");
     }
@@ -42,5 +42,5 @@ const getUserByUsername = async (username) => {
   };
 
 
-module.exports = { register, getUserByUsername };
+module.exports = { register, getUserByEmail };
 

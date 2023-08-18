@@ -5,7 +5,7 @@ const { apiResponse } = require("../../utils/apiResponse");
 const { registerValidator } = require("../../validators/authValidator");
 const validatorCatcher = require("../../middlewares/validatorErrorCatcher");
 const jwt = require('jsonwebtoken');
-const { getUserByUsername } = require("./auth.service");
+const { getUserByEmail } = require("./auth.service");
 
 
 const router = express.Router();
@@ -142,10 +142,10 @@ router.post(
   }
 );
 
-router.get("/login/:username", async (req, res) => {
+router.get("/login/:email", async (req, res) => {
     try {
-        const targetUsername = req.params.username;
-        const targetUser = await getUserByUsername(targetUsername);
+        const targetEmail = req.params.email;
+        const targetUser = await getUserByEmail(targetEmail);
         res.send(targetUser);
       } catch (err) {
         res.status(400).send(err.message);
@@ -154,7 +154,7 @@ router.get("/login/:username", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await getUserByUsername(req.body.username);
+    const user = await getUserByEmail(req.body.email);
     if (req.body.password !== user.password) {
       throw Error("Password salah");
     } else {
@@ -182,6 +182,5 @@ function authenticateToken(req, res, next) {
     next();
   })
 }
-
 
 module.exports = router;
