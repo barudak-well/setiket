@@ -1,5 +1,5 @@
 const apiResponse = (status, req, res, body) => {
-  return res.status(status).json({
+  return res.status(parseInt(status)).json({
     header: {
       time_request: new Date(),
       ip_address: req.connection.remoteAdress,
