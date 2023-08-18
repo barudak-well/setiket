@@ -1,4 +1,4 @@
-const allowed = ["http://localhost:8000"];
+const allowed = ["http://localhost:8000", "http://localhost:3000"];
 
 const option = {
   origin: (origin, callback) => {

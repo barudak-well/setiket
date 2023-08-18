@@ -7,7 +7,5 @@ extension XString on String {
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(this);
 
-  bool get isPasswordValid =>
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-          .hasMatch(this);
+  bool get isPasswordValid => length > 8;
 }

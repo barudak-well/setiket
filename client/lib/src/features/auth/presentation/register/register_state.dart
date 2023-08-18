@@ -1,17 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RegisterState {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AsyncValue<String?> registerValue;
   final bool isObscure;
   final bool isObscureConfirm;
   final Map<String, dynamic>? errors;
-  final bool isRegisterValid;
-  const RegisterState({
+  // final bool isRegisterValid;
+  final String roleValue;
+  RegisterState({
     this.registerValue = const AsyncData(null),
     this.isObscure = true,
     this.isObscureConfirm = true,
     this.errors,
-    this.isRegisterValid = false,
+    this.roleValue = 'USER',
   });
 
   bool get isLoading => registerValue.isLoading;
@@ -21,14 +24,14 @@ class RegisterState {
     bool? isObscure,
     bool? isObscureConfirm,
     Map<String, dynamic>? errors,
-    bool? isRegisterValid,
+    String? roleValue,
   }) {
     return RegisterState(
       registerValue: registerValue ?? this.registerValue,
       isObscure: isObscure ?? this.isObscure,
       isObscureConfirm: isObscureConfirm ?? this.isObscureConfirm,
       errors: errors ?? this.errors,
-      isRegisterValid: isRegisterValid ?? this.isRegisterValid,
+      roleValue: roleValue ?? this.roleValue,
     );
   }
 }

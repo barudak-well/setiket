@@ -211,7 +211,7 @@ class DioClient {
 final dioClientProvider = Provider<DioClient>((ref) {
   final dio = Dio();
   final httpClient = HttpClient();
-  final baseUrl = dotenv.get('BASE_URL');
+  final baseUrl = dotenv.get('BASE_URL_API');
   final hiveService = ref.read(hiveServiceProvider);
   return DioClient(
     baseUrl: baseUrl,
