@@ -29,12 +29,14 @@ const register = async (userData) => {
   }
 };
 
-const getUserByUsername = async (username) => {
-  const user = await authRepository.findUserByUsername(username);
-  if (!user) {
-    throw Error("User tidak ditemukan");
-  }
-  return user;
-};
+const getUserByEmail = async (email) => {
+    const user = await authRepository.findUserByEmail(email);
+    if (!user) {
+      throw utils.customError("404", "User not found");
+    }
+    return user;
+  };
 
-module.exports = { register, getUserByUsername };
+
+module.exports = { register, getUserByEmail };
+
