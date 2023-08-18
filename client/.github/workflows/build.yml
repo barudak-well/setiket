@@ -1,0 +1,13 @@
+name: 🔨🧪 Build & Test
+
+permissions: write-all
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  testAndCoverage:
+    name: 🧪 Test
+    uses: ./client/.github/workflows/_test_with_coverage.yml

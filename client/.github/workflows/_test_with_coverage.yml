@@ -1,0 +1,57 @@
+name: 🧪 Test with coverage 📊
+
+on:
+  workflow_call:
+
+jobs:
+  coverage:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Install lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lcov
+
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: ⚙️ Install dependencies for all packages
+        run: flutter pub get
+
+      - name: 🧪 Run tests with coverage
+        run: |
+          flutter test --coverage --coverage-path=coverage_report/combined_lcov.info
+          genhtml -o ./coverage/report ./coverage_report/combined_lcov.info
+          flutter test --machine > test_reports/_test_report.json
+
+      - name: 🧪✅❌ Publish test results
+        id: compute_test_results
+        uses: dorny/test-reporter@v1.6.0
+        with:
+          name: "🧪📊 Unit tests report"
+          path: test_reports/*_test_report.json
+          reporter: "flutter-json"
+          max-annotations: "50"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🧪📊 Publish coverage report
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: coverage_report/combined_lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Coverage Report"
+
+      - name: 🥤 Extract test coverage percentage
+        run: |
+          grep -o '.*headerCovTableEntryLo.*' coverage/report/lib/index.html | sed -E  's/.*>(.*) %<.*/\1/' > coverage_percentage.txt
+          percentage=$(cat coverage_percentage.txt)
+          echo "Coverage percentage: $percentage"
+          echo "coverage_percentage=$percentage" >> $GITHUB_ENV
