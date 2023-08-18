@@ -1,0 +1,13 @@
+name: 🔨🧪 Build & Test
+
+permissions: write-all
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  clientTest:
+    name: 🧪 Client Test
+    uses: ./.github/workflows/__client_test.yml
