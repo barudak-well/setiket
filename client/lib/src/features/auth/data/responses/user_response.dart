@@ -1,28 +1,30 @@
 import 'dart:convert';
 
-class UserResponse {
+import 'package:equatable/equatable.dart';
+
+enum RoleUser {
+  user,
+  admin,
+  eo,
+}
+
+enum StatusUser { pending, verified, rejected }
+
+class UserResponse extends Equatable {
   final int? id;
-  final String? username;
-  final String? birthdate;
-  final int? gender;
   final String? email;
-  final dynamic emailVerifiedAt;
-  final dynamic twoFactorSecret;
-  final dynamic twoFactorRecoveryCodes;
-  final dynamic twoFactorConfirmedAt;
+  final String? fullname;
+  final StatusUser? status;
+  final RoleUser? role;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  UserResponse({
+  const UserResponse({
     this.id,
-    this.username,
-    this.birthdate,
-    this.gender,
     this.email,
-    this.emailVerifiedAt,
-    this.twoFactorSecret,
-    this.twoFactorRecoveryCodes,
-    this.twoFactorConfirmedAt,
+    this.fullname,
+    this.status,
+    this.role,
     this.createdAt,
     this.updatedAt,
   });
@@ -34,14 +36,18 @@ class UserResponse {
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
         id: json["id"],
-        username: json["username"],
-        birthdate: json["birthdate"],
-        gender: json["gender"],
         email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        twoFactorSecret: json["two_factor_secret"],
-        twoFactorRecoveryCodes: json["two_factor_recovery_codes"],
-        twoFactorConfirmedAt: json["two_factor_confirmed_at"],
+        fullname: json["fullname"],
+        status: json["status"] == "VERIFIED"
+            ? StatusUser.verified
+            : json["status"] == "REJECTED"
+                ? StatusUser.rejected
+                : StatusUser.pending,
+        role: json["role"] == "ADMIN"
+            ? RoleUser.admin
+            : json["role"] == "EO"
+                ? RoleUser.eo
+                : RoleUser.user,
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -52,15 +58,13 @@ class UserResponse {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "username": username,
-        "birthdate": birthdate,
-        "gender": gender,
         "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "two_factor_secret": twoFactorSecret,
-        "two_factor_recovery_codes": twoFactorRecoveryCodes,
-        "two_factor_confirmed_at": twoFactorConfirmedAt,
+        "status": status,
+        "role": role,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [id, email, fullname, status, role];
 }

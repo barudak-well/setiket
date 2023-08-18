@@ -4,29 +4,40 @@ import 'package:mocktail/mocktail.dart';
 import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
+import 'package:setiket/src/shared/response/api_response.dart';
 
 import '../../../services/remote/dio_clients_mock.dart';
 
 // Create a mock implementation of DioClient
 void main() {
-  late AuthResponse authResponse;
+  late ApiResponse apiResponse;
   late UserResponse userResponse;
+  late RequestRegister requestRegister;
   late RequestLogin requestLogin;
   late MockDioClient mockDioClient;
   late AuthRepository authRepository;
 
   setUp(() {
-    userResponse = UserResponse(
+    userResponse = const UserResponse(
       id: 1,
-      username: 'admin',
       email: 'admin@gmail.com',
-      gender: 1,
-      birthdate: '13-06-2004',
+      fullname: 'admin',
+      role: RoleUser.user,
     );
-    authResponse = AuthResponse(user: userResponse);
+    apiResponse = ApiResponse(
+      status: true,
+      message: "string",
+      body: userResponse,
+    );
+    requestRegister = RequestRegister(
+      email: 'user@gmail.com',
+      fullname: 'user',
+      password: 'user12345678',
+      role: 'USER',
+    );
     requestLogin = RequestLogin(
-      email: 'admin@gmail.com',
-      password: 'admin123',
+      email: 'user@gmail.com',
+      password: 'user12345678',
     );
 
     mockDioClient = MockDioClient();
@@ -34,14 +45,14 @@ void main() {
   });
 
   group('login', () {
-    test('returns AuthResponse when response success', () async {
+    test('returns ApiResponse when response success', () async {
       // Expected result
-      final expectedResult = Result.success(authResponse);
+      final expectedResult = Result.success(apiResponse);
 
       // Stubbing the mockDioClient.post method
       when(
         () => mockDioClient.post(Endpoint.login, data: requestLogin.toJson()),
-      ).thenAnswer((_) => Future.value(Result.success(authResponse)));
+      ).thenAnswer((_) => Future.value(apiResponse.toJson()));
 
       // Actual result
       final actualResult = await authRepository.login(requestLogin);
@@ -53,7 +64,7 @@ void main() {
 
     test('returns failure when response failed', () async {
       // Expected result
-      const expectedResult = Result.failure(
+      Result<ApiResponse> expectedResult = const Result.failure(
         NetworkExceptions.badRequest(),
         StackTrace.empty,
       );
@@ -67,7 +78,44 @@ void main() {
       final actualResult = await authRepository.login(requestLogin);
 
       // Test
+      expect(actualResult, isA<Result<ApiResponse>>());
+    });
+  });
+  group('register', () {
+    test('returns ApiResponse when response success', () async {
+      // Expected result
+      final expectedResult = Result.success(apiResponse);
+
+      // Stubbing the mockDioClient.post method
+      when(
+        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
+      ).thenAnswer((_) => Future.value(apiResponse.toJson()));
+
+      // Actual result
+      final actualResult = await authRepository.register(requestRegister);
+      debugPrint(actualResult.toString());
+
+      // Test
       expect(actualResult, expectedResult);
+    });
+
+    test('returns failure when response failed', () async {
+      // Expected result
+      Result<ApiResponse> expectedResult = const Result.failure(
+        NetworkExceptions.badRequest(),
+        StackTrace.empty,
+      );
+
+      // Stubbing the mockDioClient.post method
+      when(
+        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
+      ).thenAnswer((_) => Future.value(expectedResult));
+
+      // Actual result
+      final actualResult = await authRepository.register(requestRegister);
+
+      // Test
+      expect(actualResult, isA<Result<ApiResponse>>());
     });
   });
 }
