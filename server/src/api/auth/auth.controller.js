@@ -1,20 +1,11 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 const express = require("express");
-<<<<<<< HEAD
-const { register } = require("./auth.service");
-const { apiResponse } = require("../../utils/apiResponse");
-const { registerValidator } = require("../../validators/authValidator");
-const validatorCatcher = require("../../middlewares/validatorErrorCatcher");
-const jwt = require('jsonwebtoken');
-const { getUserByEmail } = require("./auth.service");
-
-=======
 const authService = require("./auth.service");
 const jwt = require("jsonwebtoken");
 const authValidator = require("../../validators/authValidator");
 const validatorCatcher = require("../../middlewares/validatorCatcher");
 const utils = require("../../utils");
->>>>>>> 748abbc26ba014266fe46c2753f66acc830f8708
+const bcrypt = require("bcryptjs");
 
 const router = express.Router();
 
@@ -115,6 +106,49 @@ router.get("/", async (req, res) => {
  *                         createdAt: "2023-08-16T12:06:40.569Z"
  */
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Logging in a user
+ *     tags: [Users]
+ *     requestBody:
+ *       description: User login details
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *           example:
+ *             email: halocuy@gmail.com
+ *             password: 123palocuygaskeun
+ *     responses:
+ *       200:
+ *         description: Successful user login
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 header:
+ *                   type: object
+ *                   properties:
+ *                     time_request:
+ *                       type: string
+ *                       format: date-time
+ *                 body:
+ *                   type: object
+ *                   properties:
+ *                     status:
+ *                       type: boolean
+ *                     message:
+ *                       type: string
+ *                     body:
+ *                       $ref: '#/components/schemas/User'
+ *                       example:
+ *                         accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImVtYWlsIjoibW5lb2NpY2Vyb2tAZ21haWwuY29tIiwiZnVsbG5hbWUiOiJOZW8gTmVvIiwiYWdlIjoxOCwicGFzc3dvcmQiOiIkMmEkMTAkNm9yN0pXRmdVTGxYNTM5b3E0L0x3T0p6S2VEaC9CdmxtOU1NZThtQVRsbGlkSHBRdzBuNjIiLCJzdGF0dXMiOiJWRVJJRklFRCIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wOC0xOFQwNjoyMTo1My43MTFaIiwiaWF0IjoxNjkyMzQzNDg0fQ.e8hUthiojrUHxQUHrQqgdIQxvG5-V11SMzurRskRRU0
+ */
+
 router.post(
   "/register",
   authValidator.register,
@@ -150,27 +184,42 @@ router.post(
   }
 );
 
-router.get("/login/:email", async (req, res) => {
-    try {
-        const targetEmail = req.params.email;
-        const targetUser = await authService.getUserByEmail(targetEmail);
-        res.send(targetUser);
-      } catch (err) {
-        res.status(400).send(err.message);
-      }
-})
-
-router.post("/login", async (req, res) => {
+router.post("/login",
+  authValidator.login,
+  validatorCatcher,
+  async (req, res) => {
   try {
-    const user = await authService.getUserByEmail(req.body.email);
-    if (req.body.password !== user.password) {
-      throw Error("Password salah");
+    const sanitizeUser = {
+      email: req.body.email,
+      password: req.body.password,
+    };
+
+    const user = await authService.getUserByEmail(sanitizeUser.email);
+
+    if (!bcrypt.compareSync(sanitizeUser.password, user.password)) {
+      throw utils.customError("401", "Wrong password");
     } else {
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-      res.json({ accessToken: accessToken });
+
+      return utils.apiResponse(200, req, res, {
+        status: true,
+        message: "successfully logged in",
+        body: { accessToken : accessToken },
+      });
     }
+
   } catch (err) {
-    res.status(401).send(err.message);
+    if (err.isCustomError) {
+      return utils.apiResponse(err.statusCode, req, res, {
+        status: false,
+        message: err.message,
+      });
+    } else {
+      return utils.apiResponse(500, req, res, {
+        status: false,
+        message: err.message ? err.message : "Sorry Something Error",
+      });
+    }
   }
 });
 
@@ -191,8 +240,14 @@ function authenticateToken(req, res, next) {
   });
 }
 
-<<<<<<< HEAD
+// router.get("/login/:email", async (req, res) => {
+//     try {
+//         const targetEmail = req.params.email;
+//         const targetUser = await authService.getUserByEmail(targetEmail);
+//         res.send(targetUser);
+//       } catch (err) {
+//         res.status(400).send(err.message);
+//       }
+// })
+
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 748abbc26ba014266fe46c2753f66acc830f8708
