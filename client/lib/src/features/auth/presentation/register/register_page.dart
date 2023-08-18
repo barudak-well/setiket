@@ -32,40 +32,42 @@ class RegisterPage extends ConsumerWidget {
 
     return StatusBarWidget(
       child: Scaffold(
-        body: CircleBackgroundWidget(
-          child: PaddingWidget(
-            child: Column(
-              children: [
-                const Spacer(),
-                const TopBarWidget(),
-                Gap.h32,
-                const RegisterFormSection(),
-                Gap.h32,
-                const RegisterButtonSection(),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account?',
-                      style: TypographyApp.headline3,
-                    ),
-                    Gap.w8,
-                    GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: Text(
-                        'Sign In',
-                        style: TypographyApp.headline3.copyWith(
-                          color: ColorApp.primary,
+        body: SingleChildScrollView(
+          child: CircleBackgroundWidget(
+            child: PaddingWidget(
+              child: Column(
+                children: [
+                  const Spacer(),
+                  const TopBarWidget(),
+                  Gap.h32,
+                  const RegisterFormSection(),
+                  Gap.h32,
+                  const RegisterButtonSection(),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already have an account?',
+                        style: TypographyApp.headline3,
+                      ),
+                      Gap.w8,
+                      GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Text(
+                          'Sign In',
+                          style: TypographyApp.headline3.copyWith(
+                            color: ColorApp.primary,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Gap.h36
-              ],
+                    ],
+                  ),
+                  Gap.h36
+                ],
+              ),
             ),
           ),
         ),

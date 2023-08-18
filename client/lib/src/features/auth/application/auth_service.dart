@@ -18,7 +18,8 @@ class AuthService {
     final result = await _authRepository.login(requestLogin);
     return result.when(
       success: (data) {
-        final user = AuthMapper.mapToUser(data);
+        AuthResponse authResponse = AuthResponse.fromJson(data.toJson());
+        final user = AuthMapper.mapToUser(authResponse);
         _hiveService.saveUser(user);
 
         return const Result.success('Login Success!');
@@ -33,9 +34,6 @@ class AuthService {
     final result = await _authRepository.register(requestRegister);
     return result.when(
       success: (data) {
-        final user = AuthMapper.mapToUser(data);
-        _hiveService.saveUser(user);
-
         return const Result.success('Register Success!');
       },
       failure: (error, stackTrace) {

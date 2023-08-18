@@ -5,7 +5,7 @@ const option = {
     if (allowed.includes(origin) || !origin) {
       return callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      return callback(new Error("Not allowed by CORS"));
     }
   },
 };

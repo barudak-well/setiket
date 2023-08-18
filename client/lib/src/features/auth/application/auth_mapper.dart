@@ -6,10 +6,10 @@ class AuthMapper {
     return User(
       token: data.token ?? '',
       id: data.user?.id ?? -1,
-      username: data.user?.username ?? '-',
       email: data.user?.email ?? '-',
-      birthdate: data.user?.birthdate ?? '',
-      gender: data.user?.gender ?? -1,
+      fullname: data.user?.fullname ?? '-',
+      status: data.user?.status ?? StatusUser.pending,
+      role: data.user?.role ?? RoleUser.user,
     );
   }
 }

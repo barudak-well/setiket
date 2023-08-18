@@ -24,10 +24,10 @@ class RegisterController extends StateNotifier<RegisterState> {
     );
 
     final requestRegister = RequestRegister(
-      name: nameController.text,
-      email: emailController.text,
-      password: passwordController.text,
-    );
+        fullname: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        role: 'user');
 
     final result = await _authService.register(requestRegister);
 
