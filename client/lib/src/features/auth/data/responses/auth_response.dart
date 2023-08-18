@@ -1,19 +1,21 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:setiket/src/features/data.dart';
 
-class AuthResponse {
+class AuthResponse extends Equatable {
   final String? token;
   final String? tokenType;
   final UserResponse? user;
 
-  AuthResponse({
+  const AuthResponse({
     this.token,
     this.tokenType,
     this.user,
   });
 
-  factory AuthResponse.fromRawJson(String str) => AuthResponse.fromJson(json.decode(str));
+  factory AuthResponse.fromRawJson(String str) =>
+      AuthResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -28,4 +30,7 @@ class AuthResponse {
         "token_type": tokenType,
         "user": user?.toJson(),
       };
+
+  @override
+  List<Object?> get props => [token, tokenType, user];
 }

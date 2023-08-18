@@ -1,28 +1,32 @@
 import 'dart:convert';
 
 class RequestRegister {
-  final String name;
+  final String fullname;
   final String email;
   final String password;
+  final String role;
   RequestRegister({
-    required this.name,
+    required this.fullname,
     required this.email,
     required this.password,
+    required this.role,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
+      'fullname': fullname,
       'email': email,
       'password': password,
+      'role': role,
     };
   }
 
   factory RequestRegister.fromMap(Map<String, dynamic> map) {
     return RequestRegister(
-      name: map['name'] as String,
+      fullname: map['fullname'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
+      role: map['role'] as String,
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
+import 'package:setiket/src/shared/response/api_response.dart';
 
 class AuthRepository {
   final DioClient _dioClient;
@@ -21,14 +22,14 @@ class AuthRepository {
     }
   }
 
-  Future<Result<AuthResponse>> register(RequestRegister requestRegister) async {
+  Future<Result<ApiResponse>> register(RequestRegister requestRegister) async {
     try {
       final response = await _dioClient.post(
         Endpoint.register,
         data: requestRegister.toJson(),
       );
 
-      return Result.success(AuthResponse.fromJson(response['data']));
+      return Result.success(ApiResponse.fromJson(response['body']));
     } catch (e, stackTrace) {
       return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
     }
