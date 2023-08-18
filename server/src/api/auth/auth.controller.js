@@ -1,5 +1,6 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 const express = require("express");
+<<<<<<< HEAD
 const { register } = require("./auth.service");
 const { apiResponse } = require("../../utils/apiResponse");
 const { registerValidator } = require("../../validators/authValidator");
@@ -7,6 +8,13 @@ const validatorCatcher = require("../../middlewares/validatorErrorCatcher");
 const jwt = require('jsonwebtoken');
 const { getUserByEmail } = require("./auth.service");
 
+=======
+const authService = require("./auth.service");
+const jwt = require("jsonwebtoken");
+const authValidator = require("../../validators/authValidator");
+const validatorCatcher = require("../../middlewares/validatorCatcher");
+const utils = require("../../utils");
+>>>>>>> 748abbc26ba014266fe46c2753f66acc830f8708
 
 const router = express.Router();
 
@@ -56,7 +64,7 @@ router.get("/", async (req, res) => {
 
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]
@@ -109,7 +117,7 @@ router.get("/", async (req, res) => {
 
 router.post(
   "/register",
-  registerValidator,
+  authValidator.register,
   validatorCatcher,
   async (req, res) => {
     try {
@@ -120,20 +128,20 @@ router.post(
         role: req.body.role,
         age: req.body.age ? req.body.age : null,
       };
-      const newUser = await register(sanitizeUser);
-      return apiResponse(201, req, res, {
+      const newUser = await authService.register(sanitizeUser);
+      return utils.apiResponse(201, req, res, {
         status: true,
         message: "success adding new user",
         body: newUser,
       });
     } catch (err) {
       if (err.isCustomError) {
-        return apiResponse(err.statusCode, req, res, {
+        return utils.apiResponse(err.statusCode, req, res, {
           status: false,
           message: err.message,
         });
       } else {
-        return apiResponse("500", req, res, {
+        return utils.apiResponse("500", req, res, {
           status: false,
           message: err.message ? err.message : "Sorry Something Error",
         });
@@ -145,7 +153,7 @@ router.post(
 router.get("/login/:email", async (req, res) => {
     try {
         const targetEmail = req.params.email;
-        const targetUser = await getUserByEmail(targetEmail);
+        const targetUser = await authService.getUserByEmail(targetEmail);
         res.send(targetUser);
       } catch (err) {
         res.status(400).send(err.message);
@@ -154,33 +162,37 @@ router.get("/login/:email", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await getUserByEmail(req.body.email);
+    const user = await authService.getUserByEmail(req.body.email);
     if (req.body.password !== user.password) {
       throw Error("Password salah");
     } else {
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       res.json({ accessToken: accessToken });
     }
-   } catch (err) {
+  } catch (err) {
     res.status(401).send(err.message);
-  }  
-})
+  }
+});
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
     return res.sendStatus(401);
-  } 
+  }
 
-// bikin access token di environment variable
+  // bikin access token di environment variable
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }
     req.user = user;
     next();
-  })
+  });
 }
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 748abbc26ba014266fe46c2753f66acc830f8708
