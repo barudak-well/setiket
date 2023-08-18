@@ -10,7 +10,7 @@ class RegisterController extends StateNotifier<RegisterState> {
   final AuthService _authService;
   RegisterController(
     this._authService,
-  ) : super(const RegisterState());
+  ) : super(RegisterState());
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -18,16 +18,21 @@ class RegisterController extends StateNotifier<RegisterState> {
   final passwordConfirmController = TextEditingController();
 
   Future<void> register() async {
+    // if (!state.formKey.currentState!.validate()) {
+    //   return;
+    // }
+
     // loading
     state = state.copyWith(
       registerValue: const AsyncLoading(),
     );
 
     final requestRegister = RequestRegister(
-        fullname: nameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-        role: 'user');
+      fullname: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+      role: state.roleValue,
+    );
 
     final result = await _authService.register(requestRegister);
 
@@ -67,6 +72,12 @@ class RegisterController extends StateNotifier<RegisterState> {
     );
   }
 
+  void onRoleValueChanged(value) {
+    state = state.copyWith(
+      roleValue: value,
+    );
+  }
+
   @override
   void dispose() {
     nameController.dispose();
@@ -82,14 +93,14 @@ class RegisterController extends StateNotifier<RegisterState> {
     state = state.copyWith(errors: map);
   }
 
-  void validateForm() {
-    state = state.copyWith(
-      isRegisterValid: validateName(nameController.text).isNull() &&
-          validateEmail(emailController.text).isNull() &&
-          validatePassword(passwordController.text).isNull() &&
-          validatePasswordConfirm(passwordConfirmController.text).isNull(),
-    );
-  }
+  // void validateForm() {
+  //   state = state.copyWith(
+  //     isRegisterValid: validateName(nameController.text).isNull() &&
+  //         validateEmail(emailController.text).isNull() &&
+  //         validatePassword(passwordController.text).isNull() &&
+  //         validatePasswordConfirm(passwordConfirmController.text).isNull(),
+  //   );
+  // }
 
   String? validateName(String? value) {
     if (value.isNullOrEmpty()) {
@@ -111,7 +122,7 @@ class RegisterController extends StateNotifier<RegisterState> {
     if (value.isNullOrEmpty()) {
       return "Cannot be empty";
     } else if (!value!.isPasswordValid) {
-      return "Password not valid";
+      return "Password must be more than 8";
     }
     return null;
   }
@@ -120,8 +131,8 @@ class RegisterController extends StateNotifier<RegisterState> {
     if (value.isNullOrEmpty()) {
       return "Cannot be empty";
     } else if (!value!.isPasswordValid) {
-      return "Password not valid";
-    } else if (value != passwordConfirmController.text) {
+      return "Password must be more than 8";
+    } else if (value != passwordController.text) {
       return "Password confirm doesn't match";
     }
     return null;

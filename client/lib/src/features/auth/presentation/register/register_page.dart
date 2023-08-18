@@ -16,9 +16,10 @@ class RegisterPage extends ConsumerWidget {
     ref.listen(registerControllerProvider, (prevState, state) {
       if (prevState?.registerValue != state.registerValue) {
         state.registerValue.whenOrNull(
-          data: (data) {
-            if (data != null) {
-              context.goNamed(Routes.home.name);
+          data: (message) {
+            if (message != null) {
+              toast(message);
+              context.goNamed(Routes.login.name);
             }
           },
           error: (error, stackTrace) {

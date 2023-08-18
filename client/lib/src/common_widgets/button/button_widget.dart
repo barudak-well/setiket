@@ -96,8 +96,8 @@ class ButtonWidget extends StatelessWidget {
             child: Center(
               child: isLoading
                   ? SizedBox(
-                      height: SizeApp.customHeight(58),
-                      width: SizeApp.customHeight(58),
+                      height: SizeApp.customHeight(40),
+                      width: SizeApp.customHeight(40),
                       child: const LoadingWidget(),
                     )
                   : Row(

@@ -20,7 +20,6 @@ class RegisterButtonSection extends ConsumerWidget {
           text: 'SIGN UP',
           onTap: controller.register,
           isLoading: state.isLoading,
-          // isEnabled: state.isRegisterValid,
         ),
       ],
     );
