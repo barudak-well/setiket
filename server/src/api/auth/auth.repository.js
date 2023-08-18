@@ -11,21 +11,12 @@ const createUser = async (userData) => {
 };
 
 const findUserByEmail = async (email) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
-  return user;
-};
+    const user = await prisma.user.findFirst({
+      where: {
+        email : email
+      },
+    });
+    return user;
+  };
 
-const findUserByUsername = async (username) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      username: username,
-    },
-  });
-  return user;
-};
-
-module.exports = { findUserByUsername, createUser, findUserByEmail };
+  module.exports = { findUserByEmail, createUser }

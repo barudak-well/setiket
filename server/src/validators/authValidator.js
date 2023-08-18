@@ -37,4 +37,19 @@ const register = [
     .withMessage("Role must USER or EO."),
 ];
 
-module.exports = { register };
+const login = [
+  check("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email is required.")
+    .isEmail()
+    .withMessage("Please Enter valid email"),
+  check("password")
+    .notEmpty()
+    .withMessage("Password is required.")
+    .trim()
+    .escape(),
+];
+
+module.exports = {register, login}
+
