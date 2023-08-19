@@ -10,7 +10,8 @@ import '../../../services/remote/dio_clients_mock.dart';
 
 // Create a mock implementation of DioClient
 void main() {
-  late ApiResponse apiResponse;
+  late ApiResponse apiResponseRegister;
+  late ApiResponse apiResponseLogin;
   late UserResponse userResponse;
   late RequestRegister requestRegister;
   late RequestLogin requestLogin;
@@ -18,26 +19,32 @@ void main() {
   late AuthRepository authRepository;
 
   setUp(() {
-    userResponse = const UserResponse(
-      id: 1,
-      email: 'admin@gmail.com',
-      fullname: 'admin',
-      role: RoleUser.user,
-    );
-    apiResponse = ApiResponse(
-      status: true,
-      message: "string",
-      body: userResponse,
-    );
     requestRegister = RequestRegister(
       email: 'user@gmail.com',
       fullname: 'user',
       password: 'user12345678',
       role: 'USER',
     );
+    userResponse = const UserResponse(
+      id: 1,
+      email: 'admin@gmail.com',
+      fullname: 'admin',
+      role: RoleUser.user,
+    );
+    apiResponseRegister = ApiResponse(
+      status: true,
+      message: "string",
+      body: userResponse,
+    );
+
     requestLogin = RequestLogin(
       email: 'user@gmail.com',
       password: 'user12345678',
+    );
+    apiResponseLogin = const ApiResponse(
+      status: true,
+      message: "string",
+      body: {"accessToken": "token"},
     );
 
     mockDioClient = MockDioClient();
@@ -47,12 +54,12 @@ void main() {
   group('login', () {
     test('returns ApiResponse when response success', () async {
       // Expected result
-      final expectedResult = Result.success(apiResponse);
+      final expectedResult = Result.success(apiResponseLogin);
 
       // Stubbing the mockDioClient.post method
       when(
         () => mockDioClient.post(Endpoint.login, data: requestLogin.toJson()),
-      ).thenAnswer((_) => Future.value(apiResponse.toJson()));
+      ).thenAnswer((_) => Future.value(apiResponseLogin.toJson()));
 
       // Actual result
       final actualResult = await authRepository.login(requestLogin);
@@ -84,12 +91,13 @@ void main() {
   group('register', () {
     test('returns ApiResponse when response success', () async {
       // Expected result
-      final expectedResult = Result.success(apiResponse);
+      final expectedResult = Result.success(apiResponseRegister);
 
       // Stubbing the mockDioClient.post method
       when(
-        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
-      ).thenAnswer((_) => Future.value(apiResponse.toJson()));
+        () => mockDioClient.post(Endpoint.register,
+            data: requestRegister.toJson()),
+      ).thenAnswer((_) => Future.value(apiResponseRegister.toJson()));
 
       // Actual result
       final actualResult = await authRepository.register(requestRegister);
@@ -108,7 +116,8 @@ void main() {
 
       // Stubbing the mockDioClient.post method
       when(
-        () => mockDioClient.post(Endpoint.register, data: requestRegister.toJson()),
+        () => mockDioClient.post(Endpoint.register,
+            data: requestRegister.toJson()),
       ).thenAnswer((_) => Future.value(expectedResult));
 
       // Actual result

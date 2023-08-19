@@ -28,7 +28,7 @@ class DioClient {
     this.interceptors,
     required this.hiveService,
   }) {
-    final token = hiveService.getUser()?.token;
+    final token = hiveService.getToken();
 
     _dio = dio;
     _dio
@@ -211,7 +211,7 @@ class DioClient {
 final dioClientProvider = Provider<DioClient>((ref) {
   final dio = Dio();
   final httpClient = HttpClient();
-  final baseUrl = dotenv.get('BASE_URL_API');
+  final baseUrl = dotenv.get('BASE_URL');
   final hiveService = ref.read(hiveServiceProvider);
   return DioClient(
     baseUrl: baseUrl,

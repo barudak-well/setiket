@@ -6,7 +6,6 @@ import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/routes/routes.dart';
 import 'package:setiket/src/services/services.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
@@ -18,14 +17,14 @@ class RegisterPage extends ConsumerWidget {
         state.registerValue.whenOrNull(
           data: (message) {
             if (message != null) {
-              toast(message);
+              appSnackBar(context, ColorApp.green, message);
               context.goNamed(Routes.login.name);
             }
           },
           error: (error, stackTrace) {
             final message =
                 NetworkExceptions.getErrorMessage(error as NetworkExceptions);
-            toast(message);
+            appSnackBar(context, ColorApp.red, message);
           },
         );
       }

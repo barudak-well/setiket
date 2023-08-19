@@ -49,8 +49,8 @@ class RegisterFormSection extends ConsumerWidget {
             onChanged: (value) {},
             hintText: 'Your Password',
             isObscure: state.isObscure,
-            onObscureTap: controller.onObscureTap,
             prefixIcon: Icons.lock_outline,
+            onObscureTap: controller.onObscureTap,
             validator: controller.validatePassword,
           ),
           Gap.h16,
@@ -59,23 +59,14 @@ class RegisterFormSection extends ConsumerWidget {
             onChanged: (value) {},
             hintText: 'Confirm Password',
             isObscure: state.isObscureConfirm,
-            onObscureTap: controller.onObscureConfirmTap,
             prefixIcon: Icons.lock_outline,
+            onObscureTap: controller.onObscureConfirmTap,
             validator: controller.validatePasswordConfirm,
           ),
           Gap.h16,
           DropdownFormWidget(
             value: state.roleValue,
-            list: const [
-              {
-                'text': 'User',
-                'value': 'USER',
-              },
-              {
-                'text': 'Event Organizer',
-                'value': 'EO',
-              },
-            ],
+            list: state.roles,
             prefixIcon: Icons.person_outline_rounded,
             onChanged: (value) {
               if (value.isNotNull()) {

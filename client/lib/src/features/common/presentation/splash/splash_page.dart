@@ -23,7 +23,7 @@ class SplashPageState extends ConsumerState<SplashPage> {
 
   void _navigateOtherScreen() {
     Future.delayed(const Duration(seconds: 3)).then((_) {
-      ref.read(hiveServiceProvider).getUser() != null
+      ref.read(hiveServiceProvider).getToken() != null
           ? context.goNamed(Routes.home.name)
           : context.goNamed(Routes.login.name);
     });

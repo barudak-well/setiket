@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
@@ -18,9 +18,7 @@ class AuthService {
     final result = await _authRepository.login(requestLogin);
     return result.when(
       success: (data) {
-        AuthResponse authResponse = AuthResponse.fromJson(data.toJson());
-        final user = AuthMapper.mapToUser(authResponse);
-        _hiveService.saveUser(user);
+        _hiveService.saveToken(data.body['accessToken']);
 
         return const Result.success('Login Success!');
       },

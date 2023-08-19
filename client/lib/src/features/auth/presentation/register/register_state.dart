@@ -7,15 +7,24 @@ class RegisterState {
   final bool isObscure;
   final bool isObscureConfirm;
   final Map<String, dynamic>? errors;
-  // final bool isRegisterValid;
   final String roleValue;
+  final List<Map<String, String>> roles;
   RegisterState({
     this.registerValue = const AsyncData(null),
     this.isObscure = true,
     this.isObscureConfirm = true,
     this.errors,
     this.roleValue = 'USER',
-  });
+  }) : roles = [
+          {
+            'text': 'User',
+            'value': 'USER',
+          },
+          {
+            'text': 'Event Organizer',
+            'value': 'EO',
+          },
+        ];
 
   bool get isLoading => registerValue.isLoading;
 

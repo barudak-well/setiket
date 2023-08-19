@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
@@ -17,6 +19,7 @@ class AuthRepository {
 
       return Result.success(ApiResponse.fromJson(response['body']));
     } catch (e, stackTrace) {
+      log('error $e');
       return Result.failure(NetworkExceptions.getDioException(e), stackTrace);
     }
   }
