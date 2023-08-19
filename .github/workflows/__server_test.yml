@@ -1,0 +1,54 @@
+name: 🧪 Server Test with Coverage 📊
+
+on:
+  workflow_call:
+
+jobs:
+  coverage:
+    name: 🧪 Run Test and Publish Reports
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Js
+        uses: actions/setup-node@v3
+        with:
+          node_version: 16
+
+      - name: Install Dependencies
+        run: 
+          cd server
+          npm ci
+
+      - name: Copy secrets to .env
+        run: |
+          cd server
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> .env
+          echo "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" >> .env
+
+      - name: Run Tests and Generate Coverage
+        run: 
+          cd server
+          npm run test
+
+
+      #   Referensi Nanti
+      # - name: Publish Test Results
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: test-reports
+      #     path: server/test-results
+
+      # - name: Install lcov
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get -y install lcov
+
+      # - name: Publish Code Coverage
+      #   run: |
+      #     lcov -c -d server/coverage -o lcov.info
+      #     lcov -r lcov.info '/usr/*' 'node_modules/*' -o lcov_filtered.info
+      #     bash <(curl -s https://codecov.io/bash) -f lcov_filtered.info
