@@ -10,7 +10,8 @@ import '../../../services/local/hive_service_mock.dart';
 import '../../data_mocks.dart';
 
 void main() {
-  late ApiResponse apiResponse;
+  late ApiResponse apiResponseRegister;
+  late ApiResponse apiResponseLogin;
   late UserResponse userResponse;
   late RequestRegister requestRegister;
   late RequestLogin requestLogin;
@@ -25,20 +26,26 @@ void main() {
       password: 'user12345678',
       role: 'USER',
     );
-    requestLogin = RequestLogin(
-      email: 'user@gmail.com',
-      password: 'user12345678',
-    );
     userResponse = const UserResponse(
       id: 1,
       email: 'admin@gmail.com',
       fullname: 'admin',
       role: RoleUser.user,
     );
-    apiResponse = ApiResponse(
+    apiResponseRegister = ApiResponse(
       status: true,
       message: "string",
       body: userResponse,
+    );
+
+    requestLogin = RequestLogin(
+      email: 'user@gmail.com',
+      password: 'user12345678',
+    );
+    apiResponseLogin = const ApiResponse(
+      status: true,
+      message: "string",
+      body: {"accessToken": "token"},
     );
 
     mockAuthRepository = MockAuthRepository();
@@ -53,7 +60,7 @@ void main() {
 
       when(
         () => mockAuthRepository.login(requestLogin),
-      ).thenAnswer((_) => Future.value(Result.success(apiResponse)));
+      ).thenAnswer((_) => Future.value(Result.success(apiResponseLogin)));
 
       final actualResult = await authService.login(requestLogin);
 
@@ -62,11 +69,12 @@ void main() {
   });
   group('register()', () {
     test('returns String when success', () async {
-      Result<String?> expectedResult = const Result.success('Register Success!');
+      Result<String?> expectedResult =
+          const Result.success('Register Success!');
 
       when(
         () => mockAuthRepository.register(requestRegister),
-      ).thenAnswer((_) => Future.value(Result.success(apiResponse)));
+      ).thenAnswer((_) => Future.value(Result.success(apiResponseRegister)));
 
       final actualResult = await authService.register(requestRegister);
 

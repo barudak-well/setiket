@@ -3,15 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/features/presentation.dart';
+import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class LoginController extends StateNotifier<LoginState> {
   final AuthService _authService;
-  LoginController(this._authService) : super(const LoginState());
+  LoginController(this._authService) : super(LoginState());
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future<void> login() async {
+    if (!state.formKey.currentState!.validate()) {
+      return;
+    }
+
     // loading
     state = state.copyWith(
       loginValue: const AsyncLoading(),
@@ -40,6 +45,24 @@ class LoginController extends StateNotifier<LoginState> {
     );
   }
 
+  String? validateEmail(String? value) {
+    if (value.isNullOrEmpty()) {
+      return "Cannot be empty";
+    } else if (!value!.isEmailValid) {
+      return "email not valid";
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value.isNullOrEmpty()) {
+      return "Cannot be empty";
+    } else if (!value!.isPasswordValid) {
+      return "Password must be more than 8";
+    }
+    return null;
+  }
+
   void onObscureTap() {
     // with setState in StatefulWidget
     //setState(() {
@@ -60,7 +83,8 @@ class LoginController extends StateNotifier<LoginState> {
   }
 }
 
-final loginControllerProvider = StateNotifierProvider.autoDispose<LoginController, LoginState>((ref) {
+final loginControllerProvider =
+    StateNotifierProvider.autoDispose<LoginController, LoginState>((ref) {
   final authService = ref.read(authServiceProvider);
   return LoginController(authService);
 });

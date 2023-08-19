@@ -3,5 +3,5 @@ class HiveKey {
   static const String userBox = 'userBox';
 
   // field
-  static const String user = 'user';
+  static const String token = 'token';
 }

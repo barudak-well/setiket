@@ -18,9 +18,9 @@ class RegisterController extends StateNotifier<RegisterState> {
   final passwordConfirmController = TextEditingController();
 
   Future<void> register() async {
-    // if (!state.formKey.currentState!.validate()) {
-    //   return;
-    // }
+    if (!state.formKey.currentState!.validate()) {
+      return;
+    }
 
     // loading
     state = state.copyWith(

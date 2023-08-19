@@ -11,7 +11,8 @@ part 'network_exceptions.freezed.dart';
 abstract class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.requestCancelled() = RequestCancelled;
 
-  const factory NetworkExceptions.unauthorizedRequest(String reason, bool isUnauthorizedRequest) = UnauthorizedRequest;
+  const factory NetworkExceptions.unauthorizedRequest(
+      String reason, bool isUnauthorizedRequest) = UnauthorizedRequest;
 
   const factory NetworkExceptions.badRequest() = BadRequest;
 
@@ -27,7 +28,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
   const factory NetworkExceptions.conflict() = Conflict;
 
-  const factory NetworkExceptions.internalServerError(String reason) = InternalServerError;
+  const factory NetworkExceptions.internalServerError(String reason) =
+      InternalServerError;
 
   const factory NetworkExceptions.notImplemented() = NotImplemented;
 
@@ -61,7 +63,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
               networkExceptions = const NetworkExceptions.requestTimeout();
               break;
             case DioExceptionType.unknown:
-              networkExceptions = const NetworkExceptions.noInternetConnection();
+              networkExceptions =
+                  const NetworkExceptions.noInternetConnection();
               break;
             case DioExceptionType.receiveTimeout:
               networkExceptions = const NetworkExceptions.sendTimeout();
@@ -70,31 +73,32 @@ abstract class NetworkExceptions with _$NetworkExceptions {
               networkExceptions = const NetworkExceptions.unableToProcess();
               break;
             case DioExceptionType.connectionError:
-              networkExceptions = const NetworkExceptions.noInternetConnection();
+              networkExceptions =
+                  const NetworkExceptions.noInternetConnection();
               break;
             case DioExceptionType.badResponse:
               switch (error.response?.statusCode) {
                 case 400:
                   networkExceptions = NetworkExceptions.unauthorizedRequest(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                     true,
                   );
                   break;
                 case 401:
                   networkExceptions = NetworkExceptions.unauthorizedRequest(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                     true,
                   );
                   break;
                 case 403:
                   networkExceptions = NetworkExceptions.unauthorizedRequest(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                     true,
                   );
                   break;
                 case 404:
                   networkExceptions = NetworkExceptions.notFound(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                   );
                   break;
                 case 408:
@@ -106,20 +110,21 @@ abstract class NetworkExceptions with _$NetworkExceptions {
                 case 422:
                   networkExceptions = NetworkExceptions.unProcessableEntity(
                     error.response?.data['data'],
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                   );
                   break;
                 case 500:
                   networkExceptions = NetworkExceptions.internalServerError(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                   );
                   break;
                 case 503:
-                  networkExceptions = const NetworkExceptions.serviceUnavailable();
+                  networkExceptions =
+                      const NetworkExceptions.serviceUnavailable();
                   break;
                 default:
                   networkExceptions = NetworkExceptions.defaultError(
-                    error.response?.data['message'],
+                    error.response?.data['body']['message'],
                   );
               }
               break;

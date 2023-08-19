@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginState {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AsyncValue<String?> loginValue;
   final bool isObscure;
-  const LoginState({
+  LoginState({
     this.loginValue = const AsyncData(null),
     this.isObscure = true,
   });
