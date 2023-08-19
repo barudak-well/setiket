@@ -1,6 +1,4 @@
 // Layer Handling Request Ke DB
-
-const { Prisma } = require("@prisma/client");
 const prisma = require("../../db");
 
 const createUser = async (userData) => {
