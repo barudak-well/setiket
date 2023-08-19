@@ -1,6 +1,7 @@
 const app = require("../../app");
 const request = require("supertest");
 const { log } = require("console");
+const utils = require("../../utils");
 
 describe("POST /api/auth/register", () => {
   let server; // Declare a variable to hold the server instance
@@ -14,12 +15,14 @@ describe("POST /api/auth/register", () => {
   });
 
   const userMock = {
-    email: "mockuser2@gmail.com",
+    email: `usertest${utils.generateRandomString()}@gmail.com`,
     fullname: "mock user",
     password: "12345678",
     role: "USER",
     age: 31,
   };
+
+  log(userMock)
 
   test("register an user using correct input", async () => {
     const { statusCode, body } = await request(app)
@@ -35,12 +38,17 @@ describe("POST /api/auth/register", () => {
   }, 15000);
 
   test("register an EO using correct input", async () => {
+    const eoEmail= `eotest${utils.generateRandomString()}@gmail.com`
     const { statusCode, body } = await request(app)
       .post("/api/auth/register")
-      .send({ ...userMock, email: "mockeo2@gmail.com", role: "EO" });
+      .send({
+        ...userMock,
+        email: eoEmail,
+        role: "EO",
+      });
     expect(statusCode).toBe(201);
     expect(body.body.status).toBe(true);
-    expect(body.body.body.email).toBe("mockeo2@gmail.com");
+    expect(body.body.body.email).toBe(eoEmail);
     expect(body.body.body.fullname).toBe(userMock.fullname);
     expect(body.body.body.role).toBe("EO");
     expect(body.body.body.age).toBe(userMock.age);
@@ -67,7 +75,6 @@ describe("POST /api/auth/register", () => {
     expect(body.body.body[0].msg).toBe("Email is required.");
   }, 15000);
 
-
   test("register using incorrect email", async () => {
     const { statusCode, body } = await request(app)
       .post("/api/auth/register")
@@ -87,7 +94,9 @@ describe("POST /api/auth/register", () => {
     expect(body.body.status).toBe(false);
     expect(body.body.message).toBe("Body request error");
     expect(body.body.body[0].path).toBe("fullname");
-    expect(body.body.body[0].msg).toBe("Fullname can only contain letter, number, white space, and underscore");
+    expect(body.body.body[0].msg).toBe(
+      "Fullname can only contain letter, number, white space, and underscore"
+    );
   }, 15000);
 
   test("register using fullname under 4 length", async () => {
@@ -119,30 +128,24 @@ describe("POST /api/auth/register", () => {
   test("register using minus age", async () => {
     const { statusCode, body } = await request(app)
       .post("/api/auth/register")
-      .send({ ...userMock, age: -100});
+      .send({ ...userMock, age: -100 });
     expect(statusCode).toBe(422);
     expect(body.body.status).toBe(false);
     expect(body.body.message).toBe("Body request error");
     expect(body.body.body[0].path).toBe("age");
-    expect(body.body.body[0].msg).toBe(
-      "Please enter valid age."
-    );
+    expect(body.body.body[0].msg).toBe("Please enter valid age.");
   }, 15000);
 
   test("register using role other than EO or USER", async () => {
     const { statusCode, body } = await request(app)
       .post("/api/auth/register")
-      .send({ ...userMock, role: "ADMIN"});
+      .send({ ...userMock, role: "ADMIN" });
     expect(statusCode).toBe(422);
     expect(body.body.status).toBe(false);
     expect(body.body.message).toBe("Body request error");
     expect(body.body.body[0].path).toBe("role");
-    expect(body.body.body[0].msg).toBe(
-      "Role must USER or EO."
-    );
+    expect(body.body.body[0].msg).toBe("Role must USER or EO.");
   }, 15000);
-
-
 });
 
 
