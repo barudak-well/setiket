@@ -24,7 +24,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -32,16 +31,11 @@
   <h3 align="center">SeTiket Client</h3>
 
   <p align="center">
-    project_description
-    <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/barudak-well/setiket">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/barudak-well/setiket/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/barudak-well/setiket/issues">Request Feature</a>
   </p>
 </div>
 
@@ -68,16 +62,14 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 SeTiket provide a seamless and user-friendly experience for event organizers and customers
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-- [![Flutter][Flutter.dev]][Flutter-url]
-- [![Riverpod][Riverpod.dev]][Riverpod-url]
+[![Flutter][Flutter.dev]][Flutter-url]
+[![Riverpod][Riverpod.dev]][Riverpod-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,8 +112,8 @@ flutter run
 
 ## Features
 
-- [✓] Starter
-- [✓] Auth
+- [ ] Starter
+- [ ] Auth
 - [ ] Users
   - [ ] Customer
     - [ ] Home
