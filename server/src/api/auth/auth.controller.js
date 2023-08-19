@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const authValidator = require("../../validators/authValidator");
 const validatorCatcher = require("../../middlewares/validatorCatcher");
 const utils = require("../../utils");
-const bcrypt = require("bcryptjs");
 
 const router = express.Router();
 
@@ -194,21 +193,14 @@ router.post("/login",
       password: req.body.password,
     };
 
-    const user = await authService.getUserByEmail(sanitizeUser.email);
+    const accessToken = await authService.login(sanitizeUser);
 
-    if (!bcrypt.compareSync(sanitizeUser.password, user.password)) {
-      throw utils.customError("401", "Wrong password");
-    } else {
-      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-
-      return utils.apiResponse(200, req, res, {
-        status: true,
-        message: "successfully logged in",
-        body: { accessToken : accessToken },
-      });
-    }
-
-  } catch (err) {
+    return utils.apiResponse(200, req, res, {
+      status: true,
+      message: "successfully logged in",
+      body: { accessToken : accessToken },
+    });
+    } catch (err) {
     if (err.isCustomError) {
       return utils.apiResponse(err.statusCode, req, res, {
         status: false,

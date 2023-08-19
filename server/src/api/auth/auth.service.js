@@ -5,6 +5,7 @@ const types = require("../../config/types.config");
 const authRepository = require("./auth.repository");
 const notificationRepository = require("../notification/notification.repository");
 const utils = require("../../utils");
+const jwt = require("jsonwebtoken");
 
 const register = async (userData) => {
   try {
@@ -48,6 +49,22 @@ const register = async (userData) => {
   }
 };
 
+const login = async (incomingUser) => {
+  try {
+    const userData = await getUserByEmail(incomingUser.email);
+    
+    if (!bcrypt.compareSync(incomingUser.password, userData.password)) {
+      throw utils.customError("401", "Wrong password");
+    } else {
+      const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
+      return accessToken;
+    }
+  } catch (err) {
+    if (err.isCustomError) throw err;
+    throw new Error(err);
+  }
+}
+
 const getUserByEmail = async (email) => {
     const user = await authRepository.findUserByEmail(email);
     if (!user) {
@@ -57,5 +74,5 @@ const getUserByEmail = async (email) => {
   };
 
 
-module.exports = { register, getUserByEmail };
+module.exports = { register, getUserByEmail, login };
 
