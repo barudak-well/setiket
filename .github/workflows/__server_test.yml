@@ -21,7 +21,7 @@ jobs:
           npm ci
       - name: Setup Env Variables
         uses: SpicyPizza/create-envfile@v2.0
-        run: |
+        with:
           envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }} 
           envkey_DIRECT_URL: ${{ secrets.DIRECT_URL }} 
           envkey_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }} 
