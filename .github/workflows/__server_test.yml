@@ -19,12 +19,14 @@ jobs:
         run: |
           cd server
           npm ci
-      - name: Copy secrets to .env
+      - name: Setup Env Variables
+        uses: SpicyPizza/create-envfile@v2.0
         run: |
-          cd server
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> .env
-          echo "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" >> .env
+          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }} 
+          envkey_DIRECT_URL: ${{ secrets.DIRECT_URL }} 
+          envkey_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }} 
+          directory: './server'
+          file_name: .env
       - name: Run Tests and Generate Coverage
         run: |
           cd server
