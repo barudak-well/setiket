@@ -28,7 +28,7 @@ class DioClient {
     this.interceptors,
     required this.hiveService,
   }) {
-    final token = hiveService.getUser()?.token;
+    final token = hiveService.getToken();
 
     _dio = dio;
     _dio

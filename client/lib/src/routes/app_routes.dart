@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:setiket/src/features/common/presentation/splash/splash_page.dart';
+import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/routes/routes.dart';
 
 enum Routes {
   splash,
+  jailbreak,
   login,
   register,
   home,
@@ -21,7 +23,6 @@ final goRouterProvider = Provider<GoRouter>(
       navigatorKey: navigatorKey,
       debugLogDiagnostics: true,
       initialLocation: '/splash',
-      // initialLocation: ref.read(hiveServiceProvider).getUser() != null ? '/home' : '/login',
       routerNeglect: true,
       redirectLimit: 1,
       routes: [
@@ -29,6 +30,11 @@ final goRouterProvider = Provider<GoRouter>(
           path: '/splash',
           name: Routes.splash.name,
           builder: (context, state) => const SplashPage(),
+        ),
+        GoRoute(
+          path: '/jailbreak',
+          name: Routes.jailbreak.name,
+          builder: (context, state) => const JailbreakPage(),
         ),
         GoRoute(
           path: '/home',

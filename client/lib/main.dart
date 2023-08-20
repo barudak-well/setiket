@@ -115,10 +115,22 @@ final _appTheme = ThemeData(
   ),
   scaffoldBackgroundColor: Palette.colorWhite,
   textTheme: TextTheme(
-    titleLarge: TextStyle(fontSize: ScreenUtil().setSp(18), fontWeight: FontWeight.w600, color: Colors.red),
-    bodyLarge: TextStyle(fontSize: ScreenUtil().setSp(14), fontWeight: FontWeight.w600, color: Colors.yellow),
-    bodyMedium: TextStyle(fontSize: ScreenUtil().setSp(14), fontWeight: FontWeight.w600, color: ColorApp.gray),
-    labelLarge: TextStyle(fontSize: ScreenUtil().setSp(14), fontWeight: FontWeight.w600, color: Colors.blue),
+    titleLarge: TextStyle(
+        fontSize: ScreenUtil().setSp(18),
+        fontWeight: FontWeight.w600,
+        color: Colors.red),
+    bodyLarge: TextStyle(
+        fontSize: ScreenUtil().setSp(14),
+        fontWeight: FontWeight.w600,
+        color: Colors.yellow),
+    bodyMedium: TextStyle(
+        fontSize: ScreenUtil().setSp(14),
+        fontWeight: FontWeight.w600,
+        color: ColorApp.gray),
+    labelLarge: TextStyle(
+        fontSize: ScreenUtil().setSp(14),
+        fontWeight: FontWeight.w600,
+        color: Colors.blue),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     elevation: 1,

@@ -11,46 +11,50 @@ class LoginFormSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(loginControllerProvider);
     final controller = ref.read(loginControllerProvider.notifier);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Sign in',
-          style: TypographyApp.headline1.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Gap.h20,
-        InputFormWidget(
-          controller: controller.emailController,
-          onChanged: (value) {},
-          hintText: 'abc@gmail.com',
-          prefixIcon: Icons.email_outlined,
-        ),
-        Gap.h16,
-        InputFormWidget.password(
-          controller: controller.passwordController,
-          onChanged: (value) {},
-          hintText: 'Your Password',
-          isObscure: state.isObscure,
-          onObscureTap: controller.onObscureTap,
-          prefixIcon: Icons.lock_outline,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'Forgot Password?',
-                style: TypographyApp.text1,
-              ),
+    return Form(
+      key: state.formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sign in',
+            style: TypographyApp.headline1.copyWith(
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ),
-      ],
+          ),
+          Gap.h20,
+          InputFormWidget(
+            controller: controller.emailController,
+            onChanged: (value) {},
+            hintText: 'abc@gmail.com',
+            prefixIcon: Icons.email_outlined,
+            validator: controller.validateEmail,
+          ),
+          Gap.h16,
+          InputFormWidget.password(
+            controller: controller.passwordController,
+            onChanged: (value) {},
+            hintText: 'Your Password',
+            isObscure: state.isObscure,
+            prefixIcon: Icons.lock_outline,
+            onObscureTap: controller.onObscureTap,
+            validator: controller.validatePassword,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Forgot Password?',
+                  style: TypographyApp.text1,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
