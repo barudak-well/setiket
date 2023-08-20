@@ -8,6 +8,7 @@ void main() {
   late JailbreakRepository jailbreakRepository;
 
   setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     jailbreakRepository = JailbreakRepository();
   });
 
