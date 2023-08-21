@@ -15,3 +15,4 @@ jobs:
   serverTest:
     name: 🧪 Server Test
     uses: ./.github/workflows/__server_test.yml
+    secrets: inherit
