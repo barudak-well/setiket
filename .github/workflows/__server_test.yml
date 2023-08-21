@@ -1,0 +1,44 @@
+name: 🧪 Server Test with Coverage 📊
+
+on:
+  workflow_call:
+
+jobs:
+  coverage:
+    name: 🧪 Run Test and Publish Reports
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Node Js
+        uses: actions/setup-node@v3
+        with:
+          node_version: 16
+      - name: Install Dependencies
+        run: |
+          cd server
+          npm ci
+      - name: Setup Env Variables
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }} 
+          envkey_DIRECT_URL: ${{ secrets.DIRECT_URL }} 
+          envkey_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }} 
+          directory: './server'
+          file_name: .env
+      - name: Run Tests and Generate Coverage
+        run: |
+          cd server
+          npm run test
+      - name: 🧪✅❌ Publish test results
+        uses: danhunsaker/clover-reporter-action@v0.2.17-clover
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          clover-file: .server/coverage/clover.xml
+      - name: 🧪📊 Publish coverage report
+        uses: romeovs/lcov-reporter-action@v0.2.11
+        with:
+          lcov-file: ./server/coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
