@@ -1,12 +1,10 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 
 const express = require("express");
-const {
-  getAllEvents,
-  getEventById,
-  getEventAndTheTicketById,
-} = require("./event.service");
-
+const eventValidator = require("../../validators/eventValidator");
+const validatorCatcher = require("../../middlewares/validatorCatcher");
+const eventService = require("../event/event.service");
+const utils = require("../../utils");
 const router = express.Router();
 
 /**
@@ -81,31 +79,43 @@ const router = express.Router();
  *                 updatedAt: "2023-08-13T12:00:00.000Z"
  */
 
-router.get("/", async (req, res) => {
-  const events = await getAllEvents();
-  res.send(events);
-});
+router.get(
+  "/",
+  eventValidator.allEvents,
+  validatorCatcher,
+  async (req, res) => {
+    try {
+      const sanitizeQuery = {
+        category: req.query.category ? req.query.category : null,
+        location: req.query.location ? req.query.location : null,
+        page: req.query.page ? parseInt(req.query.page) : null,
+        limit: req.query.limit ? parseInt(req.query.limit) : null,
+        date_lte: req.query.date_lte ? req.query.date_lte : null,
+        date_gte: req.query.date_gte ? req.query.date_gte : null,
+        sort: req.query.sort ? req.query.sort : null,
+      };
 
-router.get("/:id", async (req, res) => {
-  // Apakah try catch disini atau mending di bagian service?
-  try {
-    const eventId = parseInt(req.params.id);
-    const events = await getEventById(eventId);
-    res.send(events);
-  } catch (err) {
-    res.status(400).send(err.message);
-  }
-});
+      const events = await eventService.getAllEvents(sanitizeQuery);
 
-router.get("/:id/tickets", async (req, res) => {
-  // Apakah try catch disini atau mending di bagian service?
-  try {
-    const eventId = parseInt(req.params.id);
-    const events = await getEventAndTheTicketById(eventId);
-    res.send(events);
-  } catch (err) {
-    res.status(400).send(err.message);
+      return utils.apiResponse(201, req, res, {
+        status: true,
+        message: "success get all events",
+        body: events,
+      });
+    } catch (err) {
+      if (err.isCustomError) {
+        return utils.apiResponse(err.statusCode, req, res, {
+          status: false,
+          message: err.message,
+        });
+      } else {
+        return utils.apiResponse("500", req, res, {
+          status: false,
+          message: err.message ? err.message : "Sorry Something Error",
+        });
+      }
+    }
   }
-});
+);
 
 module.exports = router;
