@@ -29,7 +29,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/barudak-well/setiket">
-    <img src="images/logo.png" alt="Logo" width="100">
+    <img src="images/logo.png" alt="Logo" width="186">
   </a>
 
   <h3 align="center">SeTiket</h3>
