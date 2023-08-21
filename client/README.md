@@ -1,16 +1,38 @@
-# SeTiket
+<a name="readme-top"></a>
 
-SeTiket provide a seamless and user-friendly experience for event organizers and customers
+<div align="center">
+  <h3 align="center">SeTiket Client</h3>
+</div>
 
-## Getting Started
+### Installation
 
-This project is a starting point for a Flutter application.
+1. Clone the repository
+   ```sh
+   git clone https://github.com/barudak-well/setiket.git
+   ```
+2. Navigate to the project directory
+   ```sh
+   cd client
+   ```
+3. Retrieve the project dependencies by running the following command
+   ```sh
+   flutter pub get
+   ```
+4. Set up environment variables:
 
-A few resources to get you started if this is your first Flutter project:
+- Create a `.env` file in the root directory.
+- Add the following environment variables to the `.env` file:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  ```
+  BASE_URL=
+  ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+5. Connect a physical device or start an emulator.
+
+6. Run the application:
+
+```
+flutter run
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
