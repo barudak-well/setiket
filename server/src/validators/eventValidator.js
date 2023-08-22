@@ -2,14 +2,6 @@ const { query } = require("express-validator");
 const types = require("../config/types.config");
 const utils = require("./../utils");
 
-// page => defaultnya 1
-// limit => default nya 30
-// location => defaultnya gak ada
-// category => defaultnya gak ada
-// date_lte => lte itu less than equal jadi ampe kapannya  (tanggal akhir), defaultnya gak ada
-// date_gte => gte itu greater than equal jadi dari kapannya (tanggal mulai), defaultnya gak ada
-// sort (asc or desc, default desc)
-
 const allEvents = [
   query("page")
     .optional()
