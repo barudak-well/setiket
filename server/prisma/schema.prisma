@@ -56,21 +56,22 @@ enum NotificationReceiver {
 }
 
 model Event {
-  id             Int      @id @unique @default(autoincrement())
-  userId         Int
-  title          String
-  description    String?
-  imageUrl       String
-  datetime       DateTime
-  city           City
-  locationDetail String?
-  ticketPrice    Int
-  capacity       Int
-  category       Category
-  status         Status
-  createdAt      DateTime @default(now())
-  tickets        Ticket[]
-  user           User     @relation(fields: [userId], references: [id])
+  id                Int      @id @unique @default(autoincrement())
+  userId            Int
+  title             String
+  description       String?
+  imageUrl          String
+  datetime          DateTime
+  city              City
+  locationDetail    String?
+  ticketPrice       Int
+  capacity          Int
+  remainingCapacity Int
+  category          Category
+  status            Status
+  createdAt         DateTime @default(now())
+  tickets           Ticket[]
+  user              User     @relation(fields: [userId], references: [id])
 }
 
 model Ticket {
