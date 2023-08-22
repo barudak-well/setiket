@@ -2,8 +2,15 @@
 
 const prisma = require("../../db");
 
-const findEvents = async () => {
-  const events = await prisma.event.findMany();
+const findAllEvents = async ({ where, sort, skip, take }) => {
+  const events = await prisma.event.findMany({
+    orderBy: {
+      createdAt: sort,
+    },
+    where,
+    skip,
+    take,
+  });
   return events;
 };
 
@@ -17,19 +24,19 @@ const findEventById = async (id) => {
 };
 
 const findEventAndTheTicketById = async (id) => {
-    const eventAndTicket = await prisma.event.findFirst({
-        where: {
-            id,
-        },
-        include: {
-            tickets: true,
-        }
-    })
-    return eventAndTicket
-}
+  const eventAndTicket = await prisma.event.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      tickets: true,
+    },
+  });
+  return eventAndTicket;
+};
 
 module.exports = {
-  findEvents,
+  findAllEvents,
   findEventById,
-  findEventAndTheTicketById
+  findEventAndTheTicketById,
 };
