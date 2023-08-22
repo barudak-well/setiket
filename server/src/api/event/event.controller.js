@@ -101,7 +101,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/events:
+ * /events:
  *   get:
  *     summary: Get events based with optional query for more specific
  *     tags: [Events]

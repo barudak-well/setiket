@@ -3,6 +3,8 @@
 const utils = require("../../utils");
 const eventRepository = require("../event/event.repository");
 const ticketRepository = require("../ticket/ticket.repository");
+const notificationRepository = require("../notification/notification.repository");
+const types = require("../../config/types.config");
 
 const createTicket = async (ticketData) => {
   try {
@@ -21,13 +23,22 @@ const createTicket = async (ticketData) => {
       price: event.ticketPrice,
     });
 
-    if (!tickets)
-      throw utils.customError("400", "Failed to buy tickets");
-
-    return tickets
+    if (!tickets) throw utils.customError("400", "Failed to buy tickets");
 
     // ADD NOTIFIKASI JUGA DIBAWAH
-    
+
+    const notification = notificationRepository.createNotification({
+      fromId: ticketData.userId,
+      toId: event.userId,
+      type: types.notification.ticket,
+      receiver: types.notificationReceiver.eo,
+      message: `A new ticket purchase for ${event.title} event`,
+    });
+
+    if (!notification)
+      throw utils.customError("400", "Failed to add notification");
+
+    return tickets;
   } catch (err) {
     if (err.isCustomError) throw err;
     throw new Error(err);
