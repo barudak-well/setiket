@@ -25,6 +25,8 @@ const createTicket = async (ticketData) => {
       throw utils.customError("400", "Failed to buy tickets");
 
     return tickets
+
+    // ADD NOTIFIKASI JUGA DIBAWAH
     
   } catch (err) {
     if (err.isCustomError) throw err;
