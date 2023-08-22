@@ -5,7 +5,7 @@ import 'package:setiket/gen/assets.gen.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/constants/themes/palette.dart';
-import 'package:setiket/src/features/common/presentation/event_detail/widget/widget.dart';
+import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class EventDetailContentSection extends ConsumerWidget {
@@ -13,6 +13,9 @@ class EventDetailContentSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(eventDetailControllerProvider.notifier);
+    final state = ref.watch(eventDetailControllerProvider);
+    final detailEvent = state.event!;
     return Stack(
       children: [
         Assets.images.eventDummy.image(
@@ -90,7 +93,7 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h20,
               Text(
-                'International Band Music Concert',
+                detailEvent.title,
                 style: TypographyApp.headline1,
               ),
               Gap.h24,
@@ -142,7 +145,7 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h8,
               Text(
-                'Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase.',
+                detailEvent.description,
                 textAlign: TextAlign.justify,
                 style: TypographyApp.text2.copyWith(fontSize: 16),
               ),
@@ -155,8 +158,11 @@ class EventDetailContentSection extends ConsumerWidget {
                     style: TypographyApp.headline1,
                   ),
                   QuantityWidget(
-                    onMin: (newQuantity) {},
-                    onPlus: (newQuantity) {},
+                    quantity: state.quantity,
+                    maxQuantity: detailEvent.remainingCapacity,
+                    onMin: (newQuantity) => controller.setQuantity(newQuantity),
+                    onPlus: (newQuantity) =>
+                        controller.setQuantity(newQuantity),
                   )
                 ],
               ),
@@ -176,7 +182,7 @@ class EventDetailContentSection extends ConsumerWidget {
                   ),
                   Gap.w16,
                   Text(
-                    (256000).currencyFormat,
+                    (detailEvent.ticketPrice * state.quantity).currencyFormat,
                     style:
                         TypographyApp.headline1.copyWith(color: ColorApp.red),
                   ),

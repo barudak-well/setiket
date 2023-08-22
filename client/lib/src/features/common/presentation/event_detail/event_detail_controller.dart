@@ -8,6 +8,10 @@ class EventDetailController extends StateNotifier<EventDetailState> {
   void setEvent(Event event) {
     state = state.copyWith(event: event);
   }
+
+  void setQuantity(int quantity) {
+    state = state.copyWith(quantity: quantity);
+  }
 }
 
 final eventDetailControllerProvider =

@@ -5,6 +5,7 @@ import 'package:setiket/src/features/common/presentation/event_detail/widget/wid
 
 class QuantityWidget extends StatelessWidget {
   final int quantity;
+  final int maxQuantity;
   final Function(int) onMin;
   final Function(int) onPlus;
   const QuantityWidget({
@@ -12,6 +13,7 @@ class QuantityWidget extends StatelessWidget {
     required this.onMin,
     required this.onPlus,
     this.quantity = 1,
+    this.maxQuantity = 1,
   });
 
   @override
@@ -29,7 +31,9 @@ class QuantityWidget extends StatelessWidget {
         Text('$quantity', style: TypographyApp.headline3),
         Gap.w20,
         ButtonQuantityWidget(
-          onTap: () => onPlus(quantity + 1),
+          onTap: () {
+            if (quantity < maxQuantity) onPlus(quantity + 1);
+          },
           child: Assets.icons.icPlus.svg(),
         ),
       ],
