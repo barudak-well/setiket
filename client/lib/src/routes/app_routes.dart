@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:setiket/src/features/common/presentation/event_detail/event_detail_page.dart';
 import 'package:setiket/src/features/common/presentation/splash/splash_page.dart';
 import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
@@ -12,7 +13,7 @@ enum Routes {
   login,
   register,
   home,
-  detail,
+  eventDetail,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -51,6 +52,12 @@ final goRouterProvider = Provider<GoRouter>(
           path: '/login',
           name: Routes.login.name,
           builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          path: '/event-detail',
+          name: Routes.eventDetail.name,
+          builder: (context, state) => const EventDetailPage(),
+          routes: const [],
         ),
       ],
       errorBuilder: (context, state) => ErrorPage(

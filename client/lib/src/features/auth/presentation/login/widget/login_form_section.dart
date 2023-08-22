@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/presentation.dart';
+import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class LoginFormSection extends ConsumerWidget {
   const LoginFormSection({super.key});
@@ -19,9 +20,7 @@ class LoginFormSection extends ConsumerWidget {
         children: [
           Text(
             'Sign in',
-            style: TypographyApp.headline1.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
+            style: TypographyApp.headline1.medium,
           ),
           Gap.h20,
           InputFormWidget(

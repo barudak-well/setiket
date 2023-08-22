@@ -12,7 +12,7 @@ class PaddingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: SizeApp.w32,
+        horizontal: SizeApp.w24,
       ),
       child: child,
     );
