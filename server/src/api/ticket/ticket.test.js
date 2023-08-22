@@ -1,8 +1,6 @@
 const app = require("../../app");
 const request = require("supertest");
 const { log } = require("console");
-const utils = require("../../utils");
-const types = require("../../config/types.config");
 
 describe("POST /api/tickets", () => {
   let server; // Declare a variable to hold the server instance
@@ -49,8 +47,8 @@ describe("POST /api/tickets", () => {
     expect(statusCode).toBe(422);
     expect(body.body.status).toBe(false);
     expect(body.body.message).toBe("Body request error");
-    expect(returnBody.path).toBe("quantity");
-    expect(returnBody.msg).toBe("Quantity must be an integer");
+    expect(returnBody[0].path).toBe("quantity");
+    expect(returnBody[0].msg).toBe("Quantity must be an integer");
   }, 30000);
 
   test("Buy a new tickets with empty input", async () => {
