@@ -4,7 +4,7 @@ const createTicket = [
   check("quantity")
     .notEmpty()
     .withMessage("Quantity is required.")
-    .isInt()
+    .isInt({ min: 1 })
     .withMessage("Quantity must be an integer")
     .toInt(),
   check("eventId")

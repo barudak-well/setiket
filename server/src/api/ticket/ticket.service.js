@@ -25,9 +25,12 @@ const createTicket = async (ticketData) => {
 
     if (!tickets) throw utils.customError("400", "Failed to buy tickets");
 
-    // ADD NOTIFIKASI JUGA DIBAWAH
+    await eventRepository.subtractEventCapacity({
+      eventId: ticketData.eventId,
+      quantity: ticketData.quantity,
+    });
 
-    const notification = notificationRepository.createNotification({
+    const notification = await notificationRepository.createNotification({
       fromId: ticketData.userId,
       toId: event.userId,
       type: types.notification.ticket,

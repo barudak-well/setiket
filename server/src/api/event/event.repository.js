@@ -14,6 +14,19 @@ const findAllEvents = async ({ where, sort, skip, take }) => {
   return events;
 };
 
+const subtractEventCapacity = async ({ eventId, quantity }) => {
+  await prisma.event.update({
+    where: {
+      id: eventId,
+    },
+    data: {
+      remainingCapacity: {
+        decrement: quantity,
+      },
+    },
+  });
+};
+
 const findEventById = async (id) => {
   const event = await prisma.event.findUnique({
     where: {
@@ -39,4 +52,5 @@ module.exports = {
   findAllEvents,
   findEventById,
   findEventAndTheTicketById,
+  subtractEventCapacity,
 };
