@@ -1,11 +1,10 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 
 const express = require("express");
-const {
-  getAllEvents,
-  getEventById,
-  getEventAndTheTicketById,
-} = require("./event.service");
+const eventService = require("./event.service");
+const authValidator = require("../../validators/authValidator");
+const validatorCatcher = require("../../middlewares/validatorCatcher");
+const utils = require("../../utils");
 
 const router = express.Router();
 
@@ -81,19 +80,68 @@ const router = express.Router();
  *                 updatedAt: "2023-08-13T12:00:00.000Z"
  */
 
+/**
+ * @swagger
+ * /events/{id}:
+ *   get:
+ *     summary: Get an event and its details
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the event to retrieve
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: '#/components/schemas/Event'
+ *             example:
+ *               id: 2
+ *               title: CompFest SEA Academy
+ *               description: COMPFEST adalah acara IT Tahunan Terbesar yang diselenggarakan mahasiswa Fakultas Ilmu Komputer Universitas Indonesia.
+ *               imageUrl: https://image-url.com
+ *               datetime: 2023-08-19T19:00:00.000Z
+ *               city: BANDUNG
+ *               ticketPrice: 200000
+ *               capacity: 100
+ *               category: ART
+ *               status: VERIFIED
+ *               createdAt: 2023-08-13T16:13:26.683Z
+ */
+
+
 router.get("/", async (req, res) => {
   const events = await getAllEvents();
   res.send(events);
 });
 
 router.get("/:id", async (req, res) => {
-  // Apakah try catch disini atau mending di bagian service?
   try {
     const eventId = parseInt(req.params.id);
-    const events = await getEventById(eventId);
-    res.send(events);
+    const event = await eventService.getEventById(eventId);
+    return utils.apiResponse(200, req, res, {
+      status: true,
+      message: "fetched event",
+      body: event,
+    });
+
   } catch (err) {
-    res.status(400).send(err.message);
+      if (err.isCustomError) {
+        return utils.apiResponse(err.statusCode, req, res, {
+          status: false,
+          message: err.message,
+        });
+      } else {
+        return utils.apiResponse("500", req, res, {
+          status: false,
+          message: err.message ? err.message : "Sorry Something Error",
+        });
+      }
   }
 });
 

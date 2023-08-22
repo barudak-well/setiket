@@ -48,13 +48,21 @@ enum NotificationReceiver {
   ADMIN
 }
 
+enum City {
+  BANDUNG
+  JAKARTA
+  SURABAYA
+  OTHER
+}
+
 model Event {
   id             Int      @id @unique @default(autoincrement())
   userId         Int
   title          String
   description    String?
+  imageUrl       String
   datetime       DateTime
-  city           String
+  city           City
   locationDetail String?
   ticketPrice    Int
   capacity       Int
@@ -64,7 +72,6 @@ model Event {
   tickets        Ticket[]
   user           User     @relation(fields: [userId], references: [id])
 }
-
 model Ticket {
   id        Int      @id @unique @default(autoincrement())
   eventId   Int
