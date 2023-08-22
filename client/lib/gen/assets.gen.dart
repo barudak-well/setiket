@@ -50,6 +50,23 @@ class $AssetsIconsGen {
   AssetGenImage get circleTopRight =>
       const AssetGenImage('assets/icons/circle_top_right.png');
 
+  /// File path: assets/icons/ic_calendar.svg
+  SvgGenImage get icCalendar =>
+      const SvgGenImage('assets/icons/ic_calendar.svg');
+
+  /// File path: assets/icons/ic_location.svg
+  SvgGenImage get icLocation =>
+      const SvgGenImage('assets/icons/ic_location.svg');
+
+  /// File path: assets/icons/ic_min.svg
+  SvgGenImage get icMin => const SvgGenImage('assets/icons/ic_min.svg');
+
+  /// File path: assets/icons/ic_money.svg
+  SvgGenImage get icMoney => const SvgGenImage('assets/icons/ic_money.svg');
+
+  /// File path: assets/icons/ic_plus.svg
+  SvgGenImage get icPlus => const SvgGenImage('assets/icons/ic_plus.svg');
+
   /// File path: assets/icons/setiket_logo.svg
   SvgGenImage get setiketLogo =>
       const SvgGenImage('assets/icons/setiket_logo.svg');
@@ -60,6 +77,11 @@ class $AssetsIconsGen {
         circleBottomRight,
         circleTopLeft,
         circleTopRight,
+        icCalendar,
+        icLocation,
+        icMin,
+        icMoney,
+        icPlus,
         setiketLogo
       ];
 }
@@ -67,12 +89,25 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/eo_dummy.jpeg
+  AssetGenImage get eoDummy =>
+      const AssetGenImage('assets/images/eo_dummy.jpeg');
+
+  /// File path: assets/images/event_dummy.png
+  AssetGenImage get eventDummy =>
+      const AssetGenImage('assets/images/event_dummy.png');
+
   /// File path: assets/images/ic_launcher.png
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
+  /// File path: assets/images/participant_dummy.png
+  AssetGenImage get participantDummy =>
+      const AssetGenImage('assets/images/participant_dummy.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [icLauncher];
+  List<AssetGenImage> get values =>
+      [eoDummy, eventDummy, icLauncher, participantDummy];
 }
 
 class Assets {

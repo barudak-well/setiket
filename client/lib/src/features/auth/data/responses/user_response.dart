@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:setiket/src/shared/extensions/extensions.dart';
 
 enum RoleUser {
   user,
@@ -17,7 +18,6 @@ class UserResponse extends Equatable {
   final StatusUser? status;
   final RoleUser? role;
   final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   const UserResponse({
     this.id,
@@ -26,7 +26,6 @@ class UserResponse extends Equatable {
     this.status,
     this.role,
     this.createdAt,
-    this.updatedAt,
   });
 
   factory UserResponse.fromRawJson(String str) =>
@@ -38,22 +37,11 @@ class UserResponse extends Equatable {
         id: json["id"],
         email: json["email"],
         fullname: json["fullname"],
-        status: json["status"] == "VERIFIED"
-            ? StatusUser.verified
-            : json["status"] == "REJECTED"
-                ? StatusUser.rejected
-                : StatusUser.pending,
-        role: json["role"] == "ADMIN"
-            ? RoleUser.admin
-            : json["role"] == "EO"
-                ? RoleUser.eo
-                : RoleUser.user,
-        createdAt: json["created_at"] == null
+        status: json["status"].toString().statusUser,
+        role: json["role"].toString().roleUser,
+        createdAt: json["createdAt"] == null
             ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+            : DateTime.parse(json["createdAt"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,8 +49,7 @@ class UserResponse extends Equatable {
         "email": email,
         "status": status,
         "role": role,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
       };
 
   @override

@@ -93,15 +93,6 @@ class RegisterController extends StateNotifier<RegisterState> {
     state = state.copyWith(errors: map);
   }
 
-  // void validateForm() {
-  //   state = state.copyWith(
-  //     isRegisterValid: validateName(nameController.text).isNull() &&
-  //         validateEmail(emailController.text).isNull() &&
-  //         validatePassword(passwordController.text).isNull() &&
-  //         validatePasswordConfirm(passwordConfirmController.text).isNull(),
-  //   );
-  // }
-
   String? validateName(String? value) {
     if (value.isNullOrEmpty()) {
       return "Cannot be empty";

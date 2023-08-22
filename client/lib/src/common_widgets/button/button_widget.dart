@@ -17,24 +17,30 @@ class ButtonWidget extends StatelessWidget {
   final Function()? onTap;
   final bool isLoading;
   final Widget? prefix;
+  final double? height;
+  final EdgeInsetsGeometry? padding;
   final bool _isEnabled;
 
   const ButtonWidget({
     super.key,
     required this.buttonType,
     required this.text,
-    this.onTap,
     this.isLoading = false,
+    this.onTap,
     this.prefix,
+    this.height,
+    this.padding,
     bool? isEnabled,
   }) : _isEnabled = isEnabled ?? onTap != null;
 
   const ButtonWidget.primary({
     super.key,
-    this.onTap,
-    this.isLoading = false,
     required this.text,
+    this.isLoading = false,
+    this.onTap,
     this.prefix,
+    this.height,
+    this.padding,
     bool? isEnabled,
   })  : buttonType = ButtonType.primary,
         _isEnabled = isEnabled ?? onTap != null;
@@ -45,6 +51,8 @@ class ButtonWidget extends StatelessWidget {
     this.isLoading = false,
     required this.text,
     this.prefix,
+    this.height,
+    this.padding,
     bool? isEnabled,
   })  : buttonType = ButtonType.outlined,
         _isEnabled = isEnabled ?? onTap != null;
@@ -64,6 +72,7 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       decoration: BoxDecoration(
           color: getColor(),
           border: isOutlined
@@ -89,10 +98,11 @@ class ButtonWidget extends StatelessWidget {
           overlayColor: MaterialStateProperty.all(getFocusColor()),
           focusColor: getFocusColor(),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeApp.w28,
-              vertical: SizeApp.h24,
-            ),
+            padding: padding ??
+                EdgeInsets.symmetric(
+                  horizontal: SizeApp.w28,
+                  vertical: SizeApp.h24,
+                ),
             child: Center(
               child: isLoading
                   ? SizedBox(

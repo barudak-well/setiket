@@ -23,9 +23,7 @@ class RegisterFormSection extends ConsumerWidget {
         children: [
           Text(
             'Sign up',
-            style: TypographyApp.headline1.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
+            style: TypographyApp.headline1.medium,
           ),
           Gap.h20,
           InputFormWidget(

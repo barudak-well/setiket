@@ -5,7 +5,6 @@ import 'package:setiket/gen/assets.gen.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/routes/routes.dart';
-import 'package:setiket/src/services/services.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
@@ -31,9 +30,10 @@ class SplashPageState extends ConsumerState<SplashPage> {
         if (isJailBreak) {
           context.goNamed(Routes.jailbreak.name);
         } else {
-          ref.read(hiveServiceProvider).getToken() != null
-              ? context.goNamed(Routes.home.name)
-              : context.goNamed(Routes.login.name);
+          context.goNamed(Routes.home.name);
+          // ref.read(hiveServiceProvider).getToken() != null
+          //     ? context.goNamed(Routes.eventDetail.name)
+          //     : context.goNamed(Routes.login.name);
         }
       });
     });
