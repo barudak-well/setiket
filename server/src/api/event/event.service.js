@@ -1,11 +1,10 @@
 // Layer buat handling bisnis logic
-
 const eventRepository = require("./event.repository");
 
 const formatQueryParams = (queryParams) => {
   const where = {};
   where.datetime = {};
-
+  where.title = {}
   where.status = "VERIFIED"
 
   if (queryParams.category) {
@@ -13,6 +12,10 @@ const formatQueryParams = (queryParams) => {
   }
   if (queryParams.location) {
     where.city = queryParams.location;
+  }
+  if (queryParams.search) {
+    where.title.contains = queryParams.search;
+    where.title.mode = "insensitive"
   }
   if (queryParams.date_lte && queryParams.date_gte) {
     where.datetime.lte = new Date(queryParams.date_lte);
@@ -33,13 +36,13 @@ const formatQueryParams = (queryParams) => {
 const getAllEvents = async (queryParams) => {
   try {
     const { where, sort, skip, take } = formatQueryParams(queryParams);
-    const event = await eventRepository.findAllEvents({
+    const events = await eventRepository.findAllEvents({
       where,
       sort,
       skip,
       take,
     });
-    return event;
+    return events;
   } catch (err) {
     if (err.isCustomError) throw err;
     throw new Error(err);

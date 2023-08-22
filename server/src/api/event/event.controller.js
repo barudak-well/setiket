@@ -16,67 +16,168 @@ const router = express.Router();
  *       properties:
  *         id:
  *           type: integer
- *           description: The ID of the event.
+ *         userId:
+ *           type: integer
  *         title:
  *           type: string
- *           description: The title of the event.
  *         description:
  *           type: string
- *           description: A description of the event.
- *         date:
+ *         datetime:
  *           type: string
  *           format: date-time
- *           description: The date and time of the event.
+ *         city:
+ *           type: string
+ *         locationDetail:
+ *           type: string
  *         ticketPrice:
  *           type: number
- *           description: The ticket price for the event.
+ *           format: float
+ *         capacity:
+ *           type: integer
+ *         category:
+ *           type: string
+ *         status:
+ *           type: string
  *         createdAt:
  *           type: string
  *           format: date-time
- *           description: The creation date of the event.
- *         updatedAt:
- *           type: string
- *           format: date-time
- *           description: The last update date of the event.
  */
 
 /**
  * @swagger
- * /events:
- *   get:
- *     summary: Get a list of events
- *     tags: [Events]
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
+ * components:
+ *   schemas:
+ *     Event:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         userId:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         datetime:
+ *           type: string
+ *           format: date-time
+ *         city:
+ *           type: string
+ *         locationDetail:
+ *           type: string
+ *         ticketPrice:
+ *           type: number
+ *           format: float
+ *         capacity:
+ *           type: integer
+ *         category:
+ *           type: string
+ *         status:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *     ApiResponse:
+ *       type: object
+ *       properties:
+ *         header:
+ *           type: object
+ *           properties:
+ *             time_request:
+ *               type: string
+ *               format: date-time
+ *         body:
+ *           type: object
+ *           properties:
+ *             status:
+ *               type: boolean
+ *             message:
+ *               type: string
+ *             body:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Event'
+ */
+
+/**
+ * @swagger
+ * /api/events:
+ *   get:
+ *     summary: Get events based with optional query for more specific
+ *     tags: [Events]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search query for event title
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *           enum: [BANDUNG, JAKARTA, SURABAYA, OTHER]
+ *         description: Event City
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sorting order default desc
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *           enum: [MUSIC, ART, SPORTS, CULINARY, TECH, LIFESTYLE, BUSINESS, EDUCATION, ENTERTAINMENT, CHARITY, OTHER]
+ *         description: Event category
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number for pagination default 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of events per page for pagination default 30
+ *       - in: query
+ *         name: date_lte
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: End date for event range (YYYY-MM-DD format)
+ *       - in: query
+ *         name: date_gte
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Start date for event range (YYYY-MM-DD format)
+ *     responses:
+ *       '200':
+ *         description: Successful response containing a list of events
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiResponse'
  *             example:
- *               - id: 2
- *                 title: CompFest SEA Academy
- *                 description: COMPFEST adalah acara IT Tahunan Terbesar yang diselenggarakan mahasiswa Fakultas Ilmu Komputer Universitas Indonesia.
- *                 date: "2023-10-10T12:00:00.000Z"
- *                 ticketPrice: 0
- *                 createdAt: "2023-08-13T16:13:26.683Z"
- *                 updatedAt: "2023-01-12T12:00:00.000Z"
- *               - id: 3
- *                 title: Konser Dewa 19
- *                 description: konser spesial dari dewa 19
- *                 date: "2023-08-12T12:00:00.000Z"
- *                 ticketPrice: 60000
- *                 createdAt: "2023-08-13T16:15:02.587Z"
- *                 updatedAt: "2023-08-12T12:00:00.000Z"
- *               - id: 4
- *                 title: Meet & Greet Ronaldo dan Messi
- *                 description: Meet and Greet sekali seumur hidup bang ronaldo dan juga Messi
- *                 date: "2023-10-13T12:00:00.000Z"
- *                 ticketPrice: 150000
- *                 createdAt: "2023-08-13T16:17:34.264Z"
- *                 updatedAt: "2023-08-13T12:00:00.000Z"
+ *               header:
+ *                 time_request: "2023-08-21T15:16:36.723Z"
+ *               body:
+ *                 status: true
+ *                 message: success get all events
+ *                 body:
+ *                   - id: 7
+ *                     userId: 1
+ *                     title: Car Meet Bandung
+ *                     description: null
+ *                     datetime: "2023-09-25T00:12:00.000Z"
+ *                     city: BANDUNG
+ *                     locationDetail: Bandung Convention Center
+ *                     ticketPrice: 0
+ *                     capacity: 200
+ *                     category: LIFESTYLE
+ *                     status: VERIFIED
+ *                     createdAt: "2023-08-21T07:29:18.605Z"
+ *                   # ... (other event objects)
  */
 
 router.get(
@@ -88,6 +189,7 @@ router.get(
       const sanitizeQuery = {
         category: req.query.category ? req.query.category : null,
         location: req.query.location ? req.query.location : null,
+        search: req.query.search ? req.query.search : null,
         page: req.query.page ? parseInt(req.query.page) : null,
         limit: req.query.limit ? parseInt(req.query.limit) : null,
         date_lte: req.query.date_lte ? req.query.date_lte : null,
@@ -97,7 +199,7 @@ router.get(
 
       const events = await eventService.getAllEvents(sanitizeQuery);
 
-      return utils.apiResponse(201, req, res, {
+      return utils.apiResponse(200, req, res, {
         status: true,
         message: "success get all events",
         body: events,

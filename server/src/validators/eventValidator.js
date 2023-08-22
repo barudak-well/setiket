@@ -77,7 +77,19 @@ const allEvents = [
     })
     .isDate()
     .withMessage("page query must be a date."),
-  query("location").optional(),
+  query("location")
+    .optional()
+    .isIn(Object.values(types.eventCity))
+    .withMessage(
+      `Category must one of this: ${Object.values(types.eventCity).join(", ")}`
+    ),
+  query("location")
+    .optional()
+    .isIn(Object.values(types.eventCity))
+    .withMessage(
+      `Category must one of this: ${Object.values(types.eventCity).join(", ")}`
+    ),
+  query("search").optional().isString().withMessage("Search must be a string."),
 ];
 
 module.exports = { allEvents };
