@@ -1,7 +1,6 @@
 // Layer Buat Handle Request dan Response, Validasi body juga disini.
 const express = require("express");
 const authService = require("./auth.service");
-const jwt = require("jsonwebtoken");
 const authValidator = require("../../validators/authValidator");
 const validatorCatcher = require("../../middlewares/validatorCatcher");
 const utils = require("../../utils");

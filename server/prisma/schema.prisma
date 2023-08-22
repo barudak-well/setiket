@@ -25,6 +25,13 @@ enum Category {
   OTHER
 }
 
+enum City {
+  BANDUNG
+  JAKARTA
+  SURABAYA
+  OTHER
+}
+
 enum Role {
   ADMIN
   USER
@@ -49,20 +56,22 @@ enum NotificationReceiver {
 }
 
 model Event {
-  id             Int      @id @unique @default(autoincrement())
-  userId         Int
-  title          String
-  description    String?
-  datetime       DateTime
-  city           String
-  locationDetail String?
-  ticketPrice    Int
-  capacity       Int
-  category       Category
-  status         Status
-  createdAt      DateTime @default(now())
-  tickets        Ticket[]
-  user           User     @relation(fields: [userId], references: [id])
+  id                Int      @id @unique @default(autoincrement())
+  userId            Int
+  title             String
+  description       String?
+  imageUrl          String
+  datetime          DateTime
+  city              City
+  locationDetail    String?
+  ticketPrice       Int
+  capacity          Int
+  remainingCapacity Int
+  category          Category
+  status            Status
+  createdAt         DateTime @default(now())
+  tickets           Ticket[]
+  user              User     @relation(fields: [userId], references: [id])
 }
 
 model Ticket {
@@ -77,26 +86,28 @@ model Ticket {
 }
 
 model User {
-  id           Int            @id @unique @default(autoincrement())
-  email        String         @unique
-  fullname     String
-  age          Int?
-  password     String
-  status       Status
-  role         Role
-  createdAt    DateTime       @default(now())
-  event        Event[]
-  ticket       Ticket[]
-  notification Notification[]
+  id                    Int            @id @unique @default(autoincrement())
+  email                 String         @unique
+  fullname              String
+  age                   Int?
+  password              String
+  status                Status
+  role                  Role
+  createdAt             DateTime       @default(now())
+  event                 Event[]
+  ticket                Ticket[]
+  notification_receiver Notification[] @relation("notification_receiver")
+  notification_sender   Notification[] @relation("notification_sender")
 }
 
 model Notification {
-  id        Int                  @id @unique @default(autoincrement())
-  message   String
-  type      NotificationType
-  fromId    Int
-  toId      Int
-  receiver  NotificationReceiver
-  createdAt DateTime             @default(now())
-  user      User                 @relation(fields: [toId], references: [id])
+  id                         Int                  @id @unique @default(autoincrement())
+  message                    String
+  type                       NotificationType
+  fromId                     Int
+  toId                       Int
+  receiver                   NotificationReceiver
+  createdAt                  DateTime             @default(now())
+  user_notification_receiver User                 @relation("notification_receiver", fields: [toId], references: [id])
+  user_notification_sender   User                 @relation("notification_sender", fields: [fromId], references: [id])
 }

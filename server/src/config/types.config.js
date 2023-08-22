@@ -35,10 +35,18 @@ const eventCategory = {
   other: "OTHER",
 };
 
+const eventCity = {
+  bandung: "BANDUNG",
+  jakarta: "JAKARTA",
+  surabaya: "SURABAYA",
+  other: "OTHER",
+};
+
 module.exports = {
   status,
   role,
   notification,
   eventCategory,
-  notificationReceiver
+  notificationReceiver,
+  eventCity
 };
