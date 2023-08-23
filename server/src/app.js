@@ -21,11 +21,32 @@ const app = express();
 
 const specs = swaggerJsdoc(swagger_options);
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(helmet());
 app.use(cors(cors_options));
 app.disable("x-powered-by");
+app.use(function (req, res, next) {
+  // Request methods you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  // Pass to next layer of middleware
+  next();
+});
 
 dotenv.config();
 
@@ -47,5 +68,6 @@ app.use(`${api}/users`, userController);
 app.use(`${api}/profile`, profileController);
 app.use(`${api}/notification`, notificationController);
 app.use(`${api}/auth`, authController);
+app.use(express.static("."));
 
 module.exports = app;
