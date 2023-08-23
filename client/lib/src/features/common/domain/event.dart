@@ -32,6 +32,12 @@ class Event {
     this.status = StatusEvent.pending,
   });
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+    };
+  }
+
   factory Event.fromMap(Map<String, dynamic> map) {
     return Event(
       id: map['id'] as int,
@@ -48,6 +54,8 @@ class Event {
       status: map['status'] as StatusEvent,
     );
   }
+
+  String toJson() => json.encode(toMap());
 
   factory Event.fromJson(String source) =>
       Event.fromMap(json.decode(source) as Map<String, dynamic>);
