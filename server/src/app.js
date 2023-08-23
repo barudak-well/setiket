@@ -50,11 +50,14 @@ app.use(function (req, res, next) {
 
 dotenv.config();
 
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+
 app.use(
   "/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(specs, {
     explorer: true,
+    customCssUrl: CSS_URL
   })
 );
 
