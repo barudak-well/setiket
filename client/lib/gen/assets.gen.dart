@@ -54,6 +54,30 @@ class $AssetsIconsGen {
   SvgGenImage get icCalendar =>
       const SvgGenImage('assets/icons/ic_calendar.svg');
 
+  /// File path: assets/icons/ic_events_active.svg
+  SvgGenImage get icEventsActive =>
+      const SvgGenImage('assets/icons/ic_events_active.svg');
+
+  /// File path: assets/icons/ic_events_deactive.svg
+  SvgGenImage get icEventsDeactive =>
+      const SvgGenImage('assets/icons/ic_events_deactive.svg');
+
+  /// File path: assets/icons/ic_explore_active.svg
+  SvgGenImage get icExploreActive =>
+      const SvgGenImage('assets/icons/ic_explore_active.svg');
+
+  /// File path: assets/icons/ic_explore_deactive.svg
+  SvgGenImage get icExploreDeactive =>
+      const SvgGenImage('assets/icons/ic_explore_deactive.svg');
+
+  /// File path: assets/icons/ic_home_active.svg
+  SvgGenImage get icHomeActive =>
+      const SvgGenImage('assets/icons/ic_home_active.svg');
+
+  /// File path: assets/icons/ic_home_deactive.svg
+  SvgGenImage get icHomeDeactive =>
+      const SvgGenImage('assets/icons/ic_home_deactive.svg');
+
   /// File path: assets/icons/ic_location.svg
   SvgGenImage get icLocation =>
       const SvgGenImage('assets/icons/ic_location.svg');
@@ -67,6 +91,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_plus.svg
   SvgGenImage get icPlus => const SvgGenImage('assets/icons/ic_plus.svg');
 
+  /// File path: assets/icons/ic_profile_active.svg
+  SvgGenImage get icProfileActive =>
+      const SvgGenImage('assets/icons/ic_profile_active.svg');
+
+  /// File path: assets/icons/ic_profile_deactive.svg
+  SvgGenImage get icProfileDeactive =>
+      const SvgGenImage('assets/icons/ic_profile_deactive.svg');
+
   /// File path: assets/icons/setiket_logo.svg
   SvgGenImage get setiketLogo =>
       const SvgGenImage('assets/icons/setiket_logo.svg');
@@ -78,10 +110,18 @@ class $AssetsIconsGen {
         circleTopLeft,
         circleTopRight,
         icCalendar,
+        icEventsActive,
+        icEventsDeactive,
+        icExploreActive,
+        icExploreDeactive,
+        icHomeActive,
+        icHomeDeactive,
         icLocation,
         icMin,
         icMoney,
         icPlus,
+        icProfileActive,
+        icProfileDeactive,
         setiketLogo
       ];
 }
@@ -105,13 +145,23 @@ class $AssetsImagesGen {
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
+  /// File path: assets/images/invite_bg.png
+  AssetGenImage get inviteBg =>
+      const AssetGenImage('assets/images/invite_bg.png');
+
   /// File path: assets/images/participant_dummy.png
   AssetGenImage get participantDummy =>
       const AssetGenImage('assets/images/participant_dummy.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [cardEventDummy, eoDummy, eventDummy, icLauncher, participantDummy];
+  List<AssetGenImage> get values => [
+        cardEventDummy,
+        eoDummy,
+        eventDummy,
+        icLauncher,
+        inviteBg,
+        participantDummy
+      ];
 }
 
 class Assets {

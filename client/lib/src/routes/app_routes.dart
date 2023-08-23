@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/common/domain/domain.dart';
 import 'package:setiket/src/features/common/presentation/checkout/checkout_page.dart';
+import 'package:setiket/src/features/common/presentation/home/home_botnavbar_page.dart';
 import 'package:setiket/src/features/common/presentation/splash/splash_page.dart';
 import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
@@ -43,7 +44,7 @@ final goRouterProvider = Provider<GoRouter>(
         GoRoute(
           path: '/home',
           name: Routes.home.name,
-          builder: (context, state) => const HomePage(),
+          builder: (context, state) => const HomeBotNavBarScreen(),
           routes: const [],
         ),
         GoRoute(
