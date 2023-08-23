@@ -103,11 +103,11 @@ class EventDetailContentSection extends ConsumerWidget {
               DetailRowWidget.icon(
                 prefix: Assets.icons.icCalendar.svg(),
                 title: Text(
-                  '14 December, 2021',
+                  detailEvent?.startDatetime.dateMonthYear ?? '',
                   style: TypographyApp.headline3,
                 ),
                 description: Text(
-                  'Tuesday, 4:00PM - 9:00PM',
+                  '${detailEvent?.startDatetime.dayName}, ${detailEvent?.startDatetime.time} - ${detailEvent?.endDatetime.time}',
                   style: TypographyApp.text2.copyWith(
                     color: ColorApp.gray,
                   ),
@@ -117,7 +117,7 @@ class EventDetailContentSection extends ConsumerWidget {
               DetailRowWidget.icon(
                 prefix: Assets.icons.icLocation.svg(),
                 title: Text(
-                  detailEvent?.city ?? '',
+                  detailEvent?.city.value.capitalize ?? '',
                   style: TypographyApp.headline3,
                 ),
                 description: Text(

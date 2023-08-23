@@ -4,28 +4,53 @@ import 'package:equatable/equatable.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 enum CategoryEvent {
-  music,
-  art,
-  sports,
-  culinary,
-  tech,
-  lifestyle,
-  business,
-  education,
-  entertainment,
-  charity,
-  other,
+  music('MUSIC'),
+  art('ART'),
+  sports('SPORTS'),
+  culinary('CULINARY'),
+  tech('TECH'),
+  lifestyle('LIFESTYLE'),
+  business('BUSINESS'),
+  education('EDUCATION'),
+  entertainment('ENTERTAINMENT'),
+  charity('CHARITY'),
+  other('OTHER');
+
+  const CategoryEvent(this.value);
+
+  final String value;
 }
 
-enum StatusEvent { pending, verified, rejected }
+enum CityEvent {
+  bandung('BANDUNG'),
+  jakarta('JAKARTA'),
+  surabaya('SURABAYA'),
+  other('OTHER');
+
+  const CityEvent(this.value);
+
+  final String value;
+}
+
+enum StatusEvent {
+  pending('PENDING'),
+  verified('VERIFIED'),
+  rejected('REJECTED');
+
+  const StatusEvent(this.value);
+
+  final String value;
+}
 
 class EventResponse extends Equatable {
   final int? id;
   final int? userId;
   final String? title;
   final String? description;
-  final DateTime? dateTime;
-  final String? city;
+  final String? imageUrl;
+  final DateTime? startDateTime;
+  final DateTime? endDateTime;
+  final CityEvent? city;
   final String? locationDetail;
   final int? ticketPrice;
   final int? capacity;
@@ -39,7 +64,9 @@ class EventResponse extends Equatable {
     this.userId,
     this.title,
     this.description,
-    this.dateTime,
+    this.imageUrl,
+    this.startDateTime,
+    this.endDateTime,
     this.city,
     this.locationDetail,
     this.ticketPrice,
@@ -58,10 +85,14 @@ class EventResponse extends Equatable {
         userId: json["userId"],
         title: json["title"],
         description: json["description"],
-        dateTime: json['dateTime'] != null
-            ? DateTime.parse(json['dateTime'])
+        imageUrl: json["imageUrl"],
+        endDateTime: json['endDateTime'] != null
+            ? DateTime.parse(json['endDateTime'])
             : DateTime.now(),
-        city: json["city"],
+        startDateTime: json['startDateTime'] != null
+            ? DateTime.parse(json['startDateTime'])
+            : DateTime.now(),
+        city: json["city"].toString().cityEvent,
         locationDetail: json["locationDetail"],
         ticketPrice: json["ticketPrice"],
         capacity: json["capacity"],
@@ -79,7 +110,9 @@ class EventResponse extends Equatable {
         userId,
         title,
         description,
-        dateTime,
+        imageUrl,
+        startDateTime,
+        endDateTime,
         city,
         locationDetail,
         ticketPrice,

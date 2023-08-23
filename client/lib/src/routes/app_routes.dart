@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:setiket/src/constants/constants.dart';
-import 'package:setiket/src/features/common/domain/event.dart';
+import 'package:setiket/src/features/common/domain/domain.dart';
+import 'package:setiket/src/features/common/presentation/checkout/checkout_page.dart';
 import 'package:setiket/src/features/common/presentation/splash/splash_page.dart';
 import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
@@ -15,6 +16,7 @@ enum Routes {
   register,
   home,
   eventDetail,
+  checkout,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -61,6 +63,16 @@ final goRouterProvider = Provider<GoRouter>(
             final extras = state.extra as Extras;
             final event = extras.datas[ExtrasKey.event] as Event;
             return EventDetailPage(event: event);
+          },
+          routes: const [],
+        ),
+        GoRoute(
+          path: '/checkout',
+          name: Routes.checkout.name,
+          builder: (context, state) {
+            final extras = state.extra as Extras;
+            final ticket = extras.datas[ExtrasKey.ticket] as Ticket;
+            return CheckoutPage(ticket: ticket);
           },
           routes: const [],
         ),

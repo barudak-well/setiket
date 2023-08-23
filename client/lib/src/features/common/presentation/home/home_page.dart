@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/common/domain/event.dart';
+import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/routes/routes.dart';
 
 class HomePage extends ConsumerWidget {
@@ -26,8 +27,10 @@ class HomePage extends ConsumerWidget {
                     title: 'International Band Music Concert',
                     description:
                         'Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase.',
-                    dateTime: DateTime.now(),
-                    city: 'Bandung',
+                    imageUrl: '',
+                    startDatetime: DateTime.now(),
+                    endDatetime: DateTime.now(),
+                    city: CityEvent.bandung,
                     locationDetail: 'Dipatiukur',
                     ticketPrice: 50000,
                     capacity: 50,
