@@ -61,7 +61,8 @@ model Event {
   title             String
   description       String?
   imageUrl          String
-  datetime          DateTime
+  startDatetime     DateTime
+  endDatetime       DateTime
   city              City
   locationDetail    String?
   ticketPrice       Int

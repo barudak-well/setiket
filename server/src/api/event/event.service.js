@@ -4,7 +4,8 @@ const utils = require("../../utils")
 
 const formatQueryParams = (queryParams) => {
   const where = {};
-  where.datetime = {};
+  where.startDatetime = {};
+  where.endDatetime = {};
   where.title = {}
   where.status = "VERIFIED"
 
@@ -19,8 +20,8 @@ const formatQueryParams = (queryParams) => {
     where.title.mode = "insensitive"
   }
   if (queryParams.date_lte && queryParams.date_gte) {
-    where.datetime.lte = new Date(queryParams.date_lte);
-    where.datetime.gte = new Date(queryParams.date_gte);
+    where.startDatetime.lte = new Date(queryParams.date_lte);
+    where.endDatetime.gte = new Date(queryParams.date_gte);
   }
 
   const sort = queryParams.sort ? queryParams.sort : "desc";
