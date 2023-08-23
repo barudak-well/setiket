@@ -100,6 +100,7 @@ const router = express.Router();
  */
 
 /**
+* @swagger
 * /api/events:
 *   get:
 *     summary: Get events based with optional query for more specific
@@ -255,11 +256,17 @@ router.get(
 
 router.get("/:id", async (req, res) => {
   try {
-    const eventId = parseInt(req.params.id);
+    const eventId = Number(req.params.id);
+    if (!eventId) {
+      return utils.apiResponse(400, req, res, {
+        status: false,
+        message: "Bad id parameter"
+      })
+    }
     const event = await eventService.getEventById(eventId);
     return utils.apiResponse(200, req, res, {
       status: true,
-      message: "fetched event",
+      message: "Fetched event",
       body: event,
     });
 
