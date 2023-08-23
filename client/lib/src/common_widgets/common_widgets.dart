@@ -19,3 +19,5 @@ export 'top_bar/top_bar_widget.dart';
 export 'snack_bar/snack_bar_widget.dart';
 
 export 'detail_row/detail_row_widget.dart';
+
+export 'card_event/card_event_widget.dart';

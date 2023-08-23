@@ -89,6 +89,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/card_event_dummy.png
+  AssetGenImage get cardEventDummy =>
+      const AssetGenImage('assets/images/card_event_dummy.png');
+
   /// File path: assets/images/eo_dummy.jpeg
   AssetGenImage get eoDummy =>
       const AssetGenImage('assets/images/eo_dummy.jpeg');
@@ -107,7 +111,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [eoDummy, eventDummy, icLauncher, participantDummy];
+      [cardEventDummy, eoDummy, eventDummy, icLauncher, participantDummy];
 }
 
 class Assets {

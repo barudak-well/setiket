@@ -4,12 +4,24 @@ import 'package:equatable/equatable.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 enum RoleUser {
-  user,
-  admin,
-  eo,
+  user('USER'),
+  admin('ADMIN'),
+  eo('EO');
+
+  const RoleUser(this.value);
+
+  final String value;
 }
 
-enum StatusUser { pending, verified, rejected }
+enum StatusUser {
+  pending('PENDING'),
+  verified('VERIFIED'),
+  rejected('REJECTED');
+
+  const StatusUser(this.value);
+
+  final String value;
+}
 
 class UserResponse extends Equatable {
   final int? id;
