@@ -9,3 +9,6 @@ export 'auth/domain/request_register.dart';
 //* COMMON
 // home
 export 'common/domain/home.dart';
+
+// event detail
+export 'common/domain/event.dart';

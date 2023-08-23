@@ -17,3 +17,5 @@ export 'circle_background/circle_background_widget.dart';
 export 'top_bar/top_bar_widget.dart';
 
 export 'snack_bar/snack_bar_widget.dart';
+
+export 'detail_row/detail_row_widget.dart';
