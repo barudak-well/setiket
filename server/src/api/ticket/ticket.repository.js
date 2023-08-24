@@ -9,4 +9,19 @@ const createTicket = async (ticketData) => {
   return ticket;
 };
 
-module.exports = { createTicket };
+const findMyTicketAndEvents = async (userId) => {
+  const ticketAndEvents = await prisma.ticket.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      event: true,
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
+  });
+  return ticketAndEvents
+};
+
+module.exports = { createTicket, findMyTicketAndEvents };
