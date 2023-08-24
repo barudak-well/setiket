@@ -33,19 +33,24 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const StatusBarWidget(
+    return StatusBarWidget(
       child: Scaffold(
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  CheckoutContentSection(),
-                ],
-              ),
-            ),
-            CheckoutButtonSection(),
-          ],
+        body: AsyncValueWidget(
+          value: state.ticketValue,
+          data: (data) {
+            return const Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CheckoutContentSection(),
+                    ],
+                  ),
+                ),
+                CheckoutButtonSection(),
+              ],
+            );
+          },
         ),
       ),
     );

@@ -31,20 +31,25 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const StatusBarWidget(
+    return StatusBarWidget(
       brightness: Brightness.light,
       child: Scaffold(
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  EventDetailContentSection(),
-                ],
-              ),
-            ),
-            EventDetailButtonSection(),
-          ],
+        body: AsyncValueWidget(
+          value: state.eventValue,
+          data: (data) {
+            return const Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      EventDetailContentSection(),
+                    ],
+                  ),
+                ),
+                EventDetailButtonSection(),
+              ],
+            );
+          },
         ),
       ),
     );

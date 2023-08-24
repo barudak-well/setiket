@@ -8,11 +8,12 @@ import 'package:setiket/src/services/services.dart';
 
 class EventDetailController extends StateNotifier<EventDetailState> {
   final HiveService _hiveService;
-  EventDetailController(this._hiveService) : super(EventDetailState());
+  EventDetailController(this._hiveService) : super(const EventDetailState());
 
   void setEvent(Event event) {
     state = state.copyWith(
       event: event,
+      eventValue: AsyncData(event),
       isBookmarkEvent: _hiveService.isEventBookmark(event.id),
     );
   }
