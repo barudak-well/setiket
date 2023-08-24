@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
 
 class HomeController extends StateNotifier<HomeState> {
-  HomeController() : super(HomeState());
+  final CommonService _commonService;
+
+  HomeController(
+    this._commonService,
+  ) : super(HomeState()) {
+    fetchHome();
+  }
+
+  void fetchHome() async {
+    state = state.copyWith(
+      homeValue: const AsyncLoading(),
+    );
+    final result = await _commonService.fetchHome();
+    result.when(
+      success: (data) {
+        state = state.copyWith(
+          home: data,
+          homeValue: AsyncData(data),
+        );
+      },
+      failure: (error, stackTrace) {
+        state = state.copyWith(
+          homeValue: AsyncError(error, stackTrace),
+        );
+      },
+    );
+  }
 
   void setPage(index) {
     state = state.copyWith(
@@ -34,5 +61,6 @@ class HomeController extends StateNotifier<HomeState> {
 }
 
 final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>((ref) {
-  return HomeController();
+  final commonService = ref.read(commonServiceProvider);
+  return HomeController(commonService);
 });
