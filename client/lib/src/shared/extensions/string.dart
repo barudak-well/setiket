@@ -3,13 +3,14 @@ import 'package:setiket/src/features/data.dart';
 extension XString on String {
   String get trimList => replaceAll('[', '').replaceAll(']', '');
 
-  String get tmdbImage => "https://image.tmdb.org/t/p/original$this";
-
   bool get isEmailValid => RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(this);
 
   bool get isPasswordValid => length > 8;
+
+  String get capitalize =>
+      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 
   StatusUser get statusUser {
     switch (this) {
@@ -61,6 +62,19 @@ extension XString on String {
         return CategoryEvent.other;
       default:
         return CategoryEvent.other;
+    }
+  }
+
+  CityEvent get cityEvent {
+    switch (this) {
+      case 'BANDUNG':
+        return CityEvent.bandung;
+      case 'JAKARTA':
+        return CityEvent.jakarta;
+      case 'SURABAYA':
+        return CityEvent.surabaya;
+      default:
+        return CityEvent.other;
     }
   }
 

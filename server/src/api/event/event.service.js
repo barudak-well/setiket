@@ -1,9 +1,11 @@
 // Layer buat handling bisnis logic
 const eventRepository = require("./event.repository");
+const utils = require("../../utils")
 
 const formatQueryParams = (queryParams) => {
   const where = {};
-  where.datetime = {};
+  where.startDatetime = {};
+  where.endDatetime = {};
   where.title = {}
   where.status = "VERIFIED"
 
@@ -18,8 +20,8 @@ const formatQueryParams = (queryParams) => {
     where.title.mode = "insensitive"
   }
   if (queryParams.date_lte && queryParams.date_gte) {
-    where.datetime.lte = new Date(queryParams.date_lte);
-    where.datetime.gte = new Date(queryParams.date_gte);
+    where.startDatetime.lte = new Date(queryParams.date_lte);
+    where.endDatetime.gte = new Date(queryParams.date_gte);
   }
 
   const sort = queryParams.sort ? queryParams.sort : "desc";
@@ -50,20 +52,20 @@ const getAllEvents = async (queryParams) => {
 };
 
 const getEventById = async (id) => {
-  const event = findEventById(id);
+  const event = await eventRepository.findEventById(id);
   if (!event) {
-    throw Error("Event tidak ditemukan");
+    throw utils.customError("404", "Event not found");
   }
   return event;
 };
 
 const getEventAndTheTicketById = async (id) => {
-  const eventAndTicket = findEventAndTheTicketById(id);
-  if (!eventAndTicket) {
-    throw Error("Event tidak ditemukan");
-  }
-  return eventAndTicket;
-};
+    const eventAndTicket = eventRepository.findEventAndTheTicketById(id);
+    if (!eventAndTicket) {
+      throw Error("Event tidak ditemukan");
+    }
+    return eventAndTicket;
+}
 
 module.exports = {
   getAllEvents,

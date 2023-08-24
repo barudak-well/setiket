@@ -15,7 +15,7 @@ class EventDetailContentSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(eventDetailControllerProvider.notifier);
     final state = ref.watch(eventDetailControllerProvider);
-    final detailEvent = state.event!;
+    final detailEvent = state.event;
     return Stack(
       children: [
         Assets.images.eventDummy.image(
@@ -45,7 +45,10 @@ class EventDetailContentSection extends ConsumerWidget {
                 title: "Event Details",
                 isDark: false,
                 suffix: BookmarkWidget(
-                  onTap: () {},
+                  isBookmarked: state.isBookmarkEvent,
+                  onTap: () {
+                    controller.toggleBookmarkEvent(context);
+                  },
                 ),
               ),
               Gap.customGapHeight(context.screenHeightPercentage(.18)),
@@ -84,7 +87,7 @@ class EventDetailContentSection extends ConsumerWidget {
                         isEnabled: true,
                         height: SizeApp.h36,
                         padding: EdgeInsets.symmetric(
-                          horizontal: SizeApp.w20,
+                          horizontal: SizeApp.w16,
                         ),
                       ),
                     ],
@@ -93,18 +96,18 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h20,
               Text(
-                detailEvent.title,
+                detailEvent?.title ?? '',
                 style: TypographyApp.headline1,
               ),
               Gap.h24,
               DetailRowWidget.icon(
                 prefix: Assets.icons.icCalendar.svg(),
                 title: Text(
-                  '14 December, 2021',
+                  detailEvent?.startDatetime.dateMonthYear ?? '',
                   style: TypographyApp.headline3,
                 ),
                 description: Text(
-                  'Tuesday, 4:00PM - 9:00PM',
+                  '${detailEvent?.startDatetime.dayName}, ${detailEvent?.startDatetime.time} - ${detailEvent?.endDatetime.time}',
                   style: TypographyApp.text2.copyWith(
                     color: ColorApp.gray,
                   ),
@@ -114,11 +117,11 @@ class EventDetailContentSection extends ConsumerWidget {
               DetailRowWidget.icon(
                 prefix: Assets.icons.icLocation.svg(),
                 title: Text(
-                  'Gala Convention Center',
+                  detailEvent?.city.value.capitalize ?? '',
                   style: TypographyApp.headline3,
                 ),
                 description: Text(
-                  '36 Guild Street London, UK ',
+                  detailEvent?.locationDetail ?? '',
                   style: TypographyApp.text2.copyWith(
                     color: ColorApp.gray,
                   ),
@@ -145,7 +148,7 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h8,
               Text(
-                detailEvent.description,
+                detailEvent?.description ?? '',
                 textAlign: TextAlign.justify,
                 style: TypographyApp.text2.copyWith(fontSize: 16),
               ),
@@ -159,7 +162,7 @@ class EventDetailContentSection extends ConsumerWidget {
                   ),
                   QuantityWidget(
                     quantity: state.quantity,
-                    maxQuantity: detailEvent.remainingCapacity,
+                    maxQuantity: detailEvent?.remainingCapacity ?? 0,
                     onMin: (newQuantity) => controller.setQuantity(newQuantity),
                     onPlus: (newQuantity) =>
                         controller.setQuantity(newQuantity),
@@ -182,7 +185,8 @@ class EventDetailContentSection extends ConsumerWidget {
                   ),
                   Gap.w16,
                   Text(
-                    (detailEvent.ticketPrice * state.quantity).currencyFormat,
+                    ((state.event?.ticketPrice ?? 0) * state.quantity)
+                        .currencyFormat,
                     style:
                         TypographyApp.headline1.copyWith(color: ColorApp.red),
                   ),

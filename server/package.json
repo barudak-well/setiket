@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build" : "prisma generate",
     "test": "jest",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",

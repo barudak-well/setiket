@@ -4,6 +4,62 @@ const { log } = require("console");
 const utils = require("../../utils");
 const types = require("../../config/types.config");
 
+describe("GET /api/events/:id", () => {
+  let server; // Declare a variable to hold the server instance
+
+  beforeAll(() => {
+    server = app.listen(8000); // Start the server before running tests
+  });
+
+  afterAll((done) => {
+    server.close(done); // Close the server after all tests are done
+  });
+
+  test("Get an existing event", async () => {
+    const { statusCode, body } = await request(app).get("/api/events/1");
+    const returnBody = body.body.body;
+
+    expect(statusCode).toBe(200);
+    expect(body.body.status).toBe(true);
+    expect(body.body.message).toBe("Fetched event");
+    expect(typeof returnBody.id).toBe("number");
+    expect(typeof returnBody.userId).toBe("number");
+    expect(typeof returnBody.title).toBe("string");
+    expect(typeof returnBody.imageUrl).toBe("string");
+    expect(new Date(returnBody.datetime)).toBeInstanceOf(Date);
+    expect(Object.values(types.eventCity)).toContain(returnBody.city);
+    expect(typeof returnBody.ticketPrice).toBe("number");
+    expect(typeof returnBody.capacity).toBe("number");
+    expect(Object.values(types.eventCategory)).toContain(
+      returnBody.category
+    );
+    expect(returnBody.status).toBe(types.status.verified);
+    expect(new Date(returnBody.createdAt)).toBeInstanceOf(Date);
+    expect(returnBody).toHaveProperty("description");
+    expect(returnBody).toHaveProperty("locationDetail");
+  }, 30000);
+
+  test("Get non existing event", async () => {
+    const { statusCode, body } = await request(app).get(
+      "/api/events/-333"
+    );
+
+    expect(statusCode).toBe(404);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Event not found");
+  }, 30000);
+
+  test("Get an event with non number id parameter", async () => {
+    const { statusCode, body } = await request(app).get(
+      "/api/events/1AAAA"
+    );
+
+    expect(statusCode).toBe(400);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Bad id parameter");
+  }, 30000);
+});
+
 describe("GET /api/events", () => {
   let server; // Declare a variable to hold the server instance
 

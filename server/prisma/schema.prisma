@@ -61,7 +61,8 @@ model Event {
   title             String
   description       String?
   imageUrl          String
-  datetime          DateTime
+  startDatetime     DateTime
+  endDatetime       DateTime
   city              City
   locationDetail    String?
   ticketPrice       Int
@@ -73,7 +74,6 @@ model Event {
   tickets           Ticket[]
   user              User     @relation(fields: [userId], references: [id])
 }
-
 model Ticket {
   id        Int      @id @unique @default(autoincrement())
   eventId   Int

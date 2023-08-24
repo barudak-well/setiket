@@ -7,6 +7,7 @@ Future<void> hiveInit() async {
   /// [TODO]
   /// Open Hive Box
   await Hive.openBox<String>(HiveKey.userBox);
+  await Hive.openBox<String>(HiveKey.bookmarkEventsBox);
 }
 
 Future<void> hiveClose() async {

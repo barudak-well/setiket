@@ -100,84 +100,118 @@ const router = express.Router();
  */
 
 /**
+* @swagger
+* /events:
+*   get:
+*     summary: Get events based with optional query for more specific
+*     tags: [Events]
+*     parameters:
+*       - in: query
+*         name: search
+*         schema:
+*           type: string
+*         description: Search query for event title
+*       - in: query
+*         name: location
+*         schema:
+*           type: string
+*           enum: [BANDUNG, JAKARTA, SURABAYA, OTHER]
+*         description: Event City
+*       - in: query
+*         name: sort
+*         schema:
+*           type: string
+*           enum: [asc, desc]
+*         description: Sorting order default desc
+*       - in: query
+*         name: category
+*         schema:
+*           type: string
+*           enum: [MUSIC, ART, SPORTS, CULINARY, TECH, LIFESTYLE, BUSINESS, EDUCATION, ENTERTAINMENT, CHARITY, OTHER]
+*         description: Event category
+*       - in: query
+*         name: page
+*         schema:
+*           type: integer
+*         description: Page number for pagination default 1
+*       - in: query
+*         name: limit
+*         schema:
+*           type: integer
+*         description: Number of events per page for pagination default 30
+*       - in: query
+*         name: date_lte
+*         schema:
+*           type: string
+*           format: date
+*         description: End date for event range (YYYY-MM-DD format)
+*       - in: query
+*         name: date_gte
+*         schema:
+*           type: string
+*           format: date
+*         description: Start date for event range (YYYY-MM-DD format)
+*     responses:
+*       '200':
+*         description: Successful response containing a list of events
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/ApiResponse'
+*             example:
+*               header:
+*                 time_request: "2023-08-21T15:16:36.723Z"
+*               body:
+*                 status: true
+*                 message: success get all events
+*                 body:
+*                   - id: 7
+*                     userId: 1
+*                     title: Car Meet Bandung
+*                     description: null
+*                     datetime: "2023-09-25T00:12:00.000Z"
+*                     city: BANDUNG
+*                     locationDetail: Bandung Convention Center
+*                     ticketPrice: 0
+*                     capacity: 200
+*                     category: LIFESTYLE
+*                     status: VERIFIED
+*                     createdAt: "2023-08-21T07:29:18.605Z"
+*                   # ... (other event objects)
+*/
+
+/**
  * @swagger
- * /events:
+ * /events/{id}:
  *   get:
- *     summary: Get events based with optional query for more specific
+ *     summary: Get an event and its details
  *     tags: [Events]
  *     parameters:
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Search query for event title
- *       - in: query
- *         name: location
- *         schema:
- *           type: string
- *           enum: [BANDUNG, JAKARTA, SURABAYA, OTHER]
- *         description: Event City
- *       - in: query
- *         name: sort
- *         schema:
- *           type: string
- *           enum: [asc, desc]
- *         description: Sorting order default desc
- *       - in: query
- *         name: category
- *         schema:
- *           type: string
- *           enum: [MUSIC, ART, SPORTS, CULINARY, TECH, LIFESTYLE, BUSINESS, EDUCATION, ENTERTAINMENT, CHARITY, OTHER]
- *         description: Event category
- *       - in: query
- *         name: page
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the event to retrieve
  *         schema:
  *           type: integer
- *         description: Page number for pagination default 1
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *         description: Number of events per page for pagination default 30
- *       - in: query
- *         name: date_lte
- *         schema:
- *           type: string
- *           format: date
- *         description: End date for event range (YYYY-MM-DD format)
- *       - in: query
- *         name: date_gte
- *         schema:
- *           type: string
- *           format: date
- *         description: Start date for event range (YYYY-MM-DD format)
  *     responses:
- *       '200':
- *         description: Successful response containing a list of events
+ *       200:
+ *         description: Successful response
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ApiResponse'
+ *               type: '#/components/schemas/Event'
  *             example:
- *               header:
- *                 time_request: "2023-08-21T15:16:36.723Z"
- *               body:
- *                 status: true
- *                 message: success get all events
- *                 body:
- *                   - id: 7
- *                     userId: 1
- *                     title: Car Meet Bandung
- *                     description: null
- *                     datetime: "2023-09-25T00:12:00.000Z"
- *                     city: BANDUNG
- *                     locationDetail: Bandung Convention Center
- *                     ticketPrice: 0
- *                     capacity: 200
- *                     category: LIFESTYLE
- *                     status: VERIFIED
- *                     createdAt: "2023-08-21T07:29:18.605Z"
- *                   # ... (other event objects)
+ *               id: 2
+ *               title: CompFest SEA Academy
+ *               description: COMPFEST adalah acara IT Tahunan Terbesar yang diselenggarakan mahasiswa Fakultas Ilmu Komputer Universitas Indonesia.
+ *               imageUrl: https://image-url.com
+ *               datetime: 2023-08-19T19:00:00.000Z
+ *               city: BANDUNG
+ *               ticketPrice: 200000
+ *               capacity: 100
+ *               category: ART
+ *               status: VERIFIED
+ *               createdAt: 2023-08-13T16:13:26.683Z
  */
 
 router.get(
@@ -219,5 +253,36 @@ router.get(
     }
   }
 );
+
+router.get("/:id", async (req, res) => {
+  try {
+    const eventId = Number(req.params.id);
+    if (!eventId) {
+      return utils.apiResponse(400, req, res, {
+        status: false,
+        message: "Bad id parameter"
+      })
+    }
+    const event = await eventService.getEventById(eventId);
+    return utils.apiResponse(200, req, res, {
+      status: true,
+      message: "Fetched event",
+      body: event,
+    });
+
+  } catch (err) {
+      if (err.isCustomError) {
+        return utils.apiResponse(err.statusCode, req, res, {
+          status: false,
+          message: err.message,
+        });
+      } else {
+        return utils.apiResponse("500", req, res, {
+          status: false,
+          message: err.message ? err.message : "Sorry Something Error",
+        });
+      }
+  }
+});
 
 module.exports = router;

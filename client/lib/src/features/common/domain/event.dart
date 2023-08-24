@@ -8,8 +8,10 @@ class Event {
   final int userId;
   final String title;
   final String description;
-  final DateTime dateTime;
-  final String city;
+  final String imageUrl;
+  final DateTime startDatetime;
+  final DateTime endDatetime;
+  final CityEvent city;
   final String locationDetail;
   final int ticketPrice;
   final int capacity;
@@ -22,7 +24,9 @@ class Event {
     required this.userId,
     required this.title,
     required this.description,
-    required this.dateTime,
+    required this.imageUrl,
+    required this.startDatetime,
+    required this.endDatetime,
     required this.city,
     required this.locationDetail,
     required this.ticketPrice,
@@ -32,14 +36,22 @@ class Event {
     this.status = StatusEvent.pending,
   });
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+    };
+  }
+
   factory Event.fromMap(Map<String, dynamic> map) {
     return Event(
       id: map['id'] as int,
       userId: map['userId'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      dateTime: map['dateTime'] as DateTime,
-      city: map['city'] as String,
+      imageUrl: map['imageUrl'] as String,
+      startDatetime: map['startDatetime'] as DateTime,
+      endDatetime: map['endDatetime'] as DateTime,
+      city: map['city'] as CityEvent,
       locationDetail: map['locationDetail'] as String,
       ticketPrice: map['ticketPrice'] as int,
       capacity: map['capacity'] as int,
@@ -48,6 +60,8 @@ class Event {
       status: map['status'] as StatusEvent,
     );
   }
+
+  String toJson() => json.encode(toMap());
 
   factory Event.fromJson(String source) =>
       Event.fromMap(json.decode(source) as Map<String, dynamic>);
