@@ -48,9 +48,9 @@ class EventDetailButtonSection extends ConsumerWidget {
                       ExtrasKey.ticket: Ticket(
                         id: 0,
                         eventId: state.event!.id,
-                        userId: 0,
+                        userId: 1,
                         quantity: state.quantity,
-                        price: detailEvent.ticketPrice * state.quantity + 10000,
+                        price: detailEvent.ticketPrice * state.quantity,
                         event: detailEvent,
                       )
                     },

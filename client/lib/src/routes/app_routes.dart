@@ -62,8 +62,8 @@ final goRouterProvider = Provider<GoRouter>(
           name: Routes.eventDetail.name,
           builder: (context, state) {
             final extras = state.extra as Extras;
-            final event = extras.datas[ExtrasKey.event] as Event;
-            return EventDetailPage(event: event);
+            final id = extras.datas[ExtrasKey.id] as int;
+            return EventDetailPage(id: id);
           },
           routes: const [],
         ),

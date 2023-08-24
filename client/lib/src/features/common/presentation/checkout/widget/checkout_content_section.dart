@@ -14,7 +14,7 @@ class CheckoutContentSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(checkoutControllerProvider);
     final detailTicket = state.ticket!;
-    final detailEvent = detailTicket.event;
+    final detailEvent = detailTicket.event!;
     return PaddingWidget(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +22,7 @@ class CheckoutContentSection extends ConsumerWidget {
           Gap.h48,
           const TopBarWidget(title: "Checkout"),
           Gap.h32,
-          CardEventWidget(detailTicket.event),
+          CardEventWidget(detailTicket.event!),
           Gap.h20,
           Text('Ticket Details', style: TypographyApp.headline1),
           Gap.h16,
@@ -75,8 +75,6 @@ class CheckoutContentSection extends ConsumerWidget {
             value:
                 '${detailEvent.ticketPrice.currency} x ${detailTicket.quantity}',
           ),
-          Gap.h8,
-          const ItemRowWidget.subHeading(title: 'Tax', value: 'Rp10.000'),
           Gap.h8,
           ItemRowWidget.heading(
               title: 'Total', value: detailTicket.price.currency),

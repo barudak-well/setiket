@@ -2,19 +2,37 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/common_widgets/snack_bar/snack_bar_widget.dart';
 import 'package:setiket/src/constants/constants.dart';
-import 'package:setiket/src/features/common/domain/event.dart';
+import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/services/services.dart';
 
 class EventDetailController extends StateNotifier<EventDetailState> {
+  final CommonService _commonService;
   final HiveService _hiveService;
-  EventDetailController(this._hiveService) : super(const EventDetailState());
+  EventDetailController(this._commonService, this._hiveService)
+      : super(const EventDetailState());
 
-  void setEvent(Event event) {
+  void getEventById(int id) async {
     state = state.copyWith(
-      event: event,
-      eventValue: AsyncData(event),
-      isBookmarkEvent: _hiveService.isEventBookmark(event.id),
+      eventValue: const AsyncLoading(),
+    );
+
+    final result = await _commonService.getEventById(id);
+
+    result.when(
+      success: (data) {
+        state = state.copyWith(
+          quantity: 1,
+          event: data,
+          eventValue: AsyncData(data),
+          isBookmarkEvent: _hiveService.isEventBookmark(data.id),
+        );
+      },
+      failure: (error, stackTrace) {
+        state = state.copyWith(
+          eventValue: AsyncError(error, stackTrace),
+        );
+      },
     );
   }
 
@@ -41,5 +59,6 @@ class EventDetailController extends StateNotifier<EventDetailState> {
 final eventDetailControllerProvider =
     StateNotifierProvider<EventDetailController, EventDetailState>((ref) {
   final hiveService = ref.read(hiveServiceProvider);
-  return EventDetailController(hiveService);
+  final commonService = ref.read(commonServiceProvider);
+  return EventDetailController(commonService, hiveService);
 });

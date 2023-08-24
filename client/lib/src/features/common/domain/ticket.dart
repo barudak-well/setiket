@@ -9,7 +9,7 @@ class Ticket {
   final int userId;
   final int quantity;
   final int price;
-  final Event event;
+  final Event? event;
 
   Ticket({
     required this.id,
@@ -17,7 +17,7 @@ class Ticket {
     required this.userId,
     required this.quantity,
     required this.price,
-    required this.event,
+    this.event,
   });
 
   factory Ticket.fromMap(Map<String, dynamic> map) {
