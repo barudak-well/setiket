@@ -2,4 +2,11 @@
 
 const prisma = require("../../db");
 
-module.exports = {}
+const createTicket = async (ticketData) => {
+  const ticket = await prisma.ticket.create({
+    data: ticketData,
+  });
+  return ticket;
+};
+
+module.exports = { createTicket };
