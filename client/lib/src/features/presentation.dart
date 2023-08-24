@@ -28,3 +28,9 @@ export 'common/presentation/profile/profile_page.dart';
 export 'common/presentation/profile/profile_controller.dart';
 export 'common/presentation/profile/profile_state.dart';
 export 'common/presentation/profile/widget/widget.dart';
+
+/// my events
+export 'common/presentation/my_events/my_events_page.dart';
+export 'common/presentation/my_events/my_events_controller.dart';
+export 'common/presentation/my_events/my_events_state.dart';
+export 'common/presentation/my_events/widget/widget.dart';

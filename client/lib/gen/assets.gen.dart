@@ -149,17 +149,22 @@ class $AssetsImagesGen {
   AssetGenImage get inviteBg =>
       const AssetGenImage('assets/images/invite_bg.png');
 
+  /// File path: assets/images/no-upcoming-event.svg
+  SvgGenImage get noUpcomingEvent =>
+      const SvgGenImage('assets/images/no-upcoming-event.svg');
+
   /// File path: assets/images/participant_dummy.png
   AssetGenImage get participantDummy =>
       const AssetGenImage('assets/images/participant_dummy.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
         cardEventDummy,
         eoDummy,
         eventDummy,
         icLauncher,
         inviteBg,
+        noUpcomingEvent,
         participantDummy
       ];
 }
