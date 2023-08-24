@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:setiket/src/features/common/domain/home.dart';
 import 'package:setiket/src/features/common/presentation/home/home_page.dart';
 
 class HomeState {
@@ -8,6 +10,8 @@ class HomeState {
   final bool isProfileActive;
   final int currentIndex;
   final Widget currentScreen;
+  final AsyncValue<Home?> homeValue;
+  final Home? home;
 
   HomeState({
     this.isHomeActive = true,
@@ -16,6 +20,8 @@ class HomeState {
     this.isProfileActive = false,
     this.currentIndex = 0,
     this.currentScreen = const HomePage(),
+    this.homeValue = const AsyncLoading(),
+    this.home,
   });
 
   HomeState copyWith({
@@ -25,6 +31,8 @@ class HomeState {
     bool? isProfileActive,
     int? currentIndex,
     Widget? currentScreen,
+    AsyncValue<Home?>? homeValue,
+    Home? home,
   }) {
     return HomeState(
       isHomeActive: isHomeActive ?? this.isHomeActive,
@@ -33,6 +41,8 @@ class HomeState {
       isProfileActive: isProfileActive ?? this.isProfileActive,
       currentIndex: currentIndex ?? this.currentIndex,
       currentScreen: currentScreen ?? this.currentScreen,
+      homeValue: homeValue ?? this.homeValue,
+      home: home ?? this.home,
     );
   }
 }

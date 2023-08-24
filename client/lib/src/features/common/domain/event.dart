@@ -63,6 +63,24 @@ class Event {
 
   String toJson() => json.encode(toMap());
 
-  factory Event.fromJson(String source) =>
-      Event.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Event.fromJson(String source) => Event.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory Event.fromResponse(EventResponse response) {
+    return Event(
+      id: response.id ?? 0,
+      userId: response.userId ?? 0,
+      title: response.title ?? '',
+      description: response.description ?? '',
+      imageUrl: response.imageUrl ?? '',
+      startDatetime: response.startDateTime ?? DateTime.now(),
+      endDatetime: response.endDateTime ?? DateTime.now(),
+      city: response.city ?? CityEvent.other,
+      locationDetail: response.locationDetail ?? '',
+      ticketPrice: response.ticketPrice ?? 0,
+      capacity: response.capacity ?? 0,
+      remainingCapacity: response.remainingCapacity ?? 0,
+      category: response.category ?? CategoryEvent.other,
+      status: response.status ?? StatusEvent.pending,
+    );
+  }
 }
