@@ -16,6 +16,7 @@ class ButtonWidget extends StatelessWidget {
   final String text;
   final Function()? onTap;
   final bool isLoading;
+  final Color? color;
   final Widget? prefix;
   final double? height;
   final EdgeInsetsGeometry? padding;
@@ -26,6 +27,7 @@ class ButtonWidget extends StatelessWidget {
     required this.buttonType,
     required this.text,
     this.isLoading = false,
+    this.color,
     this.onTap,
     this.prefix,
     this.height,
@@ -37,6 +39,7 @@ class ButtonWidget extends StatelessWidget {
     super.key,
     required this.text,
     this.isLoading = false,
+    this.color,
     this.onTap,
     this.prefix,
     this.height,
@@ -47,9 +50,10 @@ class ButtonWidget extends StatelessWidget {
 
   const ButtonWidget.outlined({
     super.key,
-    this.onTap,
-    this.isLoading = false,
     required this.text,
+    this.isLoading = false,
+    this.onTap,
+    this.color,
     this.prefix,
     this.height,
     this.padding,
@@ -57,14 +61,19 @@ class ButtonWidget extends StatelessWidget {
   })  : buttonType = ButtonType.outlined,
         _isEnabled = isEnabled ?? onTap != null;
 
-  Color getColor() => _isEnabled
-      ? buttonType == ButtonType.primary
-          ? ColorApp.primary
-          : ColorApp.black
-      : ColorApp.gray;
+  Color getColor() => color.isNotNull()
+      ? color!
+      : _isEnabled
+          ? buttonType == ButtonType.primary
+              ? ColorApp.primary
+              : ColorApp.black
+          : ColorApp.gray;
 
-  Color getFocusColor() =>
-      buttonType == ButtonType.primary ? Palette.color.shade300 : ColorApp.gray;
+  Color getFocusColor() => color.isNotNull()
+      ? color!.withOpacity(.7)
+      : buttonType == ButtonType.primary
+          ? Palette.color.shade300
+          : ColorApp.gray;
 
   bool get isPrimary => buttonType == ButtonType.primary;
   bool get isOutlined => buttonType == ButtonType.outlined;

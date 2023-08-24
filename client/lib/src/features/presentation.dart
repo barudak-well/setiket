@@ -22,3 +22,9 @@ export 'common/presentation/event_detail/event_detail_page.dart';
 export 'common/presentation/event_detail/event_detail_controller.dart';
 export 'common/presentation/event_detail/event_detail_state.dart';
 export 'common/presentation/event_detail/widget/widget.dart';
+
+/// profile
+export 'common/presentation/profile/profile_page.dart';
+export 'common/presentation/profile/profile_controller.dart';
+export 'common/presentation/profile/profile_state.dart';
+export 'common/presentation/profile/widget/widget.dart';

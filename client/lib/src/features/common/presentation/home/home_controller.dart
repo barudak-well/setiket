@@ -61,7 +61,8 @@ class HomeController extends StateNotifier<HomeState> {
   }
 }
 
-final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>((ref) {
+final homeControllerProvider =
+    StateNotifierProvider<HomeController, HomeState>((ref) {
   final commonService = ref.read(commonServiceProvider);
   return HomeController(commonService);
 });
