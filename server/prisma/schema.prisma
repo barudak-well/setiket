@@ -74,7 +74,6 @@ model Event {
   tickets           Ticket[]
   user              User     @relation(fields: [userId], references: [id])
 }
-
 model Ticket {
   id        Int      @id @unique @default(autoincrement())
   eventId   Int

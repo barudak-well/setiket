@@ -1,5 +1,6 @@
 // Layer buat handling bisnis logic
 const eventRepository = require("./event.repository");
+const utils = require("../../utils")
 
 const formatQueryParams = (queryParams) => {
   const where = {};
@@ -51,20 +52,20 @@ const getAllEvents = async (queryParams) => {
 };
 
 const getEventById = async (id) => {
-  const event = findEventById(id);
+  const event = await eventRepository.findEventById(id);
   if (!event) {
-    throw Error("Event tidak ditemukan");
+    throw utils.customError("404", "Event not found");
   }
   return event;
 };
 
 const getEventAndTheTicketById = async (id) => {
-  const eventAndTicket = findEventAndTheTicketById(id);
-  if (!eventAndTicket) {
-    throw Error("Event tidak ditemukan");
-  }
-  return eventAndTicket;
-};
+    const eventAndTicket = eventRepository.findEventAndTheTicketById(id);
+    if (!eventAndTicket) {
+      throw Error("Event tidak ditemukan");
+    }
+    return eventAndTicket;
+}
 
 module.exports = {
   getAllEvents,
