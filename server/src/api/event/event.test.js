@@ -4,7 +4,7 @@ const { log } = require("console");
 const utils = require("../../utils");
 const types = require("../../config/types.config");
 
-describe("GET /api/events", () => {
+describe("GET /api/events/:id", () => {
   let server; // Declare a variable to hold the server instance
 
   beforeAll(() => {
