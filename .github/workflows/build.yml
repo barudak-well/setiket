@@ -11,6 +11,7 @@ jobs:
   clientTest:
     name: 🧪 Client Test
     uses: ./.github/workflows/__client_test.yml
+    secrets: inherit
 
   serverTest:
     name: 🧪 Server Test

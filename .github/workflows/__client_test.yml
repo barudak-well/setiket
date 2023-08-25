@@ -24,10 +24,12 @@ jobs:
         run: |
           cd client
           flutter pub get
-      - name: Copy secrets to .env
-        run: |
-          cd client
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+      - name: Setup Env Variables
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_BASE_URL: ${{ secrets.BASE_URL }}
+          directory: "./client"
+          file_name: .env
       - name: 🧪 Run tests with coverage
         run: |
           cd client
@@ -48,9 +50,3 @@ jobs:
         with:
           lcov-file: ./client/coverage_report/combined_lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: 🥤 Extract test coverage percentage
-        run: |
-          grep -o '.*headerCovTableEntryLo.*' client/coverage/report/lib/index.html | sed -E  's/.*>(.*) %<.*/\1/' > coverage_percentage.txt
-          percentage=$(cat coverage_percentage.txt)
-          echo "Coverage percentage: $percentage"
-          echo "coverage_percentage=$percentage" >> $GITHUB_ENV
