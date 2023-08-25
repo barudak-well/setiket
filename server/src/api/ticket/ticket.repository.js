@@ -15,7 +15,20 @@ const findMyTicketAndEvents = async (userId) => {
       userId: userId,
     },
     include: {
-      event: true,
+      event: {
+        include: {
+          user: {
+            select: {
+              email: true,
+              fullname: true,
+              id: true,
+              age: true,
+              role: true,
+              status: true
+            }
+          }
+        }
+      },
     },
     orderBy: {
       createdAt: "desc"

@@ -259,6 +259,13 @@ const router = express.Router();
  *                         category: MUSIC
  *                         status: VERIFIED
  *                         createdAt: "2023-08-21T07:22:00.000Z"
+ *                         user:
+ *                          id: 1
+ *                          email: "naruto@gmail.com"
+ *                          fullname: "uzumaki naruto"
+ *                          age: 18
+ *                          status: "VERIFIED"
+ *                          role: "EO"
  *                   pastEvents:
  *                     - id: 17
  *                       eventId: 7
@@ -282,6 +289,13 @@ const router = express.Router();
  *                         category: LIFESTYLE
  *                         status: VERIFIED
  *                         createdAt: "2023-08-21T07:29:00.000Z"
+ *                         user:
+ *                          id: 1
+ *                          email: "naruto@gmail.com"
+ *                          fullname: "uzumaki naruto"
+ *                          age: 18
+ *                          status: "VERIFIED"
+ *                          role: "EO"
  *                   # ... other past event objects ...
  */
 
