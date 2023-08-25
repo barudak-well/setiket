@@ -8,8 +8,10 @@ class Event {
   final int userId;
   final String title;
   final String description;
-  final DateTime dateTime;
-  final String city;
+  final String imageUrl;
+  final DateTime startDatetime;
+  final DateTime endDatetime;
+  final CityEvent city;
   final String locationDetail;
   final int ticketPrice;
   final int capacity;
@@ -22,7 +24,9 @@ class Event {
     required this.userId,
     required this.title,
     required this.description,
-    required this.dateTime,
+    required this.imageUrl,
+    required this.startDatetime,
+    required this.endDatetime,
     required this.city,
     required this.locationDetail,
     required this.ticketPrice,
@@ -44,8 +48,10 @@ class Event {
       userId: map['userId'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      dateTime: map['dateTime'] as DateTime,
-      city: map['city'] as String,
+      imageUrl: map['imageUrl'] as String,
+      startDatetime: map['startDatetime'] as DateTime,
+      endDatetime: map['endDatetime'] as DateTime,
+      city: map['city'] as CityEvent,
       locationDetail: map['locationDetail'] as String,
       ticketPrice: map['ticketPrice'] as int,
       capacity: map['capacity'] as int,
@@ -57,6 +63,24 @@ class Event {
 
   String toJson() => json.encode(toMap());
 
-  factory Event.fromJson(String source) =>
-      Event.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Event.fromJson(String source) => Event.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory Event.fromResponse(EventResponse response) {
+    return Event(
+      id: response.id ?? 0,
+      userId: response.userId ?? 0,
+      title: response.title ?? '',
+      description: response.description ?? '',
+      imageUrl: response.imageUrl ?? '',
+      startDatetime: response.startDateTime ?? DateTime.now(),
+      endDatetime: response.endDateTime ?? DateTime.now(),
+      city: response.city ?? CityEvent.other,
+      locationDetail: response.locationDetail ?? '',
+      ticketPrice: response.ticketPrice ?? 0,
+      capacity: response.capacity ?? 0,
+      remainingCapacity: response.remainingCapacity ?? 0,
+      category: response.category ?? CategoryEvent.other,
+      status: response.status ?? StatusEvent.pending,
+    );
+  }
 }

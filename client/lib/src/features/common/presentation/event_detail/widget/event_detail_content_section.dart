@@ -15,16 +15,17 @@ class EventDetailContentSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(eventDetailControllerProvider.notifier);
     final state = ref.watch(eventDetailControllerProvider);
-    final detailEvent = state.event;
+    final detailEvent = state.event!;
     return Stack(
       children: [
-        Assets.images.eventDummy.image(
+        Image.network(
+          detailEvent.imageUrl,
           width: context.screenWidthPercentage(1),
           height: context.screenHeightPercentage(.3),
           fit: BoxFit.fitWidth,
         ),
         Container(
-          height: context.screenHeightPercentage(.1),
+          height: context.screenHeightPercentage(.15),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -76,7 +77,7 @@ class EventDetailContentSection extends ConsumerWidget {
                           Assets.images.participantDummy.image(),
                           Gap.w12,
                           Text(
-                            '+20 Going',
+                            '+${detailEvent.capacity - detailEvent.remainingCapacity} Going',
                             style: TypographyApp.headline3
                                 .copyWith(color: ColorApp.primary),
                           ),
@@ -96,18 +97,18 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h20,
               Text(
-                detailEvent?.title ?? '',
+                detailEvent.title,
                 style: TypographyApp.headline1,
               ),
               Gap.h24,
               DetailRowWidget.icon(
                 prefix: Assets.icons.icCalendar.svg(),
                 title: Text(
-                  '14 December, 2021',
+                  detailEvent.startDatetime.dateMonthYear,
                   style: TypographyApp.headline3,
                 ),
                 description: Text(
-                  'Tuesday, 4:00PM - 9:00PM',
+                  '${detailEvent.startDatetime.dayName}, ${detailEvent.startDatetime.time} - ${detailEvent.endDatetime.time}',
                   style: TypographyApp.text2.copyWith(
                     color: ColorApp.gray,
                   ),
@@ -117,11 +118,11 @@ class EventDetailContentSection extends ConsumerWidget {
               DetailRowWidget.icon(
                 prefix: Assets.icons.icLocation.svg(),
                 title: Text(
-                  detailEvent?.city ?? '',
+                  detailEvent.city.value.capitalize,
                   style: TypographyApp.headline3,
                 ),
                 description: Text(
-                  detailEvent?.locationDetail ?? '',
+                  detailEvent.locationDetail,
                   style: TypographyApp.text2.copyWith(
                     color: ColorApp.gray,
                   ),
@@ -148,7 +149,7 @@ class EventDetailContentSection extends ConsumerWidget {
               ),
               Gap.h8,
               Text(
-                detailEvent?.description ?? '',
+                detailEvent.description,
                 textAlign: TextAlign.justify,
                 style: TypographyApp.text2.copyWith(fontSize: 16),
               ),
@@ -162,7 +163,7 @@ class EventDetailContentSection extends ConsumerWidget {
                   ),
                   QuantityWidget(
                     quantity: state.quantity,
-                    maxQuantity: detailEvent?.remainingCapacity ?? 0,
+                    maxQuantity: detailEvent.remainingCapacity,
                     onMin: (newQuantity) => controller.setQuantity(newQuantity),
                     onPlus: (newQuantity) =>
                         controller.setQuantity(newQuantity),
@@ -185,8 +186,7 @@ class EventDetailContentSection extends ConsumerWidget {
                   ),
                   Gap.w16,
                   Text(
-                    ((state.event?.ticketPrice ?? 0) * state.quantity)
-                        .currencyFormat,
+                    (detailEvent.ticketPrice * state.quantity).currency,
                     style:
                         TypographyApp.headline1.copyWith(color: ColorApp.red),
                   ),

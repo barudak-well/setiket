@@ -56,7 +56,7 @@ router.get("/", async (req, res) => {
  * /auth/register:
  *   post:
  *     summary: Register a new user
- *     tags: [Users]
+ *     tags: [Auth]
  *     requestBody:
  *       description: User registration details
  *       required: true
@@ -109,7 +109,7 @@ router.get("/", async (req, res) => {
  * /auth/login:
  *   post:
  *     summary: Logging in a user
- *     tags: [Users]
+ *     tags: [Auth]
  *     requestBody:
  *       description: User login details
  *       required: true
