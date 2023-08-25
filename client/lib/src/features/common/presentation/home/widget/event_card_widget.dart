@@ -23,7 +23,7 @@ class EventCardWidget extends StatelessWidget {
         Routes.eventDetail.name,
         extra: Extras(
           datas: {
-            ExtrasKey.event: event,
+            ExtrasKey.id: event.id,
           },
         ),
       ),
@@ -128,7 +128,8 @@ class EventCardWidget extends StatelessWidget {
                         ),
                       ],
                     )),
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),

@@ -9,8 +9,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/services/local/local.dart';
 
-const _defaultConnectTimeout = Duration(milliseconds: 15000);
-const _defaultReceiveTimeout = Duration(milliseconds: 15000);
+const _defaultConnectTimeout = Duration(seconds: 60);
+const _defaultReceiveTimeout = Duration(seconds: 60);
 
 class DioClient {
   final String baseUrl;

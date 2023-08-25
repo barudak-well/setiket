@@ -14,6 +14,7 @@ class EventDetailButtonSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(eventDetailControllerProvider);
+    final detailEvent = state.event!;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -46,11 +47,11 @@ class EventDetailButtonSection extends ConsumerWidget {
                     datas: {
                       ExtrasKey.ticket: Ticket(
                         id: 0,
-                        eventId: 0,
-                        userId: 0,
-                        quantity: 0,
-                        price: 0,
-                        event: state.event!,
+                        eventId: state.event!.id,
+                        userId: 1,
+                        quantity: state.quantity,
+                        price: detailEvent.ticketPrice * state.quantity,
+                        event: detailEvent,
                       )
                     },
                   ),

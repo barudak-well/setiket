@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:setiket/gen/assets.gen.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/constants/themes/palette.dart';
 import 'package:setiket/src/features/domain.dart';
@@ -28,11 +27,15 @@ class CardEventWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
+            width: 79,
+            height: 92,
+            decoration: BoxDecoration(
+              color: ColorApp.gray,
+              borderRadius: BorderRadius.circular(10.r),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.r),
-              child: Assets.images.cardEventDummy.image(fit: BoxFit.cover),
+              child: Image.network(event.imageUrl, fit: BoxFit.cover),
             ),
           ),
           Gap.w16,

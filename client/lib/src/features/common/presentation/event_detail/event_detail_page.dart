@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
-import 'package:setiket/src/features/common/domain/event.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class EventDetailPage extends ConsumerStatefulWidget {
-  final Event event;
+  final int id;
   const EventDetailPage({
     super.key,
-    required this.event,
+    required this.id,
   });
 
   @override
@@ -24,27 +23,32 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
   @override
   void initState() {
     safeRebuild(() {
-      controller.setEvent(widget.event);
+      controller.getEventById(widget.id);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const StatusBarWidget(
+    return StatusBarWidget(
       brightness: Brightness.light,
       child: Scaffold(
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  EventDetailContentSection(),
-                ],
-              ),
-            ),
-            EventDetailButtonSection(),
-          ],
+        body: AsyncValueWidget(
+          value: state.eventValue,
+          data: (data) {
+            return const Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      EventDetailContentSection(),
+                    ],
+                  ),
+                ),
+                EventDetailButtonSection(),
+              ],
+            );
+          },
         ),
       ),
     );
