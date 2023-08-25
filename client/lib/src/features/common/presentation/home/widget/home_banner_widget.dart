@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/constants/themes/palette.dart';
+import 'package:setiket/src/features/common/presentation/home/home_controller.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class HomeBannerWidget extends StatelessWidget {
-  const HomeBannerWidget({
+  final HomeController controller;
+  const HomeBannerWidget(
+    this.controller, {
     super.key,
   });
 
@@ -120,63 +123,68 @@ class HomeBannerWidget extends StatelessWidget {
                     ],
                   ),
                   Gap.h40,
-                  Row(
-                    children: [
-                      Container(
-                        width: context.screenWidthPercentage(0.75),
-                        height: SizeApp.h48,
-                        padding: EdgeInsets.only(
-                          left: 12.w,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(30.r),
+                  InkWell(
+                    onTap: () {
+                      controller.setPage(1);
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          width: context.screenWidthPercentage(0.75),
+                          height: SizeApp.h48,
+                          padding: EdgeInsets.only(
+                            left: 12.w,
                           ),
-                          color: Palette.colorWhite.withOpacity(0.2),
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 1),
-                              child: Icon(
-                                Icons.search,
-                                color: ColorApp.white,
-                                size: SizeApp.h36,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                'Search...',
-                                style: TypographyApp.headline3.copyWith(
-                                  color: ColorApp.white.withOpacity(0.5),
-                                  fontSize: 24.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Gap.w12,
-                      Container(
-                          width: SizeApp.w40,
-                          height: SizeApp.h40,
-                          padding: EdgeInsets.all(5.r),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(30.r),
                             ),
                             color: Palette.colorWhite.withOpacity(0.2),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 1),
-                            child: Icon(
-                              Icons.filter_list,
-                              color: ColorApp.white,
-                              size: SizeApp.h28,
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 1),
+                                child: Icon(
+                                  Icons.search,
+                                  color: ColorApp.white,
+                                  size: SizeApp.h36,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  'Search...',
+                                  style: TypographyApp.headline3.copyWith(
+                                    color: ColorApp.white.withOpacity(0.5),
+                                    fontSize: 24.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Gap.w12,
+                        Container(
+                            width: SizeApp.w40,
+                            height: SizeApp.h40,
+                            padding: EdgeInsets.all(5.r),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.r),
+                              ),
+                              color: Palette.colorWhite.withOpacity(0.2),
                             ),
-                          ))
-                    ],
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 1),
+                              child: Icon(
+                                Icons.filter_list,
+                                color: ColorApp.white,
+                                size: SizeApp.h28,
+                              ),
+                            ))
+                      ],
+                    ),
                   )
                 ],
               ),

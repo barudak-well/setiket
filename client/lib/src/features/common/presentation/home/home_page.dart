@@ -14,6 +14,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(homeControllerProvider.notifier);
     final state = ref.watch(homeControllerProvider);
     final eventList = state.home?.eventListItems;
     return AsyncValueWidget(
@@ -27,7 +28,7 @@ class HomePage extends ConsumerWidget {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      const HomeBannerWidget(),
+                      HomeBannerWidget(controller),
                       Gap.customGapHeight(context.screenHeightPercentage(.05)),
                       const EventTitleContentWidget(title: 'Upcoming Events'),
                       HomeEventContentSection(eventList: eventList),

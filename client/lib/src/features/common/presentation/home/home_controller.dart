@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/application.dart';
+import 'package:setiket/src/features/common/presentation/search/search_page.dart';
 import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
 
@@ -49,7 +50,7 @@ class HomeController extends StateNotifier<HomeState> {
       case 0:
         return const HomePage();
       case 1:
-        return const JailbreakPage();
+        return const SearchPage();
       case 2:
         return const HomePage();
       case 3:
