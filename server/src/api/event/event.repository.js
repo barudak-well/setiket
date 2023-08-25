@@ -32,6 +32,9 @@ const findEventById = async (id) => {
     where: {
       id,
     },
+    include: {
+      user: true
+    }
   });
   return event;
 };
