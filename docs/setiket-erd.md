@@ -12,11 +12,14 @@ erDiagram
     int userId
     string title
     string description
-    DateTime datetime
+    string imageUrl
+    DateTime startDatetime
+    DateTime endDatetime
     string city
     string locationDetail
     int ticketPrice
     int capacity
+    int remainingCapacity
     Category category
     Status status
     DateTime createdAt

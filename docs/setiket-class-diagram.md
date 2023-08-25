@@ -25,7 +25,8 @@ classDiagram
     createdAt: DateTime
     events: Event[]
     tickets: Ticket[]
-    notifications: Notification[]
+    notification_receiver: Notification[]
+    notification_sender: Notification[]
   }
 
   class Notification {
@@ -36,7 +37,8 @@ classDiagram
     toId: Int
     receiver: NotificationReceiver
     createdAt: DateTime
-    user: User
+    user_notification_receiver: User
+    user_notification_sender: User
   }
 
   class Event {
@@ -44,11 +46,13 @@ classDiagram
     userId: Int
     title: String
     description: String
-    datetime: DateTime
+    startDatetime: DateTime
+    endDatetime: DateTime
     city: String
     locationDetail: String
     ticketPrice: Int
     capacity: Int
+    remainingCapacity: Int
     category: Category
     status: Status
     createdAt: DateTime
