@@ -1,13 +1,14 @@
 // Layer buat handling bisnis logic
 const eventRepository = require("./event.repository");
-const utils = require("../../utils")
+const ticketRepository = require("../ticket/ticket.repository");
+const utils = require("../../utils");
 
 const formatQueryParams = (queryParams) => {
   const where = {};
   where.startDatetime = {};
   where.endDatetime = {};
-  where.title = {}
-  where.status = "VERIFIED"
+  where.title = {};
+  where.status = "VERIFIED";
 
   if (queryParams.category) {
     where.category = queryParams.category;
@@ -17,7 +18,7 @@ const formatQueryParams = (queryParams) => {
   }
   if (queryParams.search) {
     where.title.contains = queryParams.search;
-    where.title.mode = "insensitive"
+    where.title.mode = "insensitive";
   }
   if (queryParams.date_lte && queryParams.date_gte) {
     where.startDatetime.lte = new Date(queryParams.date_lte);
@@ -33,6 +34,24 @@ const formatQueryParams = (queryParams) => {
   const take = queryParams.page && queryParams.limit ? queryParams.limit : 30;
 
   return { where, sort, skip, take };
+};
+
+const separateEventsByTime = (eventsArray) => {
+  const currentTime = new Date();
+
+  const upcomingEvents = [];
+  const pastEvents = [];
+
+  eventsArray.forEach((ticket) => {
+    const eventEndDatetime = new Date(ticket.event.endDatetime);
+    if (eventEndDatetime < currentTime) {
+      pastEvents.push(ticket);
+    } else {
+      upcomingEvents.push(ticket);
+    }
+  });
+
+  return [upcomingEvents, pastEvents];
 };
 
 const getAllEvents = async (queryParams) => {
@@ -59,16 +78,34 @@ const getEventById = async (id) => {
   return event;
 };
 
+const getMyEventAndTicket = async (userId) => {
+  try {
+    const myEventAndTicket = await ticketRepository.findMyTicketAndEvents(
+      userId
+    );
+    // if (!myEventAndTicket) return myEventAndTicket;
+    const [upcomingEvents, pastEvents] = separateEventsByTime(myEventAndTicket);
+    return {
+      upcomingEvents: upcomingEvents,
+      pastEvents: pastEvents,
+    };
+  } catch (err) {
+    if (err.isCustomError) throw err;
+    throw new Error(err);
+  }
+};
+
 const getEventAndTheTicketById = async (id) => {
-    const eventAndTicket = eventRepository.findEventAndTheTicketById(id);
-    if (!eventAndTicket) {
-      throw Error("Event tidak ditemukan");
-    }
-    return eventAndTicket;
-}
+  const eventAndTicket = eventRepository.findEventAndTheTicketById(id);
+  if (!eventAndTicket) {
+    throw Error("Event tidak ditemukan");
+  }
+  return eventAndTicket;
+};
 
 module.exports = {
   getAllEvents,
   getEventById,
   getEventAndTheTicketById,
+  getMyEventAndTicket,
 };

@@ -30,9 +30,7 @@ describe("GET /api/events/:id", () => {
     expect(Object.values(types.eventCity)).toContain(returnBody.city);
     expect(typeof returnBody.ticketPrice).toBe("number");
     expect(typeof returnBody.capacity).toBe("number");
-    expect(Object.values(types.eventCategory)).toContain(
-      returnBody.category
-    );
+    expect(Object.values(types.eventCategory)).toContain(returnBody.category);
     expect(returnBody.status).toBe(types.status.verified);
     expect(new Date(returnBody.createdAt)).toBeInstanceOf(Date);
     expect(returnBody).toHaveProperty("description");
@@ -40,9 +38,7 @@ describe("GET /api/events/:id", () => {
   }, 30000);
 
   test("Get non existing event", async () => {
-    const { statusCode, body } = await request(app).get(
-      "/api/events/-333"
-    );
+    const { statusCode, body } = await request(app).get("/api/events/-333");
 
     expect(statusCode).toBe(404);
     expect(body.body.status).toBe(false);
@@ -50,9 +46,7 @@ describe("GET /api/events/:id", () => {
   }, 30000);
 
   test("Get an event with non number id parameter", async () => {
-    const { statusCode, body } = await request(app).get(
-      "/api/events/1AAAA"
-    );
+    const { statusCode, body } = await request(app).get("/api/events/1AAAA");
 
     expect(statusCode).toBe(400);
     expect(body.body.status).toBe(false);
@@ -149,16 +143,16 @@ describe("GET /api/events", () => {
   }, 30000);
 
   test("Get all events with ascending order", async () => {
-    const { statusCode, body } = await request(app).get(
-      "/api/events?sort=asc"
-    );
+    const { statusCode, body } = await request(app).get("/api/events?sort=asc");
 
     const returnBody = body.body.body;
     expect(statusCode).toBe(200);
     expect(body.body.status).toBe(true);
     expect(body.body.message).toBe("success get all events");
     expect(returnBody).toBeInstanceOf(Array);
-    expect(utils.isGreaterThan(returnBody[1].createdAt, returnBody[0].createdAt)).toBe(true);
+    expect(
+      utils.isGreaterThan(returnBody[1].createdAt, returnBody[0].createdAt)
+    ).toBe(true);
   }, 30000);
 
   test("Get all events within range of time", async () => {
@@ -171,8 +165,69 @@ describe("GET /api/events", () => {
     expect(body.body.status).toBe(true);
     expect(body.body.message).toBe("success get all events");
     expect(returnBody).toBeInstanceOf(Array);
-    expect(utils.isGreaterThan("2023-08-31", returnBody[0].createdAt)).toBe(true);
-    expect(utils.isGreaterThan(returnBody[returnBody.length - 1].createdAt, "2023-07-31")).toBe(true);
+    expect(utils.isGreaterThan("2023-08-31", returnBody[0].createdAt)).toBe(
+      true
+    );
+    expect(
+      utils.isGreaterThan(
+        returnBody[returnBody.length - 1].createdAt,
+        "2023-07-31"
+      )
+    ).toBe(true);
   }, 30000);
+});
+
+describe("GET /api/events/my-events", () => {
+  let server; // Declare a variable to hold the server instance
+  let token;
+
+  beforeAll(async () => {
+    server = app.listen(8000); // Start the server before running tests
+    const { body } = await request(app).post("/api/auth/login").send({
+      email: "sasuke@gmail.com",
+      password: "12345678",
+    });
+    const accToken = body.body.body.accessToken;
+    token = accToken;
+  }, 30000);
+
+  afterAll((done) => {
+    server.close(done); // Close the server after all tests are done
+  });
+
+  test("Get my events with token", async () => {
+    const { statusCode, body } = await request(app)
+      .get("/api/events/my-events")
+      .set("Authorization", `Bearer ${token}`);
+
+    const returnBody = body.body.body;
+    expect(statusCode).toBe(200);
+    expect(body.body.status).toBe(true);
+    expect(body.body.message).toBe("Success get your events");
+    expect(returnBody).toHaveProperty("upcomingEvents");
+    expect(returnBody).toHaveProperty("pastEvents");
+    expect(returnBody.upcomingEvents).toBeInstanceOf(Array);
+    expect(returnBody.pastEvents).toBeInstanceOf(Array);
+  }, 30000);
+
+  test("Get my events without token", async () => {
+    const { statusCode, body } = await request(app)
+      .get("/api/events/my-events")
+
+    expect(statusCode).toBe(401);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Access token not found.");
+  }, 30000);
+
+  test("Get my events with false token", async () => {
+    const { statusCode, body } = await request(app)
+      .get("/api/events/my-events")
+      .set("Authorization", `Bearer ${token}falsy`);
+
+    expect(statusCode).toBe(403);
+    expect(body.body.status).toBe(false);
+    expect(body.body.message).toBe("Invalid token.");
+  }, 30000);
+
 
 });
