@@ -96,7 +96,7 @@ class HomeController extends StateNotifier<HomeState> {
   }
 
   bool checkUser() {
-    if (state.userValue.value.isNull()) {
+    if (state.userValue.hasError || state.userValue.value.isNull()) {
       navigatorKey.currentContext!.goNamed(Routes.login.name);
       return false;
     }

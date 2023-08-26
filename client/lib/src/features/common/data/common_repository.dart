@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/auth/data/responses/responses.dart';
@@ -55,7 +53,6 @@ class CommonRepository {
           headers: {'Authorization': 'Bearer $token'},
         ),
       );
-      log('resultBody: ${result.toString()}');
       final resultBody = result['body']['body'];
       final user = UserResponse.fromJson(resultBody);
       return Result.success(user);

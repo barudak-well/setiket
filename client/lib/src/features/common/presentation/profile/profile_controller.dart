@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/services/services.dart';
@@ -16,7 +14,6 @@ class ProfileController extends StateNotifier<ProfileState> {
     );
 
     final result = _hiveService.getAllBookmarkEvents();
-    log(result.toString());
     result.when(
       success: (data) {
         state = state.copyWith(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/data.dart';
@@ -44,7 +42,6 @@ class CommonService {
 
   Future<Result<User>> getProfile() async {
     String? token = _hiveService.getToken();
-    log('token: $token');
 
     if (token == null) {
       return Result.failure(

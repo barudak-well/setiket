@@ -46,6 +46,7 @@ class ProfileContentSection extends ConsumerWidget {
               color: ColorApp.red,
               onTap: () {
                 controller.logout();
+                appSnackBar(context, ColorApp.green, 'Logout success');
               },
               padding: EdgeInsets.symmetric(
                 horizontal: SizeApp.w16,

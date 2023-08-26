@@ -14,6 +14,8 @@ class EventDetailButtonSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(eventDetailControllerProvider);
+    final stateHome = ref.watch(homeControllerProvider);
+    final controller = ref.read(homeControllerProvider.notifier);
     final detailEvent = state.event!;
     return Align(
       alignment: Alignment.bottomCenter,
@@ -41,21 +43,23 @@ class EventDetailButtonSection extends ConsumerWidget {
               isEnabled: true,
               height: SizeApp.h72,
               onTap: () {
-                context.pushNamed(
-                  Routes.checkout.name,
-                  extra: Extras(
-                    datas: {
-                      ExtrasKey.ticket: Ticket(
-                        id: 0,
-                        eventId: state.event!.id,
-                        userId: 1,
-                        quantity: state.quantity,
-                        price: detailEvent.ticketPrice * state.quantity,
-                        event: detailEvent,
-                      )
-                    },
-                  ),
-                );
+                if (controller.checkUser()) {
+                  context.pushNamed(
+                    Routes.checkout.name,
+                    extra: Extras(
+                      datas: {
+                        ExtrasKey.ticket: Ticket(
+                          id: 0,
+                          eventId: state.event!.id,
+                          userId: stateHome.user!.id,
+                          quantity: state.quantity,
+                          price: detailEvent.ticketPrice * state.quantity,
+                          event: detailEvent,
+                        )
+                      },
+                    ),
+                  );
+                }
               },
             ),
           ],

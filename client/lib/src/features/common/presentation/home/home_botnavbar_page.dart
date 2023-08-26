@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +21,6 @@ class _HomeBotNavBarScreenState extends ConsumerState<HomeBotNavBarScreen> {
   @override
   void initState() {
     safeRebuild(() {
-      log('masuk home botnavbar');
       controller.getProfile();
       controller.setPage(0);
     });
