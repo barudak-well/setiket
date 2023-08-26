@@ -18,6 +18,16 @@ class SearchService {
     final resultEvents = await _searchRepository.getEvents();
     return SearchMapper.mapToEvent(resultEvents);
   }
+
+  Future<Result<List<Event>>> getSearchByFilter({
+    String? category,
+    String? location,
+    String? startDate,
+    String? endDate,
+  }) async {
+    final resultEvents = await _searchRepository.getSearchByFilter(category, location, startDate, endDate);
+    return SearchMapper.mapToEvent(resultEvents);
+  }
 }
 
 final searchServiceProvider = Provider<SearchService>((ref) {
