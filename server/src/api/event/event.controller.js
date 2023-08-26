@@ -23,7 +23,10 @@ const router = express.Router();
  *           type: string
  *         description:
  *           type: string
- *         datetime:
+ *         startDatetime:
+ *           type: string
+ *           format: date-time
+ *         endDatetime:
  *           type: string
  *           format: date-time
  *         city:
@@ -32,8 +35,10 @@ const router = express.Router();
  *           type: string
  *         ticketPrice:
  *           type: number
- *           format: float
+ *           format: integer
  *         capacity:
+ *           type: integer
+ *         remainingCapacity:
  *           type: integer
  *         category:
  *           type: string
@@ -48,36 +53,6 @@ const router = express.Router();
  * @swagger
  * components:
  *   schemas:
- *     Event:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         userId:
- *           type: integer
- *         title:
- *           type: string
- *         description:
- *           type: string
- *         datetime:
- *           type: string
- *           format: date-time
- *         city:
- *           type: string
- *         locationDetail:
- *           type: string
- *         ticketPrice:
- *           type: number
- *           format: float
- *         capacity:
- *           type: integer
- *         category:
- *           type: string
- *         status:
- *           type: string
- *         createdAt:
- *           type: string
- *           format: date-time
  *     ApiResponse:
  *       type: object
  *       properties:
@@ -170,11 +145,13 @@ const router = express.Router();
  *                     userId: 1
  *                     title: Car Meet Bandung
  *                     description: null
- *                     datetime: "2023-09-25T00:12:00.000Z"
+ *                     startDatetime: "2023-09-25T00:12:00.000Z"
+ *                     endDatetime: "2023-09-25T00:16:00.000Z"
  *                     city: BANDUNG
  *                     locationDetail: Bandung Convention Center
  *                     ticketPrice: 0
  *                     capacity: 200
+ *                     remainingCapacity: 200
  *                     category: LIFESTYLE
  *                     status: VERIFIED
  *                     createdAt: "2023-08-21T07:29:18.605Z"
@@ -206,10 +183,12 @@ const router = express.Router();
  *               title: CompFest SEA Academy
  *               description: COMPFEST adalah acara IT Tahunan Terbesar yang diselenggarakan mahasiswa Fakultas Ilmu Komputer Universitas Indonesia.
  *               imageUrl: https://image-url.com
- *               datetime: 2023-08-19T19:00:00.000Z
+ *               startDatetime: "2023-08-31T17:00:00.000Z"
+ *               endDatetime: "2023-08-31T22:00:00.000Z"
  *               city: BANDUNG
  *               ticketPrice: 200000
  *               capacity: 100
+ *               remainingCapacity: 100
  *               category: ART
  *               status: VERIFIED
  *               createdAt: 2023-08-13T16:13:26.683Z
@@ -249,13 +228,13 @@ const router = express.Router();
  *                         title: Pensi SMA X Kolaborasi SMK Y
  *                         description: Datang dan saksikan banyak artis di Pensi Kolaborasi ini
  *                         imageUrl: https://fastly.picsum.photos/id/452/4096/2722.jpg?hmac=VFr5l8FshPX1LW4DCpHm99QQgWMsHW5Lr70-6ZQZuFg
- *                         startDatetime: "2023-08-31T21:00:00.000Z"
- *                         endDatetime: "2023-08-31T17:00:00.000Z"
+ *                         startDatetime: "2023-08-31T17:00:00.000Z"
+ *                         endDatetime: "2023-08-31T21:00:00.000Z"
  *                         city: BANDUNG
  *                         locationDetail: Lapangan Pusenif, Bandung
  *                         ticketPrice: 50000
  *                         capacity: 200
- *                         remainingCapacity: 199
+ *                         remainingCapacity: 200
  *                         category: MUSIC
  *                         status: VERIFIED
  *                         createdAt: "2023-08-21T07:22:00.000Z"
@@ -279,13 +258,13 @@ const router = express.Router();
  *                         title: Car Meet Bandung
  *                         description: null
  *                         imageUrl: https://fastly.picsum.photos/id/1071/3000/1996.jpg?hmac=rPo94Qr1Ffb657k6R7c9Zmfgs4wc4c1mNFz7ND23KnQ
- *                         startDatetime: "2023-08-08T12:00:00.000Z"
- *                         endDatetime: "2023-08-08T08:30:00.000Z"
+ *                         startDatetime: "2023-08-08T08:30:00.000Z"
+ *                         endDatetime: "2023-08-08T12:00:00.000Z"
  *                         city: BANDUNG
  *                         locationDetail: BANDUNG
  *                         ticketPrice: 0
  *                         capacity: 200
- *                         remainingCapacity: 199
+ *                         remainingCapacity: 200
  *                         category: LIFESTYLE
  *                         status: VERIFIED
  *                         createdAt: "2023-08-21T07:29:00.000Z"
