@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,17 @@ class EventDetailContentSection extends ConsumerWidget {
     final detailEvent = state.event!;
     return Stack(
       children: [
+        CachedNetworkImage(
+          imageUrl: detailEvent.imageUrl,
+          imageBuilder: (context, imageProvider) => Image(
+            image: imageProvider,
+            width: context.screenWidthPercentage(1),
+            height: context.screenHeightPercentage(.3),
+            fit: BoxFit.fitWidth,
+          ),
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
         Image.network(
           detailEvent.imageUrl,
           width: context.screenWidthPercentage(1),
