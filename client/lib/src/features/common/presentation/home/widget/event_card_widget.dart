@@ -1,15 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/constants/themes/palette.dart';
+import 'package:setiket/src/features/common/presentation/event_detail/event_detail_controller.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/routes/app_routes.dart';
 import 'package:setiket/src/routes/extras.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
-class EventCardWidget extends StatelessWidget {
+class EventCardWidget extends ConsumerWidget {
   final Event event;
   const EventCardWidget({
     required this.event,
@@ -17,7 +19,9 @@ class EventCardWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(eventDetailControllerProvider.notifier);
+    final state = ref.watch(eventDetailControllerProvider);
     return InkWell(
       onTap: () => context.pushNamed(
         Routes.eventDetail.name,
@@ -108,28 +112,38 @@ class EventCardWidget extends StatelessWidget {
                         Positioned(
                           top: 10.h,
                           right: 10.w,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 6.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Palette.colorWhite.withOpacity(0.8),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.r),
+                          child: InkWell(
+                            onTap: () {
+                              controller.toggleBookmarkEventById(context, event.id, event);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 6.w,
+                                vertical: 6.h,
                               ),
-                            ),
-                            child: const Icon(
-                              Icons.bookmark,
-                              color: ColorApp.red,
-                              size: 20,
+                              decoration: BoxDecoration(
+                                color: Palette.colorWhite.withOpacity(0.8),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.r),
+                                ),
+                              ),
+                              child: controller.isBookmarkEvent(event.id)
+                                  ? const Icon(
+                                      Icons.bookmark_rounded,
+                                      color: ColorApp.red,
+                                      size: 20,
+                                    )
+                                  : const Icon(
+                                      Icons.bookmark_border_rounded,
+                                      color: ColorApp.gray,
+                                      size: 20,
+                                    ),
                             ),
                           ),
                         ),
                       ],
                     )),
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                placeholder: (context, url) => const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
