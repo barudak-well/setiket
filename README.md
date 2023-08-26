@@ -224,7 +224,7 @@ Muhammad Emirsyah Makarim - [@muhammademirsyah](https://linkedin.com/in/muhammad
 [issues-shield]: https://img.shields.io/github/issues/barudak-well/setiket.svg?style=for-the-badge
 [issues-url]: https://github.com/barudak-well/setiket/issues
 [license-shield]: https://img.shields.io/github/license/barudak-well/setiket.svg?style=for-the-badge
-[license-url]: https://github.com/barudak-well/setiket/blob/master/LICENSE.txt
+[license-url]: https://github.com/barudak-well/setiket/blob/main/LICENSE.txt
 [setiket-screenshot]: images/mockup.png
 [Flutter.dev]: https://img.shields.io/badge/Flutter-20232A?style=for-the-badge&logo=flutter&logoColor=61DAFB
 [Flutter-url]: https://flutter.dev/
