@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/gen/assets.gen.dart';
 import 'package:setiket/src/common_widgets/common_widgets.dart';
 import 'package:setiket/src/constants/constants.dart';
+import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class ProfileContentSection extends ConsumerWidget {
@@ -10,6 +11,8 @@ class ProfileContentSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(homeControllerProvider.notifier);
+    final state = ref.watch(homeControllerProvider);
     return Center(
       child: Column(
         children: [
@@ -27,7 +30,7 @@ class ProfileContentSection extends ConsumerWidget {
           ),
           Gap.h16,
           Text(
-            'Ashfak Sayem',
+            state.user?.fullname ?? '',
             textAlign: TextAlign.center,
             style: TypographyApp.text1.copyWith(fontSize: 24),
           ),
@@ -41,7 +44,9 @@ class ProfileContentSection extends ConsumerWidget {
               isEnabled: true,
               height: SizeApp.h64,
               color: ColorApp.red,
-              onTap: () {},
+              onTap: () {
+                controller.logout();
+              },
               padding: EdgeInsets.symmetric(
                 horizontal: SizeApp.w16,
               ),

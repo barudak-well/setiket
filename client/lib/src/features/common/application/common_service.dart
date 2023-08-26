@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/application.dart';
-import 'package:setiket/src/features/common/domain/request_ticket.dart';
 import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
 
 class CommonService {
   final CommonRepository _commonRepository;
+  final HiveService _hiveService;
 
-  CommonService(this._commonRepository);
+  CommonService(
+    this._commonRepository,
+    this._hiveService,
+  );
 
   Future<Result<Home>> fetchHome() async {
     final resultEvents = await _commonRepository.fetchEvents();
@@ -36,9 +41,29 @@ class CommonService {
       },
     );
   }
+
+  Future<Result<User>> getProfile() async {
+    String? token = _hiveService.getToken();
+    log('token: $token');
+
+    if (token == null) {
+      return Result.failure(
+        const NetworkExceptions.notFound('Token is null'),
+        StackTrace.current,
+      );
+    }
+
+    final result = await _commonRepository.fetchProfile(token);
+    return CommonMapper.mapToProfile(result);
+  }
+
+  void logout() {
+    _hiveService.logout();
+  }
 }
 
 final commonServiceProvider = Provider<CommonService>((ref) {
   final commonRepository = ref.read(commonRepositoryProvider);
-  return CommonService(commonRepository);
+  final hiveService = ref.read(hiveServiceProvider);
+  return CommonService(commonRepository, hiveService);
 });

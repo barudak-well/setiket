@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:setiket/src/features/auth/data/responses/responses.dart';
 
 class User {
-  final String token;
   final int id;
   final String email;
   final String fullname;
@@ -12,7 +11,6 @@ class User {
   final RoleUser role;
 
   User({
-    required this.token,
     required this.id,
     required this.email,
     required this.fullname,
@@ -22,7 +20,6 @@ class User {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'token': token,
       'id': id,
       'email': email,
       'fullname': fullname,
@@ -33,7 +30,6 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      token: map['token'] as String,
       id: map['id'] as int,
       email: map['email'] as String,
       fullname: map['fullname'] as String,
@@ -46,4 +42,14 @@ class User {
 
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory User.fromResponse(UserResponse response) {
+    return User(
+      id: response.id ?? 0,
+      email: response.email ?? '',
+      fullname: response.fullname ?? '',
+      status: response.status ?? StatusUser.pending,
+      role: response.role ?? RoleUser.user,
+    );
+  }
 }

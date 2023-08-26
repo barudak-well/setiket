@@ -45,13 +45,20 @@ class _ProfileBookmarkState extends ConsumerState<ProfileBookmark> {
           ),
         );
       }
-      return ListView.builder(
-        itemCount: state.bookmarkEventList.length,
-        padding: EdgeInsets.symmetric(horizontal: SizeApp.w32),
-        itemBuilder: (context, index) {
-          final bookmarkEvent = state.bookmarkEventList[index];
-          return CardEventWidget(bookmarkEvent);
-        },
+      // return const Text('yes');
+      // return ListView.builder(
+      //   itemCount: state.bookmarkEventList.length,
+      //   // padding: EdgeInsets.symmetric(horizontal: SizeApp.w32),
+      //   itemBuilder: (context, index) {
+      //     final bookmarkEvent = state.bookmarkEventList[index];
+      //     return CardEventWidget(bookmarkEvent);
+      //   },
+      // );
+      return Column(
+        children: [
+          for (var bookmarkEvent in state.bookmarkEventList)
+            CardEventWidget(bookmarkEvent),
+        ],
       );
     });
   }

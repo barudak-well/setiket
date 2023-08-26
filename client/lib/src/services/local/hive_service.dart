@@ -16,7 +16,7 @@ class HiveService {
 
   String? getToken() {
     try {
-      final hiveToken = bookmarkEventsBox.get(HiveKey.token);
+      final hiveToken = userBox.get(HiveKey.token);
       if (hiveToken.isNullOrEmpty()) return null;
 
       return hiveToken;

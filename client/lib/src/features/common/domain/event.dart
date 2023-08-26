@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:setiket/src/features/data.dart';
+import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class Event {
   final int id;
@@ -39,6 +40,19 @@ class Event {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'userId': userId,
+      'title': title,
+      'description': description,
+      'imageUrl': imageUrl,
+      'startDatetime': startDatetime.toIso8601String(),
+      'endDatetime': endDatetime.toIso8601String(),
+      'city': city.value,
+      'locationDetail': locationDetail,
+      'ticketPrice': ticketPrice,
+      'capacity': capacity,
+      'remainingCapacity': remainingCapacity,
+      'category': category.value,
+      'status': status.value,
     };
   }
 
@@ -49,21 +63,22 @@ class Event {
       title: map['title'] as String,
       description: map['description'] as String,
       imageUrl: map['imageUrl'] as String,
-      startDatetime: map['startDatetime'] as DateTime,
-      endDatetime: map['endDatetime'] as DateTime,
-      city: map['city'] as CityEvent,
+      startDatetime: DateTime.parse(map['startDatetime']),
+      endDatetime: DateTime.parse(map['endDatetime']),
+      city: (map['city'] as String).cityEvent,
       locationDetail: map['locationDetail'] as String,
       ticketPrice: map['ticketPrice'] as int,
       capacity: map['capacity'] as int,
       remainingCapacity: map['remainingCapacity'] as int,
-      category: map['category'] as CategoryEvent,
-      status: map['status'] as StatusEvent,
+      category: (map['category'] as String).categoryEvent,
+      status: (map['status'] as String).statusEvent,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Event.fromJson(String source) => Event.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Event.fromJson(String source) =>
+      Event.fromMap(json.decode(source) as Map<String, dynamic>);
 
   factory Event.fromResponse(EventResponse response) {
     return Event(

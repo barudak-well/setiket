@@ -12,3 +12,7 @@ export 'common/domain/home.dart';
 
 // event detail
 export 'common/domain/event.dart';
+
+// ticket
+export 'common/domain/request_ticket.dart';
+export 'common/domain/ticket.dart';
