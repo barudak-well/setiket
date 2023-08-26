@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/TicketRequest'
+ *             $ref: '#/components/schemas/Ticket'
  *           example:
  *             quantity: 3
  *             eventId: 2
