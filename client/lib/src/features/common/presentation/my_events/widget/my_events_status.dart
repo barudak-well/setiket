@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:setiket/src/constants/constants.dart';
-import 'package:setiket/src/features/common/presentation/my_events/widget/widget.dart';
+import 'package:setiket/src/features/presentation.dart';
 
 class MyEventsStatus extends ConsumerWidget {
   const MyEventsStatus({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(myEventsControllerProvider);
+    final controller = ref.watch(myEventsControllerProvider.notifier);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: SizeApp.w16),
       child: Container(
@@ -22,13 +25,14 @@ class MyEventsStatus extends ConsumerWidget {
           children: [
             MyEventsStatusName(
               name: 'UPCOMING',
-              isActive: true,
-              onTap: () {},
+              isActive: state.isUpcomingEventsActive,
+              onTap: () => controller.setUpcoming(true),
             ),
             Gap.w4,
             MyEventsStatusName(
               name: 'PAST EVENTS',
-              onTap: () {},
+              isActive: state.isPastEventsActive,
+              onTap: () => controller.setUpcoming(false),
             ),
           ],
         ),

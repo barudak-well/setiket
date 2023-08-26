@@ -17,17 +17,24 @@ class MyEventsPage extends ConsumerWidget {
         body: SingleChildScrollView(
           child: PaddingWidget(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gap.h48,
                 const MyEventsTopBar(),
                 Gap.customGapHeight(context.screenHeightPercentage(.03)),
                 const MyEventsStatus(),
-                Gap.customGapHeight(context.screenHeightPercentage(.15)),
+                Gap.customGapHeight(context.screenHeightPercentage(.05)),
                 AsyncValueWidget(
-                  value: state.eventListValue,
+                  value: state.upcomingEventsValue,
                   data: (data) {
                     if (data.isEmpty) {
-                      return const NoUpcomingEvent();
+                      return Column(
+                        children: [
+                          Gap.customGapHeight(
+                              context.screenHeightPercentage(.1)),
+                          const NoUpcomingEvent(),
+                        ],
+                      );
                     } else {
                       return const MyEventsList();
                     }

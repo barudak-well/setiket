@@ -77,7 +77,8 @@ class EventResponse extends Equatable {
     this.createdAt,
   });
 
-  factory EventResponse.fromRawJson(String str) => EventResponse.fromJson(json.decode(str));
+  factory EventResponse.fromRawJson(String str) =>
+      EventResponse.fromJson(json.decode(str));
 
   factory EventResponse.fromJson(Map<String, dynamic> json) {
     return EventResponse(
@@ -86,8 +87,12 @@ class EventResponse extends Equatable {
       title: json["title"],
       description: json["description"],
       imageUrl: json["imageUrl"],
-      endDateTime: json["endDatetime"] != null ? DateTime.parse(json["endDatetime"]) : DateTime.now(),
-      startDateTime: json["startDatetime"] != null ? DateTime.parse(json["startDatetime"]) : DateTime.now(),
+      endDateTime: json["endDatetime"] != null
+          ? DateTime.parse(json["endDatetime"])
+          : DateTime.now(),
+      startDateTime: json["startDatetime"] != null
+          ? DateTime.parse(json["startDatetime"])
+          : DateTime.now(),
       city: json["city"].toString().cityEvent,
       locationDetail: json["locationDetail"],
       ticketPrice: json["ticketPrice"],
@@ -95,7 +100,9 @@ class EventResponse extends Equatable {
       remainingCapacity: json["remainingCapacity"],
       category: json["category"].toString().categoryEvent,
       status: json["role"].toString().statusEvent,
-      createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.parse(json["created_at"]),
     );
   }
 

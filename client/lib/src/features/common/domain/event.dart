@@ -64,7 +64,7 @@ class Event {
       description: map['description'] as String,
       imageUrl: map['imageUrl'] as String,
       startDatetime: DateTime.parse(map['startDatetime']),
-      endDatetime: DateTime.parse(map['endDatetime']),
+      endDatetime: DateTime.parse(map['startDatetime']),
       city: (map['city'] as String).cityEvent,
       locationDetail: map['locationDetail'] as String,
       ticketPrice: map['ticketPrice'] as int,

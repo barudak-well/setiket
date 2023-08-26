@@ -83,7 +83,11 @@ class HomeController extends StateNotifier<HomeState> {
       case 1:
         return const SearchPage();
       case 2:
-        return const HomePage();
+        if (checkUser()) {
+          return const MyEventsPage();
+        } else {
+          return const HomePage();
+        }
       case 3:
         if (checkUser()) {
           return const ProfilePage();

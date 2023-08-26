@@ -2,22 +2,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/domain.dart';
 
 class MyEventsState {
-  final AsyncValue<List<Event>> eventListValue;
-  final List<Event> eventList;
+  final bool isUpcomingEventsActive;
+  final bool isPastEventsActive;
+  final AsyncValue<List<Ticket>> upcomingEventsValue;
+  final AsyncValue<List<Ticket>> pastEventsValue;
+  final List<Ticket> upcomingEvents;
+  final List<Ticket> pastEvents;
   const MyEventsState({
-    this.eventListValue = const AsyncData([]),
-    this.eventList = const [],
+    this.isUpcomingEventsActive = true,
+    this.isPastEventsActive = false,
+    this.upcomingEventsValue = const AsyncData([]),
+    this.pastEventsValue = const AsyncData([]),
+    this.upcomingEvents = const [],
+    this.pastEvents = const [],
   });
 
-  bool get iseventListLoading => eventListValue.isLoading;
+  bool get isEventListLoading => upcomingEventsValue.isLoading;
 
   MyEventsState copyWith({
-    AsyncValue<List<Event>>? eventListValue,
-    List<Event>? eventList,
+    bool? isUpcomingEventsActive,
+    bool? isPastEventsActive,
+    AsyncValue<List<Ticket>>? upcomingEventsValue,
+    AsyncValue<List<Ticket>>? pastEventsValue,
+    List<Ticket>? upcomingEvents,
+    List<Ticket>? pastEvents,
   }) {
     return MyEventsState(
-      eventListValue: eventListValue ?? this.eventListValue,
-      eventList: eventList ?? this.eventList,
+      isUpcomingEventsActive:
+          isUpcomingEventsActive ?? this.isUpcomingEventsActive,
+      isPastEventsActive: isPastEventsActive ?? this.isPastEventsActive,
+      upcomingEventsValue: upcomingEventsValue ?? this.upcomingEventsValue,
+      pastEventsValue: pastEventsValue ?? this.pastEventsValue,
+      upcomingEvents: upcomingEvents ?? this.upcomingEvents,
+      pastEvents: pastEvents ?? this.pastEvents,
     );
   }
 }
