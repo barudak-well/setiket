@@ -4,9 +4,7 @@ import 'package:setiket/src/features/common/presentation/my_events/my_events_sta
 
 class MyEventsController extends StateNotifier<MyEventsState> {
   final CommonService _commonService;
-  MyEventsController(this._commonService) : super(const MyEventsState()) {
-    getMyEvents();
-  }
+  MyEventsController(this._commonService) : super(const MyEventsState());
 
   void getMyEvents() async {
     state = state.copyWith(

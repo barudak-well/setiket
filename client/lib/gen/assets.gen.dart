@@ -129,6 +129,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/avatar_dummy.jpg
+  AssetGenImage get avatarDummy =>
+      const AssetGenImage('assets/images/avatar_dummy.jpg');
+
   /// File path: assets/images/card_event_dummy.png
   AssetGenImage get cardEventDummy =>
       const AssetGenImage('assets/images/card_event_dummy.png');
@@ -159,6 +163,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
+        avatarDummy,
         cardEventDummy,
         eoDummy,
         eventDummy,

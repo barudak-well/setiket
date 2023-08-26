@@ -23,7 +23,7 @@ class ProfileContentSection extends ConsumerWidget {
               color: ColorApp.gray,
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: Assets.images.eoDummy.provider(),
+                image: Assets.images.avatarDummy.provider(),
                 fit: BoxFit.cover,
               ),
             ),

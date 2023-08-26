@@ -5,13 +5,28 @@ import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/presentation.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
-class MyEventsPage extends ConsumerWidget {
+class MyEventsPage extends ConsumerStatefulWidget {
   const MyEventsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(myEventsControllerProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyEventsPageState();
+}
 
+class _MyEventsPageState extends ConsumerState<MyEventsPage> {
+  MyEventsController get controller =>
+      ref.read(myEventsControllerProvider.notifier);
+  MyEventsState get state => ref.watch(myEventsControllerProvider);
+
+  @override
+  void initState() {
+    safeRebuild(() {
+      controller.getMyEvents();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return StatusBarWidget(
       child: Scaffold(
         body: SingleChildScrollView(
