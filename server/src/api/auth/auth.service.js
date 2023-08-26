@@ -55,6 +55,8 @@ const login = async (incomingUser) => {
     
     if (!bcrypt.compareSync(incomingUser.password, userData.password)) {
       throw utils.customError("401", "Wrong password");
+    } else if (userData.role === "EO" && (!(userData.status === "VERIFIED"))) {
+      throw utils.customError("401", "Unverified EO");
     } else {
       const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
       return accessToken;
