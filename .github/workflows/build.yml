@@ -6,11 +6,17 @@ on:
   pull_request:
     branches:
       - "main"
+    tags:
+      - "v*.*.*"
 
 jobs:
   clientTest:
     name: 🧪 Client Test
     uses: ./.github/workflows/__client_test.yml
+    secrets: inherit
+  clientDeploy:
+    name: 🔨 Client Deploy
+    uses: ./.github/workflows/__client_deploy.yml
     secrets: inherit
 
   serverTest:

@@ -20,16 +20,16 @@ jobs:
         with:
           channel: "stable"
           cache: true
-      - name: ⚙️ Install dependencies for all packages
-        run: |
-          cd client
-          flutter pub get
       - name: Setup Env Variables
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_BASE_URL: ${{ secrets.BASE_URL }}
           directory: "./client"
           file_name: .env
+      - name: ⚙️ Install dependencies for all packages
+        run: |
+          cd client
+          flutter pub get
       - name: 🧪 Run tests with coverage
         run: |
           cd client
