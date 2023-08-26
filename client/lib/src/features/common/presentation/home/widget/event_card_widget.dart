@@ -21,7 +21,6 @@ class EventCardWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(eventDetailControllerProvider.notifier);
-    final state = ref.watch(eventDetailControllerProvider);
     return InkWell(
       onTap: () => context.pushNamed(
         Routes.eventDetail.name,
@@ -114,7 +113,8 @@ class EventCardWidget extends ConsumerWidget {
                           right: 10.w,
                           child: InkWell(
                             onTap: () {
-                              controller.toggleBookmarkEventById(context, event.id, event);
+                              controller.toggleBookmarkEventById(
+                                  context, event.id, event);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -143,7 +143,8 @@ class EventCardWidget extends ConsumerWidget {
                         ),
                       ],
                     )),
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
