@@ -88,9 +88,10 @@ class SearchEventCardWidget extends StatelessWidget {
                 children: [
                   Gap.h12,
                   Text(
-                    '${event.startDatetime.dayName.toUpperCase()} - ${event.startDatetime.monthName.toUpperCase()} - ${event.startDatetime.time}',
+                    '${event.startDatetime.dayName.toUpperCase()}-${event.startDatetime.monthName.toUpperCase()}-${event.startDatetime.time}',
                     style: const TextStyle(
                       color: Palette.color,
+                      fontSize: 12,
                     ),
                   ),
                   Gap.h8,

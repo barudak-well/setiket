@@ -77,32 +77,27 @@ class EventResponse extends Equatable {
     this.createdAt,
   });
 
-  factory EventResponse.fromRawJson(String str) =>
-      EventResponse.fromJson(json.decode(str));
+  factory EventResponse.fromRawJson(String str) => EventResponse.fromJson(json.decode(str));
 
-  factory EventResponse.fromJson(Map<String, dynamic> json) => EventResponse(
-        id: json["id"],
-        userId: json["userId"],
-        title: json["title"],
-        description: json["description"],
-        imageUrl: json["imageUrl"],
-        endDateTime: json['endDateTime'] != null
-            ? DateTime.parse(json['endDateTime'])
-            : DateTime.now(),
-        startDateTime: json['startDateTime'] != null
-            ? DateTime.parse(json['startDateTime'])
-            : DateTime.now(),
-        city: json["city"].toString().cityEvent,
-        locationDetail: json["locationDetail"],
-        ticketPrice: json["ticketPrice"],
-        capacity: json["capacity"],
-        remainingCapacity: json["remainingCapacity"],
-        category: json["category"].toString().categoryEvent,
-        status: json["role"].toString().statusEvent,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-      );
+  factory EventResponse.fromJson(Map<String, dynamic> json) {
+    return EventResponse(
+      id: json["id"],
+      userId: json["userId"],
+      title: json["title"],
+      description: json["description"],
+      imageUrl: json["imageUrl"],
+      endDateTime: json["endDatetime"] != null ? DateTime.parse(json["endDatetime"]) : DateTime.now(),
+      startDateTime: json["startDatetime"] != null ? DateTime.parse(json["startDatetime"]) : DateTime.now(),
+      city: json["city"].toString().cityEvent,
+      locationDetail: json["locationDetail"],
+      ticketPrice: json["ticketPrice"],
+      capacity: json["capacity"],
+      remainingCapacity: json["remainingCapacity"],
+      category: json["category"].toString().categoryEvent,
+      status: json["role"].toString().statusEvent,
+      createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    );
+  }
 
   @override
   List<Object?> get props => [

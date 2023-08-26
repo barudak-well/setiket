@@ -1,16 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:setiket/src/features/data.dart';
 
 extension XString on String {
   String get trimList => replaceAll('[', '').replaceAll(']', '');
 
-  bool get isEmailValid => RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(this);
+  bool get isEmailValid => RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(this);
 
   bool get isPasswordValid => length > 8;
 
-  String get capitalize =>
-      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  String get capitalize => "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 
   StatusUser get statusUser {
     switch (this) {
@@ -22,6 +20,35 @@ extension XString on String {
         return StatusUser.pending;
       default:
         return StatusUser.pending;
+    }
+  }
+
+  IconData get filterIcon {
+    switch (this) {
+      case 'MUSIC':
+        return Icons.music_note;
+      case 'ART':
+        return Icons.palette;
+      case 'SPORTS':
+        return Icons.sports_basketball;
+      case 'CULINARY':
+        return Icons.restaurant;
+      case 'TECH':
+        return Icons.computer;
+      case 'LIFESTYLE':
+        return Icons.favorite;
+      case 'BUSINESS':
+        return Icons.business;
+      case 'EDUCATION':
+        return Icons.school;
+      case 'ENTERTAINMENT':
+        return Icons.movie;
+      case 'CHARITY':
+        return Icons.volunteer_activism;
+      case 'OTHER':
+        return Icons.more_horiz;
+      default:
+        return Icons.more_horiz;
     }
   }
 
