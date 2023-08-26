@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:setiket/src/features/application.dart';
+import 'package:setiket/src/features/common/domain/domain.dart';
 import 'package:setiket/src/features/data.dart';
 import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
@@ -56,6 +57,20 @@ class CommonService {
 
   void logout() {
     _hiveService.logout();
+  }
+
+  Future<Result<MyEvents>> getMyEvents() async {
+    String? token = _hiveService.getToken();
+
+    if (token == null) {
+      return Result.failure(
+        const NetworkExceptions.notFound('Token is null'),
+        StackTrace.current,
+      );
+    }
+
+    final result = await _commonRepository.fetchMyEvents(token);
+    return CommonMapper.mapToMyEvents(result);
   }
 }
 

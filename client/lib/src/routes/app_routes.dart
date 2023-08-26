@@ -20,6 +20,7 @@ enum Routes {
   home,
   eventDetail,
   checkout,
+  ticketDetail,
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -81,6 +82,16 @@ final goRouterProvider = Provider<GoRouter>(
             final extras = state.extra as Extras;
             final ticket = extras.datas[ExtrasKey.ticket] as Ticket;
             return CheckoutPage(ticket: ticket);
+          },
+          routes: const [],
+        ),
+        GoRoute(
+          path: '/ticket-detail',
+          name: Routes.ticketDetail.name,
+          builder: (context, state) {
+            final extras = state.extra as Extras;
+            final ticket = extras.datas[ExtrasKey.ticket] as Ticket;
+            return TicketDetail(ticket: ticket);
           },
           routes: const [],
         ),

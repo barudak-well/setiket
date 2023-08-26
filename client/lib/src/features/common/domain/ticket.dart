@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:setiket/src/features/common/data/responses/responses.dart';
 import 'package:setiket/src/features/common/domain/event.dart';
 
 class Ticket {
@@ -33,4 +34,16 @@ class Ticket {
 
   factory Ticket.fromJson(String source) =>
       Ticket.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory Ticket.fromResponse(TicketResponse response) {
+    return Ticket(
+      id: response.id ?? 0,
+      eventId: response.eventId ?? 0,
+      userId: response.userId ?? 0,
+      quantity: response.quantity ?? 0,
+      price: response.price ?? 0,
+      event:
+          response.event == null ? null : Event.fromResponse(response.event!),
+    );
+  }
 }

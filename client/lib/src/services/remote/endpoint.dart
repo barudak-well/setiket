@@ -4,4 +4,5 @@ class Endpoint {
   static const String event = '/api/events';
   static const String ticket = '/api/tickets';
   static const String profile = '/api/profile';
+  static const String myEvents = '/api/events/my-events';
 }

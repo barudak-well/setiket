@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:setiket/src/features/common/data/responses/responses.dart';
 
 class TicketResponse extends Equatable {
   final int? id;
@@ -9,6 +10,7 @@ class TicketResponse extends Equatable {
   final int? quantity;
   final int? price;
   final DateTime? createdAt;
+  final EventResponse? event;
 
   const TicketResponse({
     this.id,
@@ -17,6 +19,7 @@ class TicketResponse extends Equatable {
     this.quantity,
     this.price,
     this.createdAt,
+    this.event,
   });
 
   factory TicketResponse.fromRawJson(String str) =>
@@ -31,8 +34,12 @@ class TicketResponse extends Equatable {
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
+        event: json["event"] == null
+            ? null
+            : EventResponse.fromJson(json["event"]),
       );
 
   @override
-  List<Object?> get props => [id, eventId, userId, quantity, price, createdAt];
+  List<Object?> get props =>
+      [id, eventId, userId, quantity, price, createdAt, event];
 }

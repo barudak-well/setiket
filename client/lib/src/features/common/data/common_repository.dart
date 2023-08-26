@@ -60,6 +60,22 @@ class CommonRepository {
       return Result.failure(NetworkExceptions.getDioException(e), st);
     }
   }
+
+  Future<Result<MyEventResponse>> fetchMyEvents(String token) async {
+    try {
+      final result = await _dioClientTmdb.get(
+        Endpoint.myEvents,
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+      final resultBody = result['body']['body'];
+      final user = MyEventResponse.fromJson(resultBody);
+      return Result.success(user);
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
 }
 
 final commonRepositoryProvider = Provider<CommonRepository>((ref) {
