@@ -2,12 +2,12 @@
 
 ## Features
 
-- Multi Role Access (Admin, User, Event Organizers)
 - CRUD Event, Ticket, Notification, User
 - JWT Based Authentication & Authorization
 - Middleware Validation for Input Request and Role
 - API testing using Jest and Supertest
 - Automated Testing via Github Actions on PR to main
+- Automated Deploy via Vercel
 
 
 ## Tech Stack
@@ -88,5 +88,4 @@ To run tests, with logging
 ## Documentation
 
 
-Locally you can go to ***/api-docs*** after running the server for api documentation. or [here](https://www.compfest.id/academy/sea#curriculum)
-
+Locally you can go to ***/api-docs*** after running the server for api documentation.
