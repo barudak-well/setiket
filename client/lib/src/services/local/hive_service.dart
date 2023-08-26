@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:setiket/src/constants/constants.dart';
 import 'package:setiket/src/features/domain.dart';
+import 'package:setiket/src/services/services.dart';
 import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class HiveService {
@@ -15,7 +16,7 @@ class HiveService {
 
   String? getToken() {
     try {
-      final hiveToken = bookmarkEventsBox.get(HiveKey.token);
+      final hiveToken = userBox.get(HiveKey.token);
       if (hiveToken.isNullOrEmpty()) return null;
 
       return hiveToken;
@@ -47,6 +48,19 @@ class HiveService {
   bool isEventBookmark(int eventId) {
     debugPrint(eventId.toString());
     return bookmarkEventsBox.containsKey(eventId);
+  }
+
+  Result<List<Event>> getAllBookmarkEvents() {
+    try {
+      return Result.success(
+        (bookmarkEventsBox.values).map<Event>((item) {
+          return Event.fromJson(item);
+        }).toList(),
+      );
+    } catch (e, st) {
+      debugPrint(e.toString());
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
   }
 }
 

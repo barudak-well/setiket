@@ -31,4 +31,15 @@ class CommonMapper {
       },
     );
   }
+
+  static Result<User> mapToProfile(Result<UserResponse> result) {
+    return result.when(
+      success: (item) {
+        return Result.success(User.fromResponse(item));
+      },
+      failure: (error, stackTrace) {
+        return Result.failure(error, stackTrace);
+      },
+    );
+  }
 }

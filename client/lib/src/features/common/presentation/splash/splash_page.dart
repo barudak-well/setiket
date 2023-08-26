@@ -31,9 +31,6 @@ class SplashPageState extends ConsumerState<SplashPage> {
           context.goNamed(Routes.jailbreak.name);
         } else {
           context.goNamed(Routes.home.name);
-          // ref.read(hiveServiceProvider).getToken() != null
-          //     ? context.goNamed(Routes.eventDetail.name)
-          //     : context.goNamed(Routes.login.name);
         }
       });
     });

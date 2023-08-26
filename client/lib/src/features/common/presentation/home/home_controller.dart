@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:setiket/src/features/application.dart';
 import 'package:setiket/src/features/common/presentation/search/search_page.dart';
-import 'package:setiket/src/features/jailbreak/presentation/jailbreak_page.dart';
 import 'package:setiket/src/features/presentation.dart';
+import 'package:setiket/src/routes/app_routes.dart';
+import 'package:setiket/src/shared/extensions/extensions.dart';
 
 class HomeController extends StateNotifier<HomeState> {
   final CommonService _commonService;
@@ -34,6 +36,35 @@ class HomeController extends StateNotifier<HomeState> {
     );
   }
 
+  void getProfile() async {
+    state = state.copyWith(
+      userValue: const AsyncLoading(),
+    );
+    final result = await _commonService.getProfile();
+    result.when(
+      success: (data) {
+        state = state.copyWith(
+          user: data,
+          userValue: AsyncData(data),
+        );
+      },
+      failure: (error, stackTrace) {
+        state = state.copyWith(
+          userValue: AsyncError(error, stackTrace),
+        );
+      },
+    );
+  }
+
+  void logout() {
+    setPage(0);
+    _commonService.logout();
+    state = state.copyWith(
+      user: null,
+      userValue: const AsyncData(null),
+    );
+  }
+
   void setPage(index) {
     state = state.copyWith(
       currentIndex: index,
@@ -54,14 +85,28 @@ class HomeController extends StateNotifier<HomeState> {
       case 2:
         return const HomePage();
       case 3:
-        return const JailbreakPage();
+        if (checkUser()) {
+          return const ProfilePage();
+        } else {
+          return const HomePage();
+        }
       default:
         return const HomePage();
     }
   }
+
+  bool checkUser() {
+    if (state.userValue.hasError || state.userValue.value.isNull()) {
+      navigatorKey.currentContext!.goNamed(Routes.login.name);
+      return false;
+    }
+
+    return true;
+  }
 }
 
-final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>((ref) {
+final homeControllerProvider =
+    StateNotifierProvider<HomeController, HomeState>((ref) {
   final commonService = ref.read(commonServiceProvider);
   return HomeController(commonService);
 });

@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:setiket/src/features/auth/data/responses/responses.dart';
 import 'package:setiket/src/features/common/data/responses/responses.dart';
-import 'package:setiket/src/features/common/domain/request_ticket.dart';
+import 'package:setiket/src/features/domain.dart';
 import 'package:setiket/src/services/services.dart';
 import 'package:setiket/src/shared/response/api_response.dart';
 
@@ -38,6 +40,22 @@ class CommonRepository {
           await _dioClientTmdb.post(Endpoint.ticket, data: data.toJson());
 
       return Result.success(ApiResponse.fromJson(response['body']));
+    } catch (e, st) {
+      return Result.failure(NetworkExceptions.getDioException(e), st);
+    }
+  }
+
+  Future<Result<UserResponse>> fetchProfile(String token) async {
+    try {
+      final result = await _dioClientTmdb.get(
+        Endpoint.profile,
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+      final resultBody = result['body']['body'];
+      final user = UserResponse.fromJson(resultBody);
+      return Result.success(user);
     } catch (e, st) {
       return Result.failure(NetworkExceptions.getDioException(e), st);
     }
