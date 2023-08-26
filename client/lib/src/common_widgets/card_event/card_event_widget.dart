@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:setiket/src/constants/constants.dart';
@@ -26,17 +27,22 @@ class CardEventWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 79,
-            height: 92,
-            decoration: BoxDecoration(
-              color: ColorApp.gray,
-              borderRadius: BorderRadius.circular(10.r),
+          CachedNetworkImage(
+            imageUrl: event.imageUrl,
+            imageBuilder: (context, imageProvider) => Container(
+              width: 79,
+              height: 92,
+              decoration: BoxDecoration(
+                color: ColorApp.gray,
+                borderRadius: BorderRadius.circular(10.r),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.r),
-              child: Image.network(event.imageUrl, fit: BoxFit.cover),
-            ),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           Gap.w16,
           Expanded(
